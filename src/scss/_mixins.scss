@@ -136,3 +136,9 @@
     margin-inline: 0.8em 2em;
   }
 }
+
+@mixin general{
+  border-radius: 10px;
+  width: 262px;
+  height: fit-content;
+}

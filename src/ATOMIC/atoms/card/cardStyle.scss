@@ -1,0 +1,56 @@
+@import "../../../scss/color";
+@import "../../../scss/mixins";
+@import '../../../scss/utils';
+
+.default {
+  font-weight: 400;
+  font-size: 25px;
+  color: $white;
+  text-align: center;
+  padding: 8px 10px;
+}
+
+.card-light-green {
+  background-color: $white_green;
+  h3 {
+    margin: 0;
+  }
+  p {
+    margin: 0;
+  }
+  @include general;
+}
+
+.card-red {
+  background-color: $ox_blood;
+  h3 {
+    margin: 0;
+  }
+  p {
+    margin: 0;
+  }
+  @include general;
+}
+
+.card-black {
+  background-color: $black;
+  h3 {
+    margin: 0;
+  }
+  p {
+    margin: 0;
+  }
+  @include general;
+}
+.full_width{
+  background-color: $pink;
+  width: 100%;
+  border-radius: 20px;
+  height: fit-content;
+  text-align: left;
+  padding: 26px 30px;
+  margin-top: $margin_lg;
+  font-weight: 400;
+  font-size: 25px;
+  color: $white;
+}
