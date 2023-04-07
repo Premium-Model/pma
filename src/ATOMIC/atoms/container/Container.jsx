@@ -12,6 +12,9 @@ const Container = ({ variant, children, className }) => {
     case "normal":
       className = "container";
       break;
+    case "container_fit":
+      className = "container_fit";
+      break;
     case "gapped":
       className = "gapped";
       break;

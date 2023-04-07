@@ -37,7 +37,7 @@ const Nav = () => {
   return (
     <Container variant="gapped-spaced">
       <div>
-        <Input placeholder="search" type="text" variant="normal"/>
+        <Input placeholder="search" type="text" variant="search"/>
       </div>
       <Container variant="gapped">
         {navSchema.map((item) => {

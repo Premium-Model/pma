@@ -22,11 +22,21 @@
   align-items: center;
   justify-content: space-between;
 }
-.container {
+.container_fit {
+  margin-right: 4rem;
   width: 80%;
   background-color: $white;
   border-radius: 20px;
 }
+.container{
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: 100%;
+  background-color: $pure_grey;
+  border-radius: 20px;
+}
+
 .gapped {
   display: flex;
   align-items: center;

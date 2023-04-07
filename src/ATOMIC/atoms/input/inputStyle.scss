@@ -1,11 +1,31 @@
-@import '../../../scss/color';
+@import "../../../scss/color";
 
-.input{
+.input {
+  border: none;
+  background-color: $input_bg_grey;
+  color: $input_text_black;
+  text-indent: 0.7rem;
+  border-radius: 3px;
+  width: 240px;
+  height: 36px;
+}
+
+.search{
+  border: none;
+  background-color: $white;
+  color: $input_text_black;
+  text-indent: 0.7rem;
+  border-radius: 3px;
+  width: 240px;
+  height: 36px;
+}
+
+.number{
     border: none;
-    background-color: $input_bg_grey;
-    color: $input_text_black;
-    text-indent: .7rem;
-    border-radius: 3px;
-    width: 240px;
-    height: 36px;
+  background-color: $input_bg_grey;
+  color: $input_text_black;
+  text-indent: 0.7rem;
+  border-radius: 3px;
+  width: 100px;
+  height: 36px;
 }

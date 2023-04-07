@@ -28,7 +28,7 @@ const InputTab = () => {
       <Container variant="gapped">
         <div>Show</div>
         <Input
-          variant="normal"
+          variant="number"
           type="number"
           value={formValue.field2}
           onChange={handleChange}

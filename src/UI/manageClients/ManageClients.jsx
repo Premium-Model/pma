@@ -7,10 +7,12 @@ import ClientsTable from "../../ATOMIC/organisms/clients/ClientsTable";
 const ManageClients = () => {
   return (
     <Container variant="normal">
-      <Layout>
-        <ClientCardTab />
-        <ClientsTable/>
-      </Layout>
+      <Container variant="container_fit">
+        <Layout>
+          <ClientCardTab />
+          <ClientsTable />
+        </Layout>
+      </Container>
     </Container>
   );
 };

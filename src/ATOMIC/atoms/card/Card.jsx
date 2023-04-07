@@ -15,7 +15,7 @@ const Card = ({  children, className, variant }) => {
       className = clsx(style, "card-black");
       break;
     case "full_width":
-      className = clsx( "full_width");
+      className = "full_width";
       break;
     default:
       break;

@@ -70,12 +70,12 @@ const App = () => {
         {
           path: "adminpage/",
           // element: (
-            // <ProtectedRoute>
-            //   <AdminPage
-            //     showNavbar={showNavbar}
-            //     setShowNavbar={setShowNavbar}
-            //   />
-            // </ProtectedRoute>
+          //   <ProtectedRoute>
+          //     <AdminPage
+          //       showNavbar={showNavbar}
+          //       setShowNavbar={setShowNavbar}
+          //     />
+          //   </ProtectedRoute>
           // ),
           children: [
             {
