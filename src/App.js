@@ -69,14 +69,14 @@ const App = () => {
         },
         {
           path: "adminpage/",
-          // element: (
-          //   <ProtectedRoute>
-          //     <AdminPage
-          //       showNavbar={showNavbar}
-          //       setShowNavbar={setShowNavbar}
-          //     />
-          //   </ProtectedRoute>
-          // ),
+          element: (
+            <ProtectedRoute>
+              <AdminPage
+                showNavbar={showNavbar}
+                setShowNavbar={setShowNavbar}
+              />
+            </ProtectedRoute>
+          ),
           children: [
             {
               path: "dashboard",
