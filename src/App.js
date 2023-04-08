@@ -14,6 +14,7 @@ import Navbar from "./Components/Navbar/navbar";
 import AdminPage from "./UI/Admin-UI/AdminPage/admin_page";
 import { userLogout } from "./redux/apiCalls";
 import Blog from "./UI/Admin-UI/Blog/Blog";
+import ManageClients from "./UI/manageClients/ManageClients";
 
 const App = () => {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -68,14 +69,14 @@ const App = () => {
         },
         {
           path: "adminpage/",
-          element: (
-            <ProtectedRoute>
-              <AdminPage
-                showNavbar={showNavbar}
-                setShowNavbar={setShowNavbar}
-              />
-            </ProtectedRoute>
-          ),
+          // element: (
+          //   <ProtectedRoute>
+          //     <AdminPage
+          //       showNavbar={showNavbar}
+          //       setShowNavbar={setShowNavbar}
+          //     />
+          //   </ProtectedRoute>
+          // ),
           children: [
             {
               path: "dashboard",
@@ -84,6 +85,10 @@ const App = () => {
             {
               path: "posts",
               element: <Blog />,
+            },
+            {
+              path: "manage",
+              element: <ManageClients />,
             },
           ],
         },

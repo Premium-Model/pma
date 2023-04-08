@@ -1,0 +1,55 @@
+@import "../../../scss/color";
+@import "../../../scss/utils";
+
+.flex-fit {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.nav-flex-bw {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px;
+  border-bottom: 1px solid $dark_gray;
+  margin-bottom: $margin_xl;
+}
+.flex-bw {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.container_fit {
+  margin-right: 4rem;
+  width: 80%;
+  background-color: $white;
+  border-radius: 20px;
+}
+.container{
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: 100%;
+  background-color: $pure_grey;
+  border-radius: 20px;
+}
+
+.gapped {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+}
+.gapped-top {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+  margin-top: $margin_lg;
+}
+.gapped-spaced {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+}
