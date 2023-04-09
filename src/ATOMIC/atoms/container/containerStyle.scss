@@ -48,6 +48,13 @@
   gap: 35px;
   margin-top: $margin_lg;
 }
+.gapped-top-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 35px;
+  margin-top: $margin_lg;
+}
 .gapped-spaced {
   display: flex;
   align-items: center;

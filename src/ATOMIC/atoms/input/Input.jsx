@@ -9,6 +9,7 @@ const Input = ({
   checked,
   placeholder = "",
   variant,
+  max,
   value,
 }) => {
   switch (variant) {
@@ -33,6 +34,7 @@ const Input = ({
       name={name}
       type={type}
       value={value}
+      max={max}
       checked={checked}
       onChange={onChange}
       className={className}

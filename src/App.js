@@ -1,5 +1,5 @@
 import jwt_decode from "jwt-decode";
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -10,11 +10,14 @@ import { useDispatch, useSelector } from "react-redux";
 import LoginForm from "./Pages/LoginSignup/Login/Login-Form";
 import AdminDashboard from "./UI/Admin-UI/AdminPage/dashboard/dashboard";
 import NotFound from "./Pages/NotFound/notfound";
-import Navbar from "./Components/Navbar/navbar";
+// import Navbar from "./Components/Navbar/navbar";
 import AdminPage from "./UI/Admin-UI/AdminPage/admin_page";
 import { userLogout } from "./redux/apiCalls";
 import Blog from "./UI/Admin-UI/Blog/Blog";
 import ManageClients from "./UI/manageClients/ManageClients";
+import ManageModels from "./UI/manageModels/ManageModels";
+import ManageAgency from "./UI/manageAgency/ManageAgency";
+
 
 const App = () => {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -69,14 +72,14 @@ const App = () => {
         },
         {
           path: "adminpage/",
-          // element: (
-          //   <ProtectedRoute>
-          //     <AdminPage
-          //       showNavbar={showNavbar}
-          //       setShowNavbar={setShowNavbar}
-          //     />
-          //   </ProtectedRoute>
-          // ),
+          element: (
+            <ProtectedRoute>
+              <AdminPage
+                showNavbar={showNavbar}
+                setShowNavbar={setShowNavbar}
+              />
+            </ProtectedRoute>
+          ),
           children: [
             {
               path: "dashboard",
@@ -87,8 +90,16 @@ const App = () => {
               element: <Blog />,
             },
             {
-              path: "manage",
+              path: "manage_clients",
               element: <ManageClients />,
+            },
+            {
+              path: "manage_models",
+              element: <ManageModels />,
+            },
+            {
+              path: "manage_agency",
+              element: <ManageAgency />,
             },
           ],
         },
