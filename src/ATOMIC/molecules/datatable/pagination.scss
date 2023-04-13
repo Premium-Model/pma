@@ -1,0 +1,32 @@
+@import '../../../scss/color';
+
+.Pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 16px;
+  
+    &__button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: none;
+      background-color: transparent;
+      color: #333;
+      padding: 8px;
+      margin: 0 4px;
+      cursor: pointer;
+  
+  
+      &--active {
+        background-color: $btn_red;
+        color: $white;
+      }
+  
+      &--arrow {
+        font-size: 20px;
+        padding: 8px 12px;
+      }
+    }
+  }
+  

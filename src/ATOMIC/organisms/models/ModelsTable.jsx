@@ -4,10 +4,9 @@ import DataTable from "../../molecules/datatable/DataTable";
 import client1 from "../../../Images/img/client1.jpg";
 import client2 from "../../../Images/img/client2.jpg";
 import client3 from "../../../Images/img/client3.jpg";
-import "./tableSection.scss";
 import Pagination from "../../molecules/datatable/Pagination";
 
-const ClientsTable = () => {
+const ModelsTable = () => {
   const data = [
     {
       img: client1,
@@ -228,4 +227,4 @@ const ClientsTable = () => {
   );
 };
 
-export default ClientsTable;
+export default ModelsTable;

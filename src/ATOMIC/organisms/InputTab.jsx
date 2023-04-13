@@ -1,9 +1,9 @@
 import React from "react";
-import Input from "../../atoms/input/Input";
-import Container from "../../atoms/container/Container";
+import Input from "../atoms/input/Input";
+import Container from "../atoms/container/Container";
 import { useState } from "react";
 
-const InputTab = () => {
+const InputTab = ({pageSize, handlePageSizeChange, totalRows}) => {
   const [formValue, setFormField] = useState({
     field1: "",
     field2: 10,
@@ -30,8 +30,9 @@ const InputTab = () => {
         <Input
           variant="number"
           type="number"
-          value={formValue.field2}
-          onChange={handleChange}
+          max={totalRows}
+          value={pageSize}
+          onChange={handlePageSizeChange}
         />
         <div>entries</div>
       </Container>
