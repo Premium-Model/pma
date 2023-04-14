@@ -16,7 +16,6 @@
   }
   main {
     width: 100%;
-
     @include mq($width: 1050px) {
       width: 85%;
       overflow-y: auto;

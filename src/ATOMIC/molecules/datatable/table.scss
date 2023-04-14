@@ -1,11 +1,15 @@
 @import "../../../scss/color";
 @import "../../../scss/utils";
+@import '../../../scss/mixins';
 
 .data-table {
   border-spacing: 30px;
   width: 100%;
   margin-top: $margin_xl;
   border-collapse: collapse;
+  // @include mq($width: ){
+    
+  // }
   th {
     font-weight: 100;
     font-size: 24px;
