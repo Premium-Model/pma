@@ -1,5 +1,6 @@
 @import "../../../scss/color";
 @import "../../../scss/utils";
+@import '../../../scss/mixins';
 
 .flex-fit {
   width: 100%;
@@ -21,14 +22,16 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  // @include mq($width:878px){
+  //     display: block;
+  // }
 }
 .container_fit {
-  margin-right: 4rem;
-  width: 80%;
   background-color: $white;
   border-radius: 20px;
 }
 .container{
+   padding: 0 30px;
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;

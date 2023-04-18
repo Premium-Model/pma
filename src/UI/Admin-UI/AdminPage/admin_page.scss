@@ -3,7 +3,7 @@
 @import "../../../scss/utils";
 
 #admin_page {
-  background-color: $dark_gray;
+  // background-color: $dark_gray;
   width: 100%;
 
   @include mq($width: 1050px) {
@@ -17,7 +17,6 @@
   main {
     width: 100%;
     @include mq($width: 1050px) {
-      width: 85%;
       overflow-y: auto;
     }
   }

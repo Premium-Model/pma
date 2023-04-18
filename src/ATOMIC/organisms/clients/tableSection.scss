@@ -1,7 +1,13 @@
-@import '../../../scss/color';
-@import '../../../scss/utils';
-.table_container{
-    background-color: $white;
-    padding: 20px 0;
-    border-radius: 30px;
+@import "../../../scss/color";
+@import "../../../scss/utils";
+@import "../../../scss/mixins";
+.table_container {
+  background-color: $white;
+  padding: 20px 0;
+  border-radius: 30px;
+}
+.table {
+  @include mq($width: 888px) {
+    overflow-x: scroll;
+  }
 }

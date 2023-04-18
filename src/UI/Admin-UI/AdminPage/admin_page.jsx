@@ -72,6 +72,9 @@ const AdminPage = ({ showNavbar, setShowNavbar }) => {
     { name: "Profile", icon: <CgUserList />, path: "profile" },
     { name: "Users", icon: <FiUsers />, path: "users" },
     { name: "Appearance", icon: <MdOutlineStyle />, path: "appearance" },
+    { name: "Manage Agency", icon: <MdOutlineStyle />, path: "manage_agency" },
+    { name: "Manage Models", icon: <MdOutlineStyle />, path: "manage_models" },
+    { name: "Manage Clients", icon: <MdOutlineStyle />, path: "manage_clients" },
     {
       name: "Review",
       icon: <MdOutlineReviews />,
