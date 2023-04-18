@@ -1,5 +1,6 @@
 @import "../../../scss/color";
 @import "../../../scss/utils";
+@import '../../../scss/mixins';
 
 .data-table {
   border-spacing: 30px;
@@ -12,7 +13,6 @@
     border-bottom: 1px solid $border_grey;
     margin-bottom: 20px;
   }
-
   td {
     border-bottom: 1px solid $border_grey;
     text-align: center;

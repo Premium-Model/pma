@@ -194,9 +194,9 @@ const ClientsTable = () => {
     }
   };
 
-  const onPageChange =(pageNumber)=>{
-    setCurrentPage(pageNumber)
-  }
+  const onPageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   const handlePageSizeChange = (newPageSize) => {
     setPageSize(newPageSize);
@@ -215,9 +215,11 @@ const ClientsTable = () => {
           handlePageSizeChange={handlePageSizeChangeFromInput}
           totalRows={totalRows}
         />
-        <DataTable data={rowsToDisplay} />
+        <div className="table">
+          <DataTable data={rowsToDisplay} />
+        </div>
       </div>
-      <Pagination
+      <Pagination 
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={onPageChange}

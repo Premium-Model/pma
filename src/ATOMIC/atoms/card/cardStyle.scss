@@ -19,6 +19,10 @@
     margin: 0;
   }
   @include general;
+  // @include mq(895px) {
+  //   margin-top: 10px;
+  //   width: 100%;
+  // }
 }
 
 .card-red {
@@ -30,6 +34,10 @@
     margin: 0;
   }
   @include general;
+  // @include mq(895px) {
+  //   margin-top: 10px;
+  //   width: 100%;
+  // }
 }
 
 .card-black {
@@ -41,6 +49,10 @@
     margin: 0;
   }
   @include general;
+  // @include mq(895px) {
+  //   margin-top: 10px;
+  //   width: 100%;
+  // }
 }
 
 .full_width{
