@@ -27,6 +27,9 @@ const Container = ({ variant, children, className }) => {
     case "gapped-top-center":
       className = "gapped-top-center";
       break;
+    case "flex-around":
+      className = "flex-around";
+      break;
     default:
       break;
   }

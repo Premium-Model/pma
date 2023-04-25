@@ -146,5 +146,9 @@
   border-radius: 10px;
   width: 262px;
   height: fit-content;
+  @media (max-width:863px) {
+    width: 100%;
+    margin-bottom: 10px;
+  }
   
 }

@@ -1,15 +1,21 @@
 @import "../../../scss/color";
 @import "../../../scss/utils";
-@import '../../../scss/mixins';
+@import "../../../scss/mixins";
 
 .data-table {
-  border-spacing: 30px;
+  // border-spacing: 30px;
   width: 100%;
   margin-top: $margin_xl;
   border-collapse: collapse;
+  padding: 0px 20px;
+  background-color: $white;
+  .next-img{
+    width: 500px;
+    height: 97px;
+  }
   th {
     font-weight: 100;
-    font-size: 24px;
+    font-size: 20px;
     border-bottom: 1px solid $border_grey;
     margin-bottom: 20px;
   }
@@ -19,9 +25,69 @@
     margin-bottom: 20px;
     color: $black;
     padding: 0 20px;
-    font-size: 20px;
+    font-size: 15px;
   }
   tr {
     margin-bottom: $margin_md;
+    padding: 7 15px;
   }
+}
+
+.table_img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.data-table2 {
+  width: 100%;
+  margin-top: $margin_xl;
+  border-collapse: collapse;
+  border-spacing: 0 10px;
+  th {
+    font-weight: 100;
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  td  {
+    text-align: center;
+    padding: 7px;
+    color: $black;
+  }
+  tr {
+    border: 3px solid $black;
+    border-collapse: separate;
+    display: block;
+    margin-bottom: 5px;
+    border-radius: 20px;
+  }
+}
+
+.subs-table{
+   width: fit-content;
+   border-radius: 1rem;
+   border-collapse: collapse;
+   padding: 0px 20px;
+   background-color: $white;
+   padding: 9px;
+
+   th {
+    font-weight: 100;
+    font-size: 20px;
+    border-bottom: 1px solid $border_grey;
+    margin-bottom: 20px;
+  }
+  td {
+    border-bottom: 1px solid $border_grey;
+    text-align: center;
+    margin-bottom: 20px;
+    color: $black;
+    padding: 0 20px;
+    font-size: 15px;
+  }
+  tr {
+    margin-bottom: $margin_md;
+    padding: 7 15px;
+  }
+
 }
