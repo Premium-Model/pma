@@ -27,7 +27,6 @@ const App = () => {
   // automatically logout a user when session expires
   const handleLogout = () => {
     userLogout(dispatch);
-    userLogout(dispatch);
   };
 
   useEffect(() => {
