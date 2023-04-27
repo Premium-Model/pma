@@ -4,7 +4,15 @@
   border-radius: 20px;
   cursor: pointer;
 }
+.btn-normal{
+  background-color: $deep_pink;
+  padding: 9px 15px;
+  font-size: 20px;
+  color: $white;
+  font-weight: 200;
+  cursor: pointer;
 
+}
 .btn-primary {
   font-size: 18px;
   padding: 6px 12px;
@@ -15,3 +23,24 @@
   padding: 6px 12px;
   background-color: $red;
 }
+.btn-transparent {
+  font-size: 17px;
+  padding: 6px 12px;
+  color: $pink;
+  background-color: transparent;
+}
+.btn-outlined {
+  font-size: 15px;
+  padding: 6px 12px;
+  background-color: transparent;
+  color: $pink;
+  outline: 2px solid $light_pink;
+}
+.btn-blur{
+color: $pink;
+background-color: $grey_40;
+font-size: 17px;
+padding: 6px 12px;
+cursor: pointer;
+}
+

@@ -4,182 +4,30 @@ import DataTable from "../../molecules/datatable/DataTable";
 import client1 from "../../../Images/img/client1.jpg";
 import client2 from "../../../Images/img/client2.jpg";
 import client3 from "../../../Images/img/client3.jpg";
+import { v4 } from "uuid";
+import { Link } from "react-router-dom";
+import Button from "../../atoms/button/Button";
+import Input from "../../atoms/input/Input";
+import Image from "mui-image";
 import Pagination from "../../molecules/datatable/Pagination";
+import { selectAgent } from "../../../redux/agencyRedux";
+import { useSelector, useDispatch } from "react-redux";
 
 const AgencyTable = () => {
-  const data = [
-    {
-      img: client1,
-      location: "Lagos, Nigeria",
-      name: "HNK FASHION",
-      category: "Fashion designer",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      img: client2,
-      location: "Abuja, Nigeria",
-      name: "JOY FACEBEAT",
-      category: "MakeUp artist",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      img: client3,
-      location: "Ekiti, Nigeria",
-      name: "TALENT MANAGER",
-      category: "Agent",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      img: client3,
-      location: "Ekiti, Nigeria",
-      name: "TALENT MANAGER",
-      category: "Agent",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      img: client3,
-      location: "Ekiti, Nigeria",
-      name: "TALENT MANAGER",
-      category: "Agent",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      img: client3,
-      location: "Ekiti, Nigeria",
-      name: "TALENT MANAGER",
-      category: "Agent",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      img: client3,
-      location: "Ekiti, Nigeria",
-      name: "TALENT MANAGER",
-      category: "Agent",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      img: client3,
-      location: "Ekiti, Nigeria",
-      name: "TALENT MANAGER",
-      category: "Agent",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      img: client3,
-      location: "Ekiti, Nigeria",
-      name: "TALENT MANAGER",
-      category: "Agent",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      img: client3,
-      location: "Ekiti, Nigeria",
-      name: "TALENT MANAGER",
-      category: "Agent",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      img: client3,
-      location: "Ekiti, Nigeria",
-      name: "TALENT MANAGER",
-      category: "Agent",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      img: client3,
-      location: "Ekiti, Nigeria",
-      name: "TALENT MANAGER",
-      category: "Agent",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      img: client3,
-      location: "Ekiti, Nigeria",
-      name: "TALENT MANAGER",
-      category: "Agent",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      img: client3,
-      location: "Ekiti, Nigeria",
-      name: "TALENT MANAGER",
-      category: "Agent",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      img: client3,
-      location: "Ekiti, Nigeria",
-      name: "TALENT MANAGER",
-      category: "Agent",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      img: client3,
-      location: "Ekiti, Nigeria",
-      name: "TALENT MANAGER",
-      category: "Agent",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      img: client3,
-      location: "Ekiti, Nigeria",
-      name: "TALENT MANAGER",
-      category: "Agent",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      img: client3,
-      location: "Ekiti, Nigeria",
-      name: "TALENT MANAGER",
-      category: "Agent",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      img: client3,
-      location: "Ekiti, Nigeria",
-      name: "TALENT MANAGER",
-      category: "Agent",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      img: client3,
-      location: "Ekiti, Nigeria",
-      name: "TALENT MANAGER",
-      category: "Agent",
-      edit: "Edit",
-      delete: "Delete",
-    },
-  ];
+  const agency = useSelector((state) => state.agency.agency);
+  const dispatch = useDispatch();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
+  const [selectedIds, setSelectedIds] = useState([]);
 
-  const totalRows = data.length;
+  const totalRows = agency.length;
   const totalPages = Math.ceil(totalRows / pageSize);
 
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
 
-  const rowsToDisplay = data.slice(startIndex, endIndex);
+  const rowsToDisplay = agency.slice(startIndex, endIndex);
 
   const handleNextClick = () => {
     if (currentPage < totalPages) {
@@ -193,9 +41,9 @@ const AgencyTable = () => {
     }
   };
 
-  const onPageChange =(pageNumber)=>{
-    setCurrentPage(pageNumber)
-  }
+  const onPageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   const handlePageSizeChange = (newPageSize) => {
     setPageSize(newPageSize);
@@ -206,6 +54,19 @@ const AgencyTable = () => {
     handlePageSizeChange(newPageSize);
   };
 
+  const handleCheckboxChange = (event) => {
+    const itemId = event.target.value;
+    if (event.target.checked) {
+      setSelectedIds([...selectedIds, itemId]);
+    } else {
+      setSelectedIds(selectedIds.filter((id) => id !== itemId));
+    }
+  };
+
+  const handleSelectedAgency = (id) => {
+    dispatch(selectAgent(id));
+  };
+
   return (
     <main>
       <div className="table_container">
@@ -214,7 +75,66 @@ const AgencyTable = () => {
           handlePageSizeChange={handlePageSizeChangeFromInput}
           totalRows={totalRows}
         />
-        <DataTable data={rowsToDisplay} />
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Picture</th>
+              <th>Location</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Edit</th>
+              <th>Delete</th>
+              <th>Select</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rowsToDisplay.map((item, i) => {
+              return (
+                <tr key={v4}>
+                  <td>{i + 1}</td>
+                  <td>
+                    <Image
+                      width={108}
+                      height={97}
+                      src={item.img}
+                      alt={item.name}
+                    />
+                  </td>
+                  <td>{item.location}</td>
+                  <td>{item.name}</td>
+                  <td>{item.category}</td>
+                  <td>
+                    <Link to={`/adminpage/manage_agency/:${item.id}`}>
+                      <Button
+                        variant="primary"
+                        onClick={() => handleSelectedAgency(item.id)}
+                      >
+                        {item.edit}
+                      </Button>
+                    </Link>
+                  </td>
+                  <td>
+                    <Button variant="secondary">{item.delete}</Button>
+                  </td>
+                  <td>
+                    <label>
+                      <Input
+                        variant="checkbox"
+                        type="checkbox"
+                        name={item.id}
+                        value={item.id}
+                        checked={selectedIds.includes(item.id)}
+                        onChange={handleCheckboxChange}
+                      />
+                    </label>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        {/* <DataTable data={rowsToDisplay} /> */}
       </div>
       <Pagination
         currentPage={currentPage}

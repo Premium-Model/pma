@@ -1,6 +1,6 @@
 @import "../../../scss/color";
 @import "../../../scss/utils";
-@import '../../../scss/mixins';
+@import "../../../scss/mixins";
 
 .flex-fit {
   width: 100%;
@@ -16,34 +16,42 @@
   padding: 20px 20px;
   border-bottom: 1px solid $dark_gray;
   margin-bottom: $margin_xl;
+ 
 }
 .flex-bw {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  // @include mq($width:878px){
-  //     display: block;
-  // }
+  height: fit-content;
+  @media (max-width:863px) {
+    display: block;
+  }
 }
 .container_fit {
   background-color: $white;
   border-radius: 20px;
 }
-.container{
-   padding: 0 30px;
+.container {
+  padding: 20px 30px;
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
   width: 100%;
   background-color: $pure_grey;
   border-radius: 20px;
+  @media (max-width:558px) {
+    padding: 20px 15px;
+  }
 }
 
 .gapped {
   display: flex;
   align-items: center;
   gap: 35px;
+  @media (max-width:487px) {
+    gap: 25px;
+  }
 }
 .gapped-top {
   display: flex;
@@ -62,4 +70,10 @@
   display: flex;
   align-items: center;
   gap: 35px;
+}
+.flex-around{
+  display: flex;
+  justify-content: space-around;
+  // justify-content: space-evenly;
+  align-items: center;
 }

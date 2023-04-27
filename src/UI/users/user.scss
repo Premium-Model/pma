@@ -1,0 +1,72 @@
+@import "../../scss/color";
+@import "../../scss/mixins";
+
+.profile-bg {
+  background-color: $grey-40;
+  height: 100vh;
+  overflow-y: scroll;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+//   align-items: center;
+}
+
+.profile-container {
+  background-color: $white;
+  border-radius: 17px;
+  width: 400px;
+  padding: 20px;
+  height: fit-content;
+  transition: linear 0.9s;
+  margin-top: 6rem;
+}
+
+.img {
+  border-radius: 100%;
+}
+
+.img-section div:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  
+  p {
+    font-weight: 600;
+    margin-top: 6px;
+    margin-bottom: 3rem;
+  }
+}
+.img-section div:nth-child(2){
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.hr{
+    height: 1px;
+    width: 100%;
+    background-color: $grey_60;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.detail-section_visible{
+   display: block;
+   div{
+    margin-bottom: 20px;
+   }
+
+}
+.detail-section_hidden{
+    display: none;
+}
+
+.label{
+    font-weight: 600;
+    font-size: 17px;
+}
+
+.name{
+    font-size: 15px;
+    color: $grey;
+}
