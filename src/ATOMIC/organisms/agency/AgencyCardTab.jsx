@@ -29,17 +29,17 @@ const AgencyCardTab = () => {
         {schema.map((item) => {
           const { id, variant, txt_1, desc } = item;
           return (
-            <Card key={id} variant={variant}>
-              <p>{txt_1}</p>
-              <p>{desc}</p>
-            </Card>
+           
+              <Card key={id} variant={variant}>
+                <p>{txt_1}</p>
+                <p>{desc}</p>
+              </Card>
+          
           );
         })}
       </Container>
       <div>
-        <Card variant="full_width">
-          MANAGE AGENCY
-        </Card>
+        <Card variant="full_width">MANAGE AGENCY</Card>
       </div>
     </div>
   );

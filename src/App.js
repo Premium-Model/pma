@@ -17,6 +17,12 @@ import Blog from "./UI/Admin-UI/Blog/Blog";
 import ManageClients from "./UI/manageClients/ManageClients";
 import ManageModels from "./UI/manageModels/ManageModels";
 import ManageAgency from "./UI/manageAgency/ManageAgency";
+import Users from "./UI/users/Users";
+import AddUser from "./UI/users/AddUser";
+import Subscription from "./UI/subscriptions/Subscription";
+import EditModel from "./UI/edit/EditModel";
+import EditAgency from "./UI/edit/EditAgency";
+import EditClient from "./UI/edit/EditClient";
 
 
 const App = () => {
@@ -99,6 +105,30 @@ const App = () => {
             {
               path: "manage_agency",
               element: <ManageAgency />,
+            },
+            {
+              path: "users",
+              element: <Users />,
+            },
+            {
+              path: "users/add_user",
+              element: <AddUser />,
+            },
+            {
+              path: "subscription",
+              element: <Subscription />,
+            },
+            {
+              path: "manage_models/:id",
+              element: <EditModel />,
+            },
+            {
+              path: "manage_clients/:id",
+              element: <EditClient />,
+            },
+            {
+              path: "manage_agency/:id",
+              element: <EditAgency />,
             },
           ],
         },

@@ -1,0 +1,96 @@
+@import "../../../scss/color";
+@import "../../../scss/mixins";
+@import "../../../scss/utils";
+.user-header {
+  background-color: $pure_grey;
+  padding: 20px;
+}
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.item {
+  color: $pink;
+  span {
+    color: $black;
+    margin-left: 5px;
+  }
+}
+.vr {
+  width: 2px;
+  background-color: $black;
+  height: 20px;
+}
+.top-pagination {
+  display: flex;
+  align-items: center;
+  gap: 19px;
+  .users-calc {
+    display: flex;
+    align-items: center;
+    gap: 19px;
+    div {
+      display: flex;
+      align-items: center;
+      gap: 19px;
+    }
+  }
+}
+.table_container {
+  padding: 0 9px;
+  @media (max-width:852px) {
+    overflow-x: scroll;
+  }
+}
+
+.user-container {
+  background-color: $white_90;
+  padding: 20px;
+  height: 100vh;
+  form {
+    margin-top: 40px;
+
+    .form-items {
+      width: 47%;
+      div {
+        display: flex;
+        gap: 20px;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        input {
+          width: 23rem;
+          padding: 7px 11px;
+          text-indent: 6px;
+          background-color: $white;
+        }
+        label {
+          span {
+            color: $pink;
+          }
+        }
+      }
+    }
+  }
+}
+.btn{
+  margin-top: 7rem;
+}
+
+.user-notification {
+  margin-top: 20px;
+  display: flex;
+  gap: 45px;
+  align-items: center;
+  width: fit-content;
+}
+
+.new-user-header {
+  h3 {
+    font-size: 25px;
+    font-weight: 400;
+    color: $pink;
+    margin-bottom: 5px;
+  }
+}
