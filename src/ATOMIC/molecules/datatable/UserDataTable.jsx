@@ -1,10 +1,15 @@
-import React from "react";
-import { v4 } from "uuid";
+import React, { useEffect, useState } from "react";
 import Input from "../../atoms/input/Input";
 import Image from "mui-image";
 import Button from "../../atoms/button/Button";
+import { userRequest } from "../../../redux/requestMethod";
 
-const UserDataTable = ({ data }) => {
+const UserDataTable = ({ data, setIsDelete, isDelete }) => {
+  const handleDelete = async (id) => {
+    await userRequest.delete(`/user/${id}`);
+    setIsDelete(!isDelete);
+  };
+
   return (
     <div>
       <table className="data-table2">
@@ -29,16 +34,16 @@ const UserDataTable = ({ data }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item, i) => {
+          {data?.map((item, i) => {
             return (
-              <tr key={v4}>
+              <tr key={i}>
                 <td>
                   <label>
                     <Input
                       variant="checkbox"
                       type="checkbox"
-                      name={item.id}
-                      value={item.id}
+                      name={item._id}
+                      value={item._id}
                     />
                   </label>
                 </td>
@@ -47,19 +52,26 @@ const UserDataTable = ({ data }) => {
                     <Image
                       width={60}
                       height={50}
-                      src={item.img}
-                      alt={item.name}
+                      src={item.picture}
+                      alt={item.picture}
                     />
                   </div>
                 </td>
-                <td>{item.name}</td>
+                <td>
+                  {item.firstName} {item.lastName}
+                </td>
                 <td>{item.email}</td>
                 <td>{item.role}</td>
                 <td>
                   <Button variant="transparent">edit</Button>
                 </td>
                 <td>
-                  <Button variant="transparent">delete</Button>
+                  <Button
+                    variant="transparent"
+                    onClick={() => handleDelete(item._id)}
+                  >
+                    delete
+                  </Button>
                 </td>
               </tr>
             );

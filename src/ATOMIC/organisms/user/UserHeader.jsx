@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "../../atoms/button/Button";
 import Container from "../../atoms/container/Container";
 import { v4 } from "uuid";
@@ -10,17 +10,21 @@ import {
   NavigateNextOutlined,
 } from "@mui/icons-material";
 
-const UserHeader = () => {
+const UserHeader = ({users}) => {
   const navigate = useNavigate()
+  const modelLen = users.filter((user) => user.role === 'model')
+  const agencyLen = users.filter((user) => user.role === 'agency')
+  const clientLen = users.filter((user) => user.role === 'client')
+
   const handleHistory = () => {
     navigate("/adminpage/users/add_user");
   };
   const schema = [
-    { name: "All", number: "(5,354)" },
-    { name: "Administrator", number: "(1)" },
-    { name: "Model", number: "(2,654)" },
-    { name: "Client", number: "(2,654)" },
-    { name: "Agency", number: "(2,654)" },
+    { name: "All", number: users?.length },
+    // { name: "Administrator", number: "(1)" },
+    { name: "Model", number: modelLen?.length },
+    { name: "Client", number: clientLen?.length },
+    { name: "Agency", number: agencyLen?.length },
   ];
   return (
     <div className="user-header">
@@ -49,7 +53,7 @@ const UserHeader = () => {
         <Button variant="transparent">Apply</Button>
         <section className="top-pagination">
           <div>
-            <p>2390 users</p>
+            <p>{users?.length} users</p>
           </div>
           <div className="users-calc">
             <Button>

@@ -1,20 +1,15 @@
 import React, { useState } from "react";
 import InputTab from "../InputTab";
-import DataTable from "../../molecules/datatable/DataTable";
-import client1 from "../../../Images/img/client1.jpg";
-import client2 from "../../../Images/img/client2.jpg";
-import client3 from "../../../Images/img/client3.jpg";
-import { v4 } from "uuid";
 import { Link } from "react-router-dom";
 import Button from "../../atoms/button/Button";
 import Input from "../../atoms/input/Input";
 import Image from "mui-image";
 import Pagination from "../../molecules/datatable/Pagination";
 import { selectAgent } from "../../../redux/agencyRedux";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+import { userRequest } from "../../../redux/requestMethod";
 
-const AgencyTable = () => {
-  const agency = useSelector((state) => state.agency.agency);
+const AgencyTable = ({ agency, isDelete, setIsDelete }) => {
   const dispatch = useDispatch();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,6 +21,11 @@ const AgencyTable = () => {
 
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
+
+  const handleDelete = async (id) => {
+    await userRequest.delete(`/admin/agency/${id}`);
+    setIsDelete(!isDelete);
+  };
 
   const rowsToDisplay = agency.slice(startIndex, endIndex);
 
@@ -80,51 +80,58 @@ const AgencyTable = () => {
             <tr>
               <th>#</th>
               <th>Picture</th>
-              <th>Location</th>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Edit</th>
-              <th>Delete</th>
-              <th>Select</th>
+              <th style={{ width: "150px" }}>Location</th>
+              <th style={{ width: "150px" }}>Name</th>
+              <th style={{ width: "150px" }}>Edit</th>
+              <th style={{ width: "150px" }}>Delete</th>
+              <th style={{ width: "150px" }}>Select</th>
             </tr>
           </thead>
           <tbody>
             {rowsToDisplay.map((item, i) => {
               return (
-                <tr key={v4}>
+                <tr key={i}>
                   <td>{i + 1}</td>
                   <td>
                     <Image
                       width={108}
                       height={97}
-                      src={item.img}
-                      alt={item.name}
+                      src={item.picture}
+                      alt={item.picture}
                     />
                   </td>
-                  <td>{item.location}</td>
-                  <td>{item.name}</td>
-                  <td>{item.category}</td>
-                  <td>
-                    <Link to={`/adminpage/manage_agency/:${item.id}`}>
+                  <td style={{ width: "150px", textAlign: "center" }}>
+                    {item.country}, {item.state}
+                  </td>
+                  <td style={{ width: "150px", textAlign: "center" }}>
+                    {item.fullName}
+                  </td>
+                  <td style={{ width: "150px", textAlign: "center" }}>
+                    <Link to={`/adminpage/manage_agency/${item._id}`}>
                       <Button
                         variant="primary"
-                        onClick={() => handleSelectedAgency(item.id)}
+                        onClick={() => handleSelectedAgency(item._id)}
                       >
-                        {item.edit}
+                        Edit
                       </Button>
                     </Link>
                   </td>
-                  <td>
-                    <Button variant="secondary">{item.delete}</Button>
+                  <td style={{ width: "150px", textAlign: "center" }}>
+                    <Button
+                      variant="secondary"
+                      onClick={() => handleDelete(item._id)}
+                    >
+                      Delete
+                    </Button>
                   </td>
-                  <td>
+                  <td style={{ width: "150px", textAlign: "center" }}>
                     <label>
                       <Input
                         variant="checkbox"
                         type="checkbox"
-                        name={item.id}
-                        value={item.id}
-                        checked={selectedIds.includes(item.id)}
+                        name={item._id}
+                        value={item._id}
+                        checked={selectedIds.includes(item._id)}
                         onChange={handleCheckboxChange}
                       />
                     </label>

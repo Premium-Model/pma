@@ -4,14 +4,12 @@ import Button from "../../atoms/button/Button";
 import Image from "mui-image";
 import Input from "../../atoms/input/Input";
 import { Link } from "react-router-dom";
-import { v4 } from "uuid";
 import Pagination from "../../molecules/datatable/Pagination";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { selectModel } from "../../../redux/modelsRedux";
+import { userRequest } from "../../../redux/requestMethod";
 
-
-const ModelsTable = () => {
-  const models = useSelector((state) => state.model.models);
+const ModelsTable = ({ models, isDelete, setIsDelete }) => {
   const dispatch = useDispatch();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -23,6 +21,11 @@ const ModelsTable = () => {
 
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
+
+  const handleDelete = async (id) => {
+    await userRequest.delete(`/admin/model/${id}`);
+    setIsDelete(!isDelete);
+  };
 
   const rowsToDisplay = models?.slice(startIndex, endIndex);
 
@@ -77,50 +80,61 @@ const ModelsTable = () => {
             <tr>
               <th>#</th>
               <th>Picture</th>
-              <th>Location</th>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Edit</th>
-              <th>Delete</th>
-              <th>Select</th>
+              <th style={{ width: "150px" }}>Location</th>
+              <th style={{ width: "150px" }}>Name</th>
+              <th style={{ width: "150px" }}>Category</th>
+              <th style={{ width: "150px" }}>Edit</th>
+              <th style={{ width: "150px" }}>Delete</th>
+              <th style={{ width: "150px" }}>Select</th>
             </tr>
           </thead>
           <tbody>
             {rowsToDisplay?.map((item, i) => (
-              <tr key={v4}>
+              <tr key={i}>
                 <td>{i + 1}</td>
                 <td>
                   <Image
                     width={108}
                     height={97}
-                    src={item.img}
-                    alt={item.name}
+                    src={item.picture}
+                    alt={item.picture}
                   />
                 </td>
-                <td>{item.location}</td>
-                <td>{item.name}</td>
-                <td>{item.category}</td>
-                <td>
-                  <Link to={`/adminpage/manage_models/${item.id}`}>
+                <td style={{ width: "150px", textAlign: "center" }}>
+                  {item.country}, {item.state}
+                </td>
+                <td style={{ width: "150px", textAlign: "center" }}>
+                  {item.fullName}
+                </td>
+                <td style={{ width: "150px", textAlign: "center" }}>
+                  {item.category[0]} & {item.category[1]}
+                </td>
+                <td style={{ width: "150px", textAlign: "center" }}>
+                  <Link to={`/adminpage/manage_models/${item._id}`}>
                     <Button
                       variant="primary"
-                      onClick={() => handleSelectedModel(item.id)}
+                      onClick={() => handleSelectedModel(item._id)}
                     >
-                      {item.edit}
+                      Edit
                     </Button>
                   </Link>
                 </td>
-                <td>
-                  <Button variant="secondary">{item.delete}</Button>
+                <td style={{ width: "150px", textAlign: "center" }}>
+                  <Button
+                    variant="secondary"
+                    onClick={() => handleDelete(item._id)}
+                  >
+                    Delete
+                  </Button>
                 </td>
-                <td>
+                <td style={{ width: "150px", textAlign: "center" }}>
                   <label>
                     <Input
                       variant="checkbox"
                       type="checkbox"
-                      name={item.id}
-                      value={item.id}
-                      checked={selectedIds.includes(item.id)}
+                      name={item._id}
+                      value={item._id}
+                      checked={selectedIds.includes(item._id)}
                       onChange={handleCheckboxChange}
                     />
                   </label>
