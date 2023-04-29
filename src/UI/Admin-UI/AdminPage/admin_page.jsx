@@ -60,10 +60,10 @@ const AdminPage = ({ showNavbar, setShowNavbar }) => {
   // Array For Composing Sidebar Navigation -> (Sidebar Componet) --> [START]
   const topList = [
     { name: "Dashboard", icon: <MdOutlineDashboard />, path: "dashboard" },
-    { name: "Posts", icon: <MdOutlinePostAdd />, path: "posts" },
-    { name: "Media", icon: <MdOutlinePermMedia />, path: "media" },
-    { name: "Pages", icon: <BsFiles />, path: "pages" },
-    { name: "Comments", icon: <MdOutlineComment />, path: "comments" },
+    { name: "Blog", icon: <MdOutlinePostAdd />, path: "posts" },
+    // { name: "Media", icon: <MdOutlinePermMedia />, path: "media" },
+    // { name: "Pages", icon: <BsFiles />, path: "pages" },
+    // { name: "Comments", icon: <MdOutlineComment />, path: "comments" },
     { name: "Offers", icon: <MdOutlineLocalOffer />, path: "offers" },
     { name: "Listing", icon: <IoListOutline />, path: "listings" },
     { name: "Membership", icon: <MdCardMembership />, path: "membership" },
@@ -71,7 +71,7 @@ const AdminPage = ({ showNavbar, setShowNavbar }) => {
     { name: "Messages", icon: <BiMessageEdit />, path: "messages" },
     { name: "Profile", icon: <CgUserList />, path: "profile" },
     { name: "Users", icon: <FiUsers />, path: "users" },
-    { name: "Appearance", icon: <MdOutlineStyle />, path: "appearance" },
+    // { name: "Appearance", icon: <MdOutlineStyle />, path: "appearance" },
     { name: "Manage Agency", icon: <MdOutlineStyle />, path: "manage_agency" },
     { name: "Manage Models", icon: <MdOutlineStyle />, path: "manage_models" },
     { name: "Manage Clients", icon: <MdOutlineStyle />, path: "manage_clients" },

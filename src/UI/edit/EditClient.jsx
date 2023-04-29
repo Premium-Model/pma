@@ -1,12 +1,28 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Image from "mui-image";
 import Button from "../../ATOMIC/atoms/button/Button";
 import '../../UI/users/user.scss';
+import { useLocation } from "react-router-dom";
+import { makeGet } from "../../redux/apiCalls";
 
 const EditClient = () => {
-  const selectedClient = useSelector((state) => state.client.selectedClient);
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const path = location.pathname.split("/")[3];
+
   const [isVisible, setIsVisible] = useState(true);
+  const [client, setClient] = useState({});
+
+  const fetchClient = useCallback(() => {
+    makeGet(dispatch, `/client/client/${path}`, setClient);
+  }, [dispatch, path]);
+
+  useEffect(() => {
+    let unsubscribe = fetchClient();
+    return () => unsubscribe;
+  }, []);
+
   return (
     <>
       <main className="profile-bg">
@@ -14,13 +30,13 @@ const EditClient = () => {
           <section className="img-section">
             <div>
               <Image
-                src={selectedClient.img}
-                alt={selectedClient.name}
+                src={client.picture}
+                alt={client.picture}
                 width={100}
                 height={100}
                 className="img"
               />
-              <p>{selectedClient.name}</p>
+              <p>{client.fullName}</p>
             </div>
             <div>
               <p onClick={() => setIsVisible(!isVisible)}>Details </p>
@@ -37,15 +53,11 @@ const EditClient = () => {
           >
             <div>
                 <p className="label">Name</p>
-                <p className="name">{selectedClient.name}</p>
+                <p className="name">{client.fullName}</p>
             </div>
             <div>
                 <p className="label">Location</p>
-                <p className="name">{selectedClient.location}</p>
-            </div>
-            <div>
-                <p className="label">Category</p>
-                <p className="name">{selectedClient.category}</p>
+                <p className="name">{client.state}, {client.country}</p>
             </div>
           </section>
         </div>

@@ -61,17 +61,6 @@ const AdminDashboard = () => {
   };
   //   [END]
 
-  //Data Used in Pie Chart For User History [START]
-  const donughtData = {
-    labels: ["Models", "Agencies", "Clients"],
-    datasets: [
-      {
-        backgroundColor: ["hotpink", "black", "royalblue"],
-        data: [21, 23, 6],
-      },
-    ],
-  };
-
   const donughtOptions = {
     plugins: {
       legend: {
@@ -123,23 +112,43 @@ const AdminDashboard = () => {
   const [model, setModel] = useState([]);
   const [client, setClient] = useState([]);
   const [agency, setAgency] = useState([]);
+  const [blog, setBlog] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
     makeGet(dispatch, "/user/", setMessage);
   }, [setMessage, dispatch]);
+  const reversedMessage = [...message].reverse();
 
   useEffect(() => {
     const fetchData = async () => {
-      const resModel = await userRequest.get("/model/");
+      const resModel = await userRequest.get("/model/models");
       setModel(resModel.data);
-      const resClient = await userRequest.get("/client/");
+      const resClient = await userRequest.get("/client/clients");
       setClient(resClient.data);
       const resAgency = await userRequest.get("/agency/");
       setAgency(resAgency.data);
+      const resBlog = await userRequest.get("/blog/blogs");
+      setBlog(resBlog.data);
     };
     return () => fetchData();
   }, []);
+  const reversedBlog = [...blog].reverse();
+  const total = model?.length + agency?.length + client?.length;
+  const modelPer = Math.round((model?.length * 100) / total);
+  const agencyPer = Math.round((agency?.length * 100) / total);
+  const clientPer = Math.round((client?.length * 100) / total);
+
+  //Data Used in Pie Chart For User History [START]
+  const donughtData = {
+    labels: ["Models", "Agencies", "Clients"],
+    datasets: [
+      {
+        backgroundColor: ["royalblue", "hotpink", "black"],
+        data: [model?.length, agency?.length, client?.length],
+      },
+    ],
+  };
 
   return (
     <div id="admin_dashboard">
@@ -148,7 +157,7 @@ const AdminDashboard = () => {
         {/* GRID AREA 1 --> [START] */}
         <div id="area_one">
           <div id="daily_stats">
-            <table id="daily_stats_table">
+            {/* <table id="daily_stats_table">
               <thead>
                 <tr>
                   <th>DATE</th>
@@ -187,7 +196,7 @@ const AdminDashboard = () => {
                   </td>
                 </tr>
               </tfoot>
-            </table>
+            </table> */}
           </div>
           <div className="holder">
             <div className="visitor_stats">
@@ -222,16 +231,23 @@ const AdminDashboard = () => {
                   <th>Username</th>
                   <th>Level</th>
                   <th>Joined</th>
-                  <th>Expires</th>
+                  {/* <th>Expires</th> */}
                 </tr>
               </thead>
               <tbody>
-                {message?.slice(0, 4).map((item, index) => (
+                {reversedMessage?.slice(0, 4).map((item, index) => (
                   <tr key={index}>
                     <td>
                       <div className="profile">
                         <div className="profile_image">
-                          <img src={item?.picture ? item?.picture : '/images/avatar2.png'} alt="profilepic" />
+                          <img
+                            src={
+                              item?.picture
+                                ? item?.picture
+                                : "/images/avatar2.png"
+                            }
+                            alt="profilepic"
+                          />
                         </div>
                         <div className="profile_name">
                           <div>{item?.firstName} </div>
@@ -241,7 +257,7 @@ const AdminDashboard = () => {
                     </td>
                     <td>{item?.role}</td>
                     <td>{moment(item?.createdAt).format("MMMM DD, YYYY")}</td>
-                    <td>Dec 26, 2022</td>
+                    {/* <td>Dec 26, 2022</td> */}
                   </tr>
                 ))}
               </tbody>
@@ -314,17 +330,17 @@ const AdminDashboard = () => {
                   <div>
                     <span id="models_key"></span>
                     <span className="name">Models</span>
-                    <span id="models_size">63%</span>
+                    <span id="models_size">{modelPer}%</span>
                   </div>
                   <div>
                     <span id="agencies_key"></span>
                     <span className="name">Agencies</span>
-                    <span id="agencies_size">15%</span>
+                    <span id="agencies_size">{agencyPer}%</span>
                   </div>
                   <div>
                     <span id="clients_key"></span>
                     <span className="name">Clients</span>
-                    <span id="clients_size">22%</span>
+                    <span id="clients_size">{clientPer}%</span>
                   </div>
                 </div>
               </div>
@@ -353,32 +369,14 @@ const AdminDashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>June 17, 2:51pm</td>
-                  <td>How To Become A Model</td>
-                </tr>
-                <tr>
-                  <td>June 17, 2:51pm</td>
-                  <td>How To Become A Model</td>
-                </tr>
-                <tr>
-                  <td>June 17, 2:51pm</td>
-                  <td>How To Become A Model</td>
-                </tr>
-                <tr>
-                  <td>June 17, 2:51pm</td>
-                  <td>How To Become A Model</td>
-                </tr>
-                <tr>
-                  <td>June 17, 2:51pm</td>
-                  <td>How To Become A Model</td>
-                </tr>
-                <tr>
-                  <td>June 17, 2:51pm</td>
-                  <td>How To Become A Model</td>
-                </tr>
+                {reversedBlog?.slice(0, 5).map((blog, index) => (
+                  <tr key={index}>
+                    <td>{moment(blog.createdAt).fromNow()}</td>
+                    <td>{blog?.title}</td>
+                  </tr>
+                ))}
               </tbody>
-              <tfoot>
+              {/* <tfoot>
                 <tr>
                   <td colSpan={2}>
                     <span>
@@ -386,7 +384,7 @@ const AdminDashboard = () => {
                     </span>
                   </td>
                 </tr>
-              </tfoot>
+              </tfoot> */}
             </table>
           </div>
         </div>

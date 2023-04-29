@@ -2,39 +2,35 @@ import React from "react";
 import Card from "../../atoms/card/Card";
 import Container from "../../atoms/container/Container";
 
-const ClientCardTab = () => {
+const ClientCardTab = ({ client }) => {
+  const isVerified = client.filter((item) => item.isVerified);
+  const notVerified = client.filter((item) => !item.isVerified);
   const schema = [
     {
       id: 1,
       variant: "fill_light_green",
-      txt_1: "38,58",
+      txt_1: isVerified.length,
       desc: "Verified",
     },
     {
       id: 2,
       variant: "fill_red",
-      txt_1: "24",
+      txt_1: notVerified.length,
       desc: "Not Verified",
     },
-    {
-      id: 3,
-      variant: "fill_black",
-      txt_1: "_",
-      desc: "Featured",
-    },
   ];
+
+  
   return (
     <div>
       <Container variant="flexed">
         {schema.map((item) => {
           const { id, variant, txt_1, desc } = item;
           return (
-           
-              <Card key={id} variant={variant}>
-                <p>{txt_1}</p>
-                <p>{desc}</p>
-              </Card>
-           
+            <Card key={id} variant={variant}>
+              <p>{txt_1}</p>
+              <p>{desc}</p>
+            </Card>
           );
         })}
       </Container>

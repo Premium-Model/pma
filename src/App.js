@@ -1,5 +1,5 @@
 import jwt_decode from "jwt-decode";
-import { useEffect, useState} from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -7,28 +7,32 @@ import {
   Outlet,
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import LoginForm from "./Pages/LoginSignup/Login/Login-Form";
-import AdminDashboard from "./UI/Admin-UI/AdminPage/dashboard/dashboard";
-import NotFound from "./Pages/NotFound/notfound";
-// import Navbar from "./Components/Navbar/navbar";
-import AdminPage from "./UI/Admin-UI/AdminPage/admin_page";
 import { userLogout } from "./redux/apiCalls";
-import Blog from "./UI/Admin-UI/Blog/Blog";
-import ManageClients from "./UI/manageClients/ManageClients";
-import ManageModels from "./UI/manageModels/ManageModels";
-import ManageAgency from "./UI/manageAgency/ManageAgency";
-import Users from "./UI/users/Users";
-import AddUser from "./UI/users/AddUser";
-import Subscription from "./UI/subscriptions/Subscription";
-import EditModel from "./UI/edit/EditModel";
-import EditAgency from "./UI/edit/EditAgency";
-import EditClient from "./UI/edit/EditClient";
-
+import Single from "./UI/Admin-UI/Blog/Single";
+const LoginForm = lazy(() => import("./Pages/LoginSignup/Login/Login-Form"));
+const AdminDashboard = lazy(() =>
+  import("./UI/Admin-UI/AdminPage/dashboard/dashboard")
+);
+const NotFound = lazy(() => import("./Pages/NotFound/notfound"));
+// import Navbar from "./Components/Navbar/navbar";
+const AdminPage = lazy(() => import("./UI/Admin-UI/AdminPage/admin_page"));
+const Blogs = lazy(() => import("./UI/Admin-UI/Blog/Blogs"));
+const ManageClients = lazy(() => import("./UI/manageClients/ManageClients"));
+const ManageModels = lazy(() => import("./UI/manageModels/ManageModels"));
+const ManageAgency = lazy(() => import("./UI/manageAgency/ManageAgency"));
+const Users = lazy(() => import("./UI/users/Users"));
+const AddUser = lazy(() => import("./UI/users/AddUser"));
+const Subscription = lazy(() => import("./UI/subscriptions/Subscription"));
+const EditModel = lazy(() => import("./UI/edit/EditModel"));
+const EditAgency = lazy(() => import("./UI/edit/EditAgency"));
+const EditClient = lazy(() => import("./UI/edit/EditClient"));
 
 const App = () => {
   const [showNavbar, setShowNavbar] = useState(true);
   const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
+
+  const [isWrite, setIsWrite] = useState(false);
 
   // automatically logout a user when session expires
   const handleLogout = () => {
@@ -69,66 +73,130 @@ const App = () => {
     {
       path: "/",
       element: <Layout />,
-      errorElement: <NotFound />,
+      errorElement: (
+        <Suspense fallback={<div>loading...</div>}>
+          <NotFound />
+        </Suspense>
+      ),
       children: [
         {
           path: "/",
-          element: !user ? <LoginForm /> : <Navigate to="/adminpage" />,
+          element: !user ? (
+            <Suspense fallback={<div>loading...</div>}>
+              <LoginForm />
+            </Suspense>
+          ) : (
+            <Navigate to="/adminpage" />
+          ),
         },
         {
           path: "adminpage/",
           element: (
             <ProtectedRoute>
-              <AdminPage
-                showNavbar={showNavbar}
-                setShowNavbar={setShowNavbar}
-              />
+              <Suspense fallback={<div>loading...</div>}>
+                <AdminPage
+                  showNavbar={showNavbar}
+                  setShowNavbar={setShowNavbar}
+                />
+              </Suspense>
             </ProtectedRoute>
           ),
           children: [
             {
               path: "dashboard",
-              element: <AdminDashboard />,
+              element: (
+                <Suspense fallback={<div>loading...</div>}>
+                  <AdminDashboard />
+                </Suspense>
+              ),
             },
             {
               path: "posts",
-              element: <Blog />,
+              element: (
+                <Suspense fallback={<div>loading...</div>}>
+                  <Blogs setIsWrite={setIsWrite} isWrite={isWrite} />
+                </Suspense>
+              ),
+            },
+            {
+              path: "post/:id",
+              element: (
+                <Suspense fallback={<div>loading...</div>}>
+                  <Single isWrite={isWrite} setIsWrite={setIsWrite} />
+                </Suspense>
+              ),
             },
             {
               path: "manage_clients",
-              element: <ManageClients />,
+              element: (
+                <Suspense fallback={<div>loading...</div>}>
+                  <ManageClients />
+                </Suspense>
+              ),
             },
             {
               path: "manage_models",
-              element: <ManageModels />,
+              element: (
+                <Suspense fallback={<div>loading...</div>}>
+                  <ManageModels />
+                </Suspense>
+              ),
             },
             {
               path: "manage_agency",
-              element: <ManageAgency />,
+              element: (
+                <Suspense fallback={<div>loading...</div>}>
+                  <ManageAgency />
+                </Suspense>
+              ),
             },
             {
               path: "users",
-              element: <Users />,
+              element: (
+                <Suspense fallback={<div>loading...</div>}>
+                  <Users />
+                </Suspense>
+              ),
             },
             {
               path: "users/add_user",
-              element: <AddUser />,
+              element: (
+                <Suspense fallback={<div>loading...</div>}>
+                  <AddUser />
+                </Suspense>
+              ),
             },
             {
               path: "subscription",
-              element: <Subscription />,
+              element: (
+                <Suspense fallback={<div>loading...</div>}>
+                  <Subscription />
+                </Suspense>
+              ),
             },
             {
               path: "manage_models/:id",
-              element: <EditModel />,
+              element: (
+                <Suspense fallback={<div>loading...</div>}>
+                  <EditModel />
+                </Suspense>
+              ),
             },
             {
               path: "manage_clients/:id",
-              element: <EditClient />,
+              element: (
+                <Suspense fallback={<div>loading...</div>}>
+                  <EditClient />
+                </Suspense>
+              ),
             },
             {
               path: "manage_agency/:id",
-              element: <EditAgency />,
+              element: (
+                <Suspense fallback={<div>loading...</div>}>
+                  <EditAgency />
+                </Suspense>
+              ),
             },
           ],
         },

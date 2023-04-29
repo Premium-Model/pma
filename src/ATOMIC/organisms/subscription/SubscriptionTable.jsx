@@ -1,72 +1,41 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { v4 } from "uuid";
 import Button from "../../atoms/button/Button";
 import Card from "../../atoms/card/Card";
-import '../../../ATOMIC/molecules/datatable/table.scss'
+import "../../../ATOMIC/molecules/datatable/table.scss";
+import { useDispatch } from "react-redux";
+import { makeEdit, makeGet } from "../../../redux/apiCalls";
+import moment from "moment";
+import { userRequest } from "../../../redux/requestMethod";
 
 const SubscriptionTable = () => {
-  const schema = [
-    {
-      user: "joyabazu@gmail.com",
-      category: "Agency",
-      fee: "2,000",
-      duration: "365 days",
-      gateway: "paystack",
-      transID: "Payment: 79A99E7C2 Subscription",
-      status: "Active",
-      date: " March 22, 2023 at 10:18am",
-    },
-    {
-      user: "emmanuelabazu@gmail.com",
-      category: "Model",
-      fee: "3,300",
-      duration: "365 days",
-      gateway: "paystack",
-      transID: "Payment: 79A99E7C2 Subscription",
-      status: "Success",
-      date: " March 22, 2023 at 10:18am",
-    },
-    {
-      user: "models@gmail.com",
-      category: "Client",
-      fee: "2,000",
-      duration: "200 days",
-      gateway: "paystack",
-      transID: "Payment: 79A99E7C2 Subscription",
-      status: "Pending",
-      date: " March 22, 2023 at 10:18am",
-    },
-    {
-      user: "emmanuelabazu@gmail.com",
-      category: "Model",
-      fee: "2,000",
-      duration: "365 days",
-      gateway: "paystack",
-      transID: "Payment: 79A99E7C2 Subscription",
-      status: "Active",
-      date: " March 22, 2023 at 10:18am",
-    },
-    {
-      user: "emmanuelabazu@gmail.com",
-      category: "Model",
-      fee: "2,000",
-      duration: "365 days",
-      gateway: "paystack",
-      transID: "Payment: 79A99E7C2 Subscription",
-      status: "Active",
-      date: " March 22, 2023 at 10:18am",
-    },
-    {
-      user: "emmanuelabazu@gmail.com",
-      category: "Model",
-      fee: "2,000",
-      duration: "365 days",
-      gateway: "paystack",
-      transID: "Payment: 79A99E7C2 Subscription",
-      status: "Active",
-      date: " March 22, 2023 at 10:18am",
-    },
-  ];
+  const dispatch = useDispatch();
+
+  const [subscriptions, setSubscriptons] = useState([]);
+  const [isApproved, setIsApproved] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
+
+  const fetchSubscriptions = useCallback(() => {
+    makeGet(dispatch, "/payment/payments", setSubscriptons);
+  }, [dispatch]);
+
+  useEffect(() => {
+    let unsubscribe = fetchSubscriptions();
+    return () => unsubscribe;
+  }, [isApproved, isDelete]);
+
+  const reversed = [...subscriptions].reverse();
+
+  const handleApprovePayment = (id) => {
+    makeEdit(dispatch, `/payment/approve/${id}`);
+    setIsApproved(!isApproved);
+  };
+
+  const handleDeletePayment = async (id) => {
+    await userRequest.delete(`/payment/delete/${id}`);
+    setIsDelete(!isDelete);
+  };
+
   return (
     <div>
       <Card variant="full_width">Available Subscriptions</Card>
@@ -85,20 +54,33 @@ const SubscriptionTable = () => {
           </tr>
         </thead>
         <tbody>
-          {schema.map((item, i) => {
+          {reversed?.map((item, i) => {
             return (
-              <tr key={v4}>
+              <tr key={i}>
                 <td>{i + 1}</td>
-                <td>{item.user}</td>
-                <td>{item.category}</td>
-                <td>{item.fee}</td>
-                <td>{item.duration}</td>
-                <td>{item.gateway}</td>
-                <td>{item.transID}</td>
+                <td>{item.senderEmail}</td>
+                <td>{item.desc}</td>
+                <td>{item.amount}</td>
+                <td>365d</td>
+                <td>Paystack</td>
+                <td>{item._id}</td>
                 <td>
-                  <Button variant="blur">{item.status}</Button>
+                  <Button variant="blur">
+                    {item.isApproved ? "Verified" : "Pending verification"}
+                  </Button>
+                  {!item.isApproved && (
+                    <Button
+                      variant="blur"
+                      onClick={() => handleApprovePayment(item._id)}
+                    >
+                      Approve payment
+                    </Button>
+                  )}
                 </td>
-                <td>{item.date}</td>
+                <td>{moment(item.createdAt).format("DD-MM-YYYY")}</td>
+                <td>
+                  <Button variant="blur" onClick={() => handleDeletePayment(item._id)}>Delete</Button>
+                </td>
               </tr>
             );
           })}
