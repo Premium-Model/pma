@@ -35,6 +35,28 @@ function ModelsAcct({ showNavbar, setShowNavbar, user, setNotice, notice }) {
           ) : null}
         </>
       )}
+
+      {/*---> this is used for testing  */}
+
+      {/* <>
+        {modelPage === "dashboard" ? (
+          <ModelPage
+            showNavbar={showNavbar}
+            setShowNavbar={setShowNavbar}
+            setModelPage={setModelPage}
+            setNotice={setNotice}
+            notice={notice}
+          />
+        ) : modelPage === "setting" ? (
+          <AcctSetting
+            showNavbar={showNavbar}
+            setShowNavbar={setShowNavbar}
+            setModelPage={setModelPage}
+          />
+        ) : modelPage === "inbox" ? (
+          <Inbox setPage={setModelPage} />
+        ) : null}
+      </> */}
     </>
   );
 }

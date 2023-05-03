@@ -1,4 +1,4 @@
-function DeleteWarning({ handleDelete, setToggleDelete, title, text }) {
+function DeleteWarning({ deleteNotice, handleDelete, title, text }) {
   return (
     <div className="noti-del-warning-wrapper">
       <div className="noti-del-warning">
@@ -9,16 +9,16 @@ function DeleteWarning({ handleDelete, setToggleDelete, title, text }) {
 
         {title === "Delete?" ? (
           <div className="noti-job-btn">
-            <button onClick={handleDelete} className="accept-btn">
+            <button onClick={deleteNotice} className="accept-btn">
               Delete
             </button>
-            <button onClick={() => setToggleDelete("")} className="decline-btn">
+            <button onClick={() => handleDelete("")} className="decline-btn">
               Cancel
             </button>
           </div>
         ) : (
           <div className="noti-job-btn">
-            <button onClick={() => setToggleDelete("")} className="accept-btn">
+            <button onClick={() => handleDelete("")} className="accept-btn">
               Got it
             </button>
           </div>

@@ -1,4 +1,7 @@
 import {
+  forgotLoginFailure,
+  forgotLoginStart,
+  forgotLoginSuccess,
   loginFailure,
   loginStart,
   loginSuccess,
@@ -7,34 +10,26 @@ import {
   updateStart,
   updateSuccess,
 } from "./userRedux";
-import { userRequest } from "./requestMethod";
+import { forgotRequest, userRequest } from "./requestMethod";
 import { toast } from "react-toastify";
 import { processFailure, processStart, processSuccess } from "./processRedux";
 
-export const register = async (dispatch, url, user, setMessage, setUser) => {
-  dispatch(processStart());
-  try {
-    const res = await userRequest.post(url, user);
-    setUser(res.data);
-    dispatch(processSuccess());
-    setMessage("Registration successful!");
-  } catch (err) {
-    setMessage(err?.response?.data);
-    dispatch(processFailure());
-  }
-};
-
-export const login = async (dispatch, url, user, setMessage, setUser) => {
+export const loginRegister = async (
+  dispatch,
+  url,
+  user,
+  setMessage,
+  userRole,
+  handlePayment
+) => {
   dispatch(loginStart());
   try {
     const res = await userRequest.post(url, user);
     dispatch(loginSuccess(res.data));
-    setMessage("Login successful!");
-    window.location.reload();
+    setMessage("Registration successful!");
+    userRole !== "client" && handlePayment();
   } catch (err) {
-    setUser(err?.response?.data);
     setMessage(err?.response?.data);
-    err?.response?.data?.message && alert(err?.response?.data?.message);
     dispatch(loginFailure());
   }
 };
@@ -52,6 +47,32 @@ export const update = async (dispatch, url, user, setMessage, setModalTxt) => {
   }
 };
 
+export const update2 = async (dispatch, url, user, setMessage, setModalTxt) => {
+  dispatch(updateStart());
+  try {
+    const res = await userRequest.post(url, user);
+    dispatch(updateSuccess(res.data));
+    setModalTxt("save");
+    return toast.success("Data updated successfully, kindly referesh.");
+  } catch (err) {
+    setMessage(err?.response?.data);
+    dispatch(updateFailure());
+  }
+};
+
+export const loginForgot = async (dispatch, user) => {
+  dispatch(forgotLoginStart());
+  try {
+    const res = await forgotRequest.post("/auth/forgot-password-request", user);
+    dispatch(forgotLoginSuccess(res.data));
+    // window.location.reload();
+    alert("Password reset link has been sent to your email.");
+  } catch (err) {
+    toast.error(err?.response?.data);
+    dispatch(forgotLoginFailure());
+  }
+};
+
 export const userLogout = async (dispatch) => {
   dispatch(logout());
 };
@@ -62,7 +83,8 @@ export const makePost = async (dispatch, url, data, setInputs) => {
     const res = await userRequest.post(url, data);
     dispatch(processSuccess());
     toast.success(res.data);
-    setInputs({});
+    setInputs({})
+    // console.log(res.data);
   } catch (err) {
     toast.error(err?.response?.data);
     dispatch(processFailure());
@@ -77,7 +99,7 @@ export const makeGet = async (dispatch, url, setMessage) => {
     setMessage(res.data);
     // toast.success("Job has been posted successfully!");
   } catch (err) {
-    // toast.error(err?.response?.data);
+    toast.error(err?.response?.data);
     dispatch(processFailure());
   }
 };

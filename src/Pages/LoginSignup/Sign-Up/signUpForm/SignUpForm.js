@@ -3,14 +3,15 @@ import SignUpInput from "./FormInputs";
 import "./SignUpForm.css";
 import { AlertModal } from "./Modal";
 import { useDispatch, useSelector } from "react-redux";
-import { makePost, register } from "../../../../redux/apiCalls";
+import { loginRegister, makePost } from "../../../../redux/apiCalls";
 import { usePaystackPayment } from "react-paystack";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
 
 const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
   const { isFetching } = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.currentUser);
+  // console.log(userRole)
   const dispatch = useDispatch();
 
   const [modalTxt, setModalTxt] = useState("");
@@ -18,7 +19,6 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
   const [isChecked, setIschecked] = useState(false);
   const [isError, setIsError] = useState(false);
   const [message, setMessage] = useState("");
-  const [user, setUser] = useState({});
 
   //input error state
   const [error, setError] = useState({
@@ -36,18 +36,6 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
     setInputs((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
-  };
-
-  //submit form and creating account
-  const handleCreateAccount = (e) => {
-    e.preventDefault();
-    register(
-      dispatch,
-      "/auth/register",
-      { ...inputs, role: userRole },
-      setMessage,
-      setUser
-    );
   };
 
   //paystack payment config
@@ -68,18 +56,13 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
     channels: ["card", "bank", "ussd", "qr", "mobile_money", "bank_transfer"],
   };
 
-  const TOKEN = user?.accessToken;
-  const postRequest = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
-    headers: { token: `Bearer ${TOKEN}` },
-  });
-
-  const handleInvoice = async () => {
-    try {
-      const res = await postRequest.post("/payment/make-payment", { amount });
-      modalTxt(res.data);
-      alert(res.data);
-    } catch (error) {}
+  const handleInvoice = () => {
+    makePost(
+      dispatch,
+      "model/payment/model",
+      { amount, userId: user._id },
+      setMessage
+    );
   };
 
   const initializePayment = usePaystackPayment(config);
@@ -96,12 +79,6 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
     };
     initializePayment(onSuccess, onClose);
   };
-
-  useEffect(() => {
-    if (userRole !== "client" && user?.accessToken) {
-      handlePayment();
-    }
-  }, [user]);
 
   //validating inputs
   useEffect(() => {
@@ -224,6 +201,18 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
     error.passErr,
   ]);
 
+  //submit form and creating account
+  const handleCreateAccount = (e) => {
+    e.preventDefault();
+    loginRegister(
+      dispatch,
+      "/auth/register",
+      { ...inputs, role: userRole },
+      setMessage,
+      userRole,
+      handlePayment
+    );
+  };
   useEffect(() => {
     let unsubscribed = false;
     if (!unsubscribed) {
@@ -237,7 +226,6 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
       <section
         style={{
           transform: activeSignup && `translateX(${0}%)`,
-          display: message && "none",
         }}
         className="sign-up"
       >
@@ -387,7 +375,6 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
         setModalTxt={setModalTxt}
         userRole={userRole}
         message={message}
-        setMessage={setMessage}
       />
     </>
   );
