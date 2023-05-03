@@ -1,8 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import userReducer from "./userRedux";
 import processReducer from "./processRedux";
-import notificationReducer from "./notificationRedux";
-import messageReducer from "./messageRedux";
 import {
   persistStore,
   persistReducer,
@@ -24,8 +22,6 @@ const persistConfig = {
 const rootReducer = combineReducers({
   user: userReducer,
   process: processReducer,
-  notification: notificationReducer,
-  message: messageReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

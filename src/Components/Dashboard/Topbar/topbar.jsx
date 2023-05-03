@@ -1,11 +1,11 @@
 import "./topbar.scss";
+
 import { BiEnvelope, BiSearch } from "react-icons/bi";
 import { IoNotifications } from "react-icons/io5";
 import { FaBars } from "react-icons/fa";
 import useMediaQuery from "../../../custom_hooks/useMediaQuery";
 import { motion } from "framer-motion";
 import { IconContext } from "react-icons";
-import { useSelector } from "react-redux";
 
 const DashboardTopbar = ({
   setSidebarVisibility,
@@ -13,10 +13,8 @@ const DashboardTopbar = ({
   lastItem,
   setPage,
   setToggleNotice,
+  notice,
 }) => {
-  const { notification } = useSelector((state) => state.notification);
-  const { message } = useSelector((state) => state.message);
-
   let mQ = useMediaQuery("(min-width: 540px)");
 
   return (
@@ -44,12 +42,10 @@ const DashboardTopbar = ({
             <BiSearch color="white" display={mQ ? "none" : "inline"} />
           </motion.div>
           <motion.div
-            id="notification"
             whileTap={{ scale: 0.8 }}
             onClick={() => setPage("inbox")}
           >
             <BiEnvelope color="white" />
-            {message > 0 && <span id="data">{message}</span>}
           </motion.div>
           <motion.div
             id="notification"
@@ -57,7 +53,7 @@ const DashboardTopbar = ({
             onClick={() => setToggleNotice((prev) => !prev)}
           >
             <IoNotifications id="icon" color="white" />
-            {notification > 0 && <span id="data">{notification}</span>}
+            <span id="data">{notice.length}</span>
           </motion.div>
           {lastItem}
         </div>
