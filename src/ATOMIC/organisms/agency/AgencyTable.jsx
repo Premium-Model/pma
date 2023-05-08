@@ -7,9 +7,13 @@ import Image from "mui-image";
 import Pagination from "../../molecules/datatable/Pagination";
 import { selectAgent } from "../../../redux/agencyRedux";
 import { useDispatch } from "react-redux";
+import avatar from "../../../Images/img/avatar.svg";
 import { userRequest } from "../../../redux/requestMethod";
+import Modal from "../../molecules/modal/Modal";
+import "../../molecules/modal/modal.scss";
 
 const AgencyTable = ({ agency, isDelete, setIsDelete }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -63,12 +67,41 @@ const AgencyTable = ({ agency, isDelete, setIsDelete }) => {
     }
   };
 
+  const handleAgencyClick = () => {
+    const randomIndex = Math.floor(Math.random() * rowsToDisplay.length);
+    const randomAgent = rowsToDisplay[randomIndex];
+    const randomId = randomAgent._id;
+    handleDelete(randomId)
+  }
+
   const handleSelectedAgency = (id) => {
     dispatch(selectAgent(id));
   };
 
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <main>
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+        <p className="modal-text">Are you sure you want to delete this user?</p>
+        <div className="btn-group">
+          <Button variant="outlined" onClick={handleCloseModal}>
+            Cancel
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={handleAgencyClick}
+          >
+            delete
+          </Button>
+        </div>
+      </Modal>
       <div className="table_container">
         <InputTab
           pageSize={pageSize}
@@ -93,15 +126,25 @@ const AgencyTable = ({ agency, isDelete, setIsDelete }) => {
                 <tr key={i}>
                   <td>{i + 1}</td>
                   <td>
-                    <Image
-                      width={108}
-                      height={97}
-                      src={item.picture}
-                      alt={item.picture}
-                    />
+                    <div className="table_img">
+                      <Image
+                        width={100}
+                        height={97}
+                        src={item.picture ? item.picture : avatar}
+                        alt={item.picture}
+                      />
+                    </div>
                   </td>
                   <td style={{ width: "150px", textAlign: "center" }}>
-                    {item.country}, {item.state}
+                    <div>
+                      {item.country && item.state ? (
+                        <p>
+                          {item.country}, {item.state}
+                        </p>
+                      ) : (
+                        <span>No Location</span>
+                      )}
+                    </div>
                   </td>
                   <td style={{ width: "150px", textAlign: "center" }}>
                     {item.fullName}
@@ -119,7 +162,7 @@ const AgencyTable = ({ agency, isDelete, setIsDelete }) => {
                   <td style={{ width: "150px", textAlign: "center" }}>
                     <Button
                       variant="secondary"
-                      onClick={() => handleDelete(item._id)}
+                      onClick={handleOpenModal}
                     >
                       Delete
                     </Button>

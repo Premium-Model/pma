@@ -6,10 +6,14 @@ import Input from "../../atoms/input/Input";
 import { Link } from "react-router-dom";
 import Pagination from "../../molecules/datatable/Pagination";
 import { useDispatch } from "react-redux";
+import avatar from "../../../Images/img/avatar.svg";
 import { selectModel } from "../../../redux/modelsRedux";
 import { userRequest } from "../../../redux/requestMethod";
+import Modal from "../../molecules/modal/Modal";
+import "../../molecules/modal/modal.scss";
 
 const ModelsTable = ({ models, isDelete, setIsDelete }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -28,6 +32,7 @@ const ModelsTable = ({ models, isDelete, setIsDelete }) => {
   };
 
   const rowsToDisplay = models?.slice(startIndex, endIndex);
+  
 
   const handleNextClick = () => {
     if (currentPage < totalPages) {
@@ -63,12 +68,41 @@ const ModelsTable = ({ models, isDelete, setIsDelete }) => {
     }
   };
 
+  const handleModelClick = () => {
+    const randomIndex = Math.floor(Math.random() * rowsToDisplay.length);
+    const randomModel = rowsToDisplay[randomIndex];
+    const randomId = randomModel._id;
+    handleDelete(randomId)
+  }
+
   const handleSelectedModel = (id) => {
     dispatch(selectModel(id));
   };
 
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <main>
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+        <p className="modal-text">Are you sure you want to delete this user?</p>
+        <div className="btn-group">
+          <Button variant="outlined" onClick={handleCloseModal}>
+            Cancel
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={handleModelClick}
+          >
+            delete
+          </Button>
+        </div>
+      </Modal>
       <div className="table_container">
         <InputTab
           pageSize={pageSize}
@@ -93,21 +127,39 @@ const ModelsTable = ({ models, isDelete, setIsDelete }) => {
               <tr key={i}>
                 <td>{i + 1}</td>
                 <td>
-                  <Image
-                    width={108}
-                    height={97}
-                    src={item.picture}
-                    alt={item.picture}
-                  />
+                  <div className="table_img">
+                    <Image
+                      width={100}
+                      height={97}
+                      src={item.picture ? item.picture : avatar}
+                      alt={item.picture}
+                    />
+                  </div>
                 </td>
                 <td style={{ width: "150px", textAlign: "center" }}>
-                  {item.country}, {item.state}
+                  <div>
+                    {item.country && item.state ? (
+                      <p>
+                        {item.country}, {item.state}
+                      </p>
+                    ) : (
+                      <span>No Location</span>
+                    )}
+                  </div>
                 </td>
                 <td style={{ width: "150px", textAlign: "center" }}>
                   {item.fullName}
                 </td>
                 <td style={{ width: "150px", textAlign: "center" }}>
-                  {item.category[0]} & {item.category[1]}
+                  <div>
+                    {item.category ? (
+                      <div>
+                        {item.category[0]} & {item.category[1]}
+                      </div>
+                    ) : (
+                      <div>none</div>
+                    )}
+                  </div>
                 </td>
                 <td style={{ width: "150px", textAlign: "center" }}>
                   <Link to={`/adminpage/manage_models/${item._id}`}>
@@ -120,10 +172,7 @@ const ModelsTable = ({ models, isDelete, setIsDelete }) => {
                   </Link>
                 </td>
                 <td style={{ width: "150px", textAlign: "center" }}>
-                  <Button
-                    variant="secondary"
-                    onClick={() => handleDelete(item._id)}
-                  >
+                  <Button variant="secondary" onClick={handleOpenModal}>
                     Delete
                   </Button>
                 </td>
