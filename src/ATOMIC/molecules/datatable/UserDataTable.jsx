@@ -1,47 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../../atoms/input/Input";
 import Image from "mui-image";
 import Button from "../../atoms/button/Button";
 import { userRequest } from "../../../redux/requestMethod";
-import "./table.scss";
-import avatar from "../../../Images/img/avatar.svg";
-import Modal from "../modal/Modal";
-import { useState } from "react";
 
 const UserDataTable = ({ data, setIsDelete, isDelete }) => {
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const handleDelete = async (id) => {
     await userRequest.delete(`/user/${id}`);
     setIsDelete(!isDelete);
   };
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
   return (
-    <div className="table_container">
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-        <p className="modal-text">Are you sure you want to delete this user?</p>
-        <div className="btn-group">
-          <Button variant="outlined" onClick={handleCloseModal}>
-            Cancel
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={() => handleDelete(data._id)}
-          >
-            delete
-          </Button>
-        </div>
-      </Modal>
-
+    <div>
       <table className="data-table2">
         <thead>
           <tr>
@@ -59,6 +29,8 @@ const UserDataTable = ({ data, setIsDelete, isDelete }) => {
             <th>Name</th>
             <th>Email</th>
             <th>Role</th>
+            <th> </th>
+            <th> </th>
           </tr>
         </thead>
         <tbody>
@@ -80,7 +52,7 @@ const UserDataTable = ({ data, setIsDelete, isDelete }) => {
                     <Image
                       width={60}
                       height={50}
-                      src={item.picture ? item.picture : avatar}
+                      src={item.picture}
                       alt={item.picture}
                     />
                   </div>
@@ -96,7 +68,7 @@ const UserDataTable = ({ data, setIsDelete, isDelete }) => {
                 <td>
                   <Button
                     variant="transparent"
-                    onClick={handleOpenModal}
+                    onClick={() => handleDelete(item._id)}
                   >
                     delete
                   </Button>

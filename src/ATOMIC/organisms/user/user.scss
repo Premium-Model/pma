@@ -9,23 +9,12 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  @media (max-width: 894px) {
-    margin-bottom: 20px;
-    margin-top: 20px;
-  }
 }
 .item {
   color: $pink;
-
   span {
     color: $black;
     margin-left: 5px;
-  }
-  @media (max-width: 794px) {
-    font-size: 15px;
-  }
-  @media (max-width: 704px) {
-    font-size: 12px;
   }
 }
 .vr {
@@ -50,38 +39,26 @@
 }
 .table_container {
   padding: 0 9px;
-  @media (max-width: 852px) {
+  @media (max-width:852px) {
     overflow-x: scroll;
   }
 }
 
 .user-container {
   background-color: $white_90;
-  overflow-y: scroll;
   padding: 20px;
   height: 100vh;
-  @media (max-width: 331px) {
-    padding:  15px;
-  }
   form {
     margin-top: 40px;
+
     .form-items {
       width: 47%;
-      @media (max-width: 732px) {
-        width: 80%;
-      }
-      @media (max-width: 450px) {
-        width: 100%;
-      }
       div {
         display: flex;
         gap: 20px;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 10px;
-        @media (max-width: 681px) {
-          gap: 30px;
-        }
         input {
           width: 23rem;
           padding: 7px 11px;
@@ -89,13 +66,6 @@
           background-color: $white;
         }
         label {
-          font-size: 16px;
-          @media (max-width: 718px) {
-            font-size: 13px;
-          }
-          @media (max-width: 382px) {
-            font-size: 10px;
-          }
           span {
             color: $pink;
           }
@@ -104,11 +74,8 @@
     }
   }
 }
-.btn {
+.btn{
   margin-top: 7rem;
-  @media (max-width: 427px) {
-    margin-top: 3rem;
-  }
 }
 
 .user-notification {
@@ -117,14 +84,6 @@
   gap: 45px;
   align-items: center;
   width: fit-content;
-  @media (max-width: 821px) {
-    gap: 20px;
-  }
-  p {
-    @media (max-width: 718px) {
-      font-size: 14px;
-    }
-  }
 }
 
 .new-user-header {
@@ -133,13 +92,5 @@
     font-weight: 400;
     color: $pink;
     margin-bottom: 5px;
-    @media (max-width: 452px) {
-      font-size: 20px;
-    }
-  }
-  p {
-    @media (max-width: 718px) {
-      font-size: 14px;
-    }
   }
 }

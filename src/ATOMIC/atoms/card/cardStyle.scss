@@ -21,31 +21,7 @@
   p {
     margin: 0;
   }
-  // border-radius: 10px;
-  // width: 49%;
-  // height: fit-content;
-  @media (max-width:894px) {
-    width: 100%;
-    margin-bottom: 10px;
-  }
   @include general;
-}
-.card-light-green_md {
-  background-color: $white_green;
-  h3 {
-    margin: 0;
-  }
-  p {
-    margin: 0;
-  }
-  border-radius: 10px;
-  width: 45%;
-  height: fit-content;
-  @media (max-width:894px) {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-  // @include general;
 }
 
 .card-red {
@@ -56,31 +32,7 @@
   p {
     margin: 0;
   }
-  // border-radius: 10px;
-  // width: 49%;
-  // height: fit-content;
-  @media (max-width:894px) {
-    width: 100%;
-    margin-bottom: 10px;
-  }
   @include general;
-}
-.card-red_md {
-  background-color: $ox_blood;
-  h3 {
-    margin: 0;
-  }
-  p {
-    margin: 0;
-  }
-  border-radius: 10px;
-  width: 45%;
-  height: fit-content;
-  @media (max-width:894px) {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-  // @include general;
 }
 
 .card-black {

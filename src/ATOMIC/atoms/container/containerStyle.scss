@@ -24,7 +24,7 @@
   align-items: center;
   justify-content: space-between;
   height: fit-content;
-  @media (max-width:894px) {
+  @media (max-width:863px) {
     display: block;
   }
 }
@@ -49,9 +49,6 @@
   display: flex;
   align-items: center;
   gap: 35px;
-  @media (max-width:894px) {
-    gap: 20px;
-  }
   @media (max-width:487px) {
     gap: 25px;
   }

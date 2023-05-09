@@ -197,16 +197,9 @@ const clientSlice = createSlice({
         selectClient:(state, action) =>{
             const clientId = action.payload
             state.selectedClient = state.clients.find(client => client.id === clientId)
-        },
-        updateClient: (state, action) => {
-          const { id, ...updatedFields } = action.payload;
-          const clientIndex = state.findIndex((client) => client.id === id);
-          if (clientIndex >= 0) {
-            state[clientIndex] = { ...state[clientIndex], ...updatedFields };
-          }
-        },
+        }
     }
 })
 
-export const {selectClient, updateClient} = clientSlice.actions
+export const {selectClient} = clientSlice.actions
 export default clientSlice.reducer

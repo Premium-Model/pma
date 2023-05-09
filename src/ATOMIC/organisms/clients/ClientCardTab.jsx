@@ -8,13 +8,13 @@ const ClientCardTab = ({ client }) => {
   const schema = [
     {
       id: 1,
-      variant: "fill_light_green-md",
+      variant: "fill_light_green",
       txt_1: isVerified.length,
       desc: "Verified",
     },
     {
       id: 2,
-      variant: "fill_red-md",
+      variant: "fill_red",
       txt_1: notVerified.length,
       desc: "Not Verified",
     },
