@@ -5,6 +5,8 @@
   background-color: $white;
   padding: 20px 0;
   border-radius: 30px;
+  width: 100%;
+  overflow-x: scroll;
 }
 .table {
   @include mq($width: 888px) {

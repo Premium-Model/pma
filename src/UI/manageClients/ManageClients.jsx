@@ -10,6 +10,7 @@ const ManageClients = () => {
   const dispatch = useDispatch();
 
   const [client, setClient] = useState([]);
+  // console.log(client._id);
   const [isDelete, setIsDelete] = useState(false);
 
   const fetchAgency = useCallback(() => {

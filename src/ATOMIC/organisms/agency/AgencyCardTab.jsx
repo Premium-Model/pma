@@ -8,13 +8,13 @@ const AgencyCardTab = ({ agency }) => {
   const schema = [
     {
       id: 1,
-      variant: "fill_light_green",
+      variant: "fill_light_green-md",
       txt_1: isVerified.length,
       desc: "Verified",
     },
     {
       id: 2,
-      variant: "fill_red",
+      variant: "fill_red-md",
       txt_1: notVerified.length,
       desc: "Not Verified",
     },

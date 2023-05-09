@@ -105,19 +105,22 @@ const AddUser = () => {
             <label style={{ width: "200px" }}>
               Password <span>*</span>
             </label>
-            <input
+           {/* <label htmlFor=""> */}
+           <input
               type={visibility ? "text" : "password"}
               placeholder="password"
               name="password"
               required
               onChange={handleChange}
             />
-            <Button
+            toggle
+            {/* <Button
               variant="outlined"
               onClick={() => setVisibility(!visibility)}
             >
               {visibility ? "Hide" : "Show"}
-            </Button>
+            </Button> */}
+           {/* </label> */}
           </div>
         </div>
         <div className="user-notification">
