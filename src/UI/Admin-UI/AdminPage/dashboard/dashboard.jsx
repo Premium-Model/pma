@@ -116,7 +116,7 @@ const AdminDashboard = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    makeGet(dispatch, "/user/", setMessage);
+    makeGet(dispatch, "/user", setMessage);
   }, [setMessage, dispatch]);
   const reversedMessage = [...message].reverse();
 
@@ -126,6 +126,11 @@ const AdminDashboard = () => {
       setModel(resModel.data);
       const resClient = await userRequest.get("/client/clients");
       setClient(resClient.data);
+    };
+    return () => fetchData();
+  }, []);
+  useEffect(() => {
+    const fetchData = async () => {
       const resAgency = await userRequest.get("/agency/");
       setAgency(resAgency.data);
       const resBlog = await userRequest.get("/blog/blogs");

@@ -10,11 +10,11 @@ import {
   NavigateNextOutlined,
 } from "@mui/icons-material";
 
-const UserHeader = ({users}) => {
-  const navigate = useNavigate()
-  const modelLen = users.filter((user) => user.role === 'model')
-  const agencyLen = users.filter((user) => user.role === 'agency')
-  const clientLen = users.filter((user) => user.role === 'client')
+const UserHeader = ({ users, handleQuery }) => {
+  const navigate = useNavigate();
+  const modelLen = users.filter((user) => user.role === "model");
+  const agencyLen = users.filter((user) => user.role === "agency");
+  const clientLen = users.filter((user) => user.role === "client");
 
   const handleHistory = () => {
     navigate("/adminpage/users/add_user");
@@ -30,7 +30,7 @@ const UserHeader = ({users}) => {
     <div className="user-header">
       <Container variant="gapped">
         <Button variant="transparent">Users</Button>
-        <Button variant="outlined" onClick={handleHistory} >
+        <Button variant="outlined" onClick={handleHistory}>
           Add New
         </Button>
       </Container>
@@ -47,7 +47,12 @@ const UserHeader = ({users}) => {
             );
           })}
         </Container>
-        <Button variant="outlined">Search user</Button>
+
+        <input
+          placeholder="Search for user by email..."
+          onChange={handleQuery}
+          style={{ padding: "15px", borderRadius: "10px" }}
+        />
       </Container>
       <Container variant="flex-around">
         <Button variant="transparent">Apply</Button>
