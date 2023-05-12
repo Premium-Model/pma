@@ -80,6 +80,7 @@ export const makeEdit = async (dispatch, url, inputs) => {
     await userRequest.put(url, inputs);
     dispatch(processSuccess());
     toast.success("Data uploaded successfully.");
+    alert("Data uploaded successfully.");
     window.location.reload();
   } catch (err) {
     dispatch(processFailure());

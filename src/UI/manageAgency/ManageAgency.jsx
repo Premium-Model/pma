@@ -11,15 +11,20 @@ const ManageAgency = () => {
 
   const [agency, setAgency] = useState([]);
   const [isDelete, setIsDelete] = useState(false);
+  const [query, setQuery] = useState("");
 
-  const fetchAgency = useCallback(() => {
-    makeGet(dispatch, "/agency", setAgency);
-  }, [dispatch]);
+  const handleQuery = (e) => {
+    setQuery(e.target.value.toLowerCase());
+  };
+
+  const fetchAgency = () => {
+    makeGet(dispatch, `/agency/?agency=${query}`, setAgency);
+  };
 
   useEffect(() => {
     const unsubscribe = fetchAgency();
     return () => unsubscribe;
-  }, [isDelete]);
+  }, [isDelete, query]);
 
   return (
     <Container variant="normal">
@@ -30,6 +35,7 @@ const ManageAgency = () => {
             agency={agency}
             isDelete={isDelete}
             setIsDelete={setIsDelete}
+            handleQuery={handleQuery}
           />
         </Layout>
       </Container>

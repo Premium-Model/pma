@@ -2,37 +2,35 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "mui-image";
 import Button from "../../ATOMIC/atoms/button/Button";
-import '../../UI/users/user.scss';
+import "../../UI/users/user.scss";
 import { useLocation } from "react-router-dom";
-import { makeGet } from "../../redux/apiCalls";
+import { makeEdit, makeGet } from "../../redux/apiCalls";
 import "./edit.scss";
-import avatar from '../../Images/img/avatar.svg'
+import avatar from "../../Images/img/avatar.svg";
+import moment from "moment";
 
-
-
-const EditAgency = () => {
+const Editclient = () => {
   const dispatch = useDispatch();
+  const { isFetching } = useSelector((state) => state.process);
   const location = useLocation();
   const path = location.pathname.split("/")[3];
 
   const [isVisible, setIsVisible] = useState(true);
-  const [agency, setAgency] = useState({});
-  // const [editClient, setEditClient] = useSt
+  const [client, setClient] = useState({});
+  const [inputs, setInputs] = useState({});
+  const [processing, setProcessing] = useState(false);
 
   const fetchClient = useCallback(() => {
-    makeGet(dispatch, `/agency/${path}`, setAgency);
+    makeGet(dispatch, `/user/${path}`, setClient);
   }, [dispatch, path]);
+  console.log(client);
 
   useEffect(() => {
     let unsubscribe = fetchClient();
     return () => unsubscribe;
   }, []);
 
-
   // update a user info
-  const [inputs, setInputs] = useState({});
-  const [processing, setProcessing] = useState(false);
-
   const handleChange = (e) => {
     setInputs((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
@@ -41,146 +39,168 @@ const EditAgency = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    makeEdit(dispatch, `/admin/${path}/edit-user`, { ...inputs });
   };
-
-  // automatically logout a user when session expires
-  // const userA = useSelector((state) => state.user.currentUser);
-
-  // const handleLogout = () => {
-  //   userLogout(dispatch);
-  // };
-
 
   return (
     <>
-    <div className="user">
-      <div className="userTitleContainer">
-        <h1 className="userTitle">Edit User</h1>
-      </div>
-      <div className="userContainer">
-        <div className="userShow">
-          <div className="userShowTop">
-            <Image
-            width={90}
-            height={90}
-              src={agency.picture ? agency.picture : avatar}
-              alt=""
-              className="userShowImg"
-            />
-            <div className="userShowTopTitle">
-              <span className="userShowUsername">{agency.fullName}</span>
-              {/* <span className="userShowUserTitle">{agency.country}</span> */}
+      <div className="user">
+        <div className="userTitleContainer">
+          <h1 className="userTitle">Edit User</h1>
+        </div>
+        <div className="userContainer">
+          <div className="userShow">
+            <div className="userShowTop">
+              <Image
+                width={90}
+                height={90}
+                src={client?.picture ? client?.picture : avatar}
+                alt=""
+                className="userShowImg"
+              />
+              <div className="userShowTopTitle">
+                <span className="userShowUsername">
+                  {client?.firstName} {client?.lastName}
+                </span>
+              </div>
+            </div>
+            <div className="userShowBottom">
+              <span className="userShowTitle">User Details</span>
+              <div className="userShowInfo">
+                <span className="userShowInfoTitle">
+                  {client?.firstName} {client?.lastName}
+                </span>
+              </div>
+
+              <div className="userShowInfo">
+                <span className="userShowInfoTitle">
+                  Date joined: {moment(client?.createdAt).format("DD-MM-YYYY")}
+                </span>
+              </div>
+              <div className="userShowInfo">
+                {/* <Wc className="userShowIcon" /> */}
+                <span className="userShowInfoTitle">{client.country}</span>
+              </div>
+              <span className="userShowTitle">Contact Details</span>
+              <div className="userShowInfo">
+                <span className="userShowInfoTitle">{client?.email}</span>
+              </div>
             </div>
           </div>
-          <div className="userShowBottom">
-            <span className="userShowTitle">User Details</span>
-            <div className="userShowInfo">
-              {/* <PermIdentity className="userShowIcon" /> */}
-              <span className="userShowInfoTitle">{agency.fullName}</span>
-            </div>
-            
-            <div className="userShowInfo">
-              {/* <CalendarToday className="userShowIcon" /> */}
-              <span className="userShowInfoTitle">
-                {/* {dateformat(user.createdAt, "mmmm dd yyyy")} */}
-              </span>
-            </div>
-            <div className="userShowInfo">
-              {/* <Wc className="userShowIcon" /> */}
-              <span className="userShowInfoTitle">{agency.country}</span>
-            </div>
-            <span className="userShowTitle">Contact Details</span>
-            <div className="userShowInfo">
-              {/* <PhoneAndroid className="userShowIcon" /> */}
-              <span className="userShowInfoTitle">{agency.category}</span>
-            </div>
-            <div className="userShowInfo">
-              {/* <MailOutline className="userShowIcon" /> */} 
-              <span className="userShowInfoTitle">{agency.email}</span>
-            </div>
+          <div className="userUpdate">
+            <span className="userUpdateTitle">Edit</span>
+            <form className="userUpdateForm" onSubmit={handleSubmit}>
+              <div className="userUpdateLeft">
+                <div className="userUpdateItem">
+                  <label>First Name</label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    defaultValue={client.firstName}
+                    className="userUpdateInput"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="userUpdateItem">
+                  <label>Last Name</label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    defaultValue={client.lastName}
+                    className="userUpdateInput"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="userUpdateItem">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    defaultValue={client.email}
+                    className="userUpdateInput"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="userUpdateItem">
+                  <label>Phone Number</label>
+                  <input
+                    type="text"
+                    name="phoneNumber"
+                    defaultValue={client.mobileNo}
+                    className="userUpdateInput"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="userUpdateItem">
+                  <label>User verified</label>
+                  <select
+                    name="isVerified"
+                    id=""
+                    className="userUpdateInput"
+                    onChange={handleChange}
+                  >
+                    <option defaultValue={client?.isVerified}>
+                      {client?.isVerified ? "Yes" : "No"}
+                    </option>
+                    <option value={true}>Yes</option>
+                    <option value={false}>No</option>
+                  </select>
+                </div>
+                <div className="userUpdateItem">
+                  <label>User Updated</label>
+                  <select
+                    name="isUpdated"
+                    id=""
+                    className="userUpdateInput"
+                    onChange={handleChange}
+                  >
+                    <option defaultValue={client?.isUpdated}>
+                      {client?.isUpdated ? "Yes" : "No"}
+                    </option>
+                    <option value={true}>Yes</option>
+                    <option value={false}>No</option>
+                  </select>
+                </div>
+              </div>
+              <div className="userUpdateRight">
+                <div className="userUpdateUpload">
+                  <img
+                    className="userUpdateImg"
+                    src={client.picture ? client.picture : avatar}
+                    alt=""
+                  />
+                  <label htmlFor="file">
+                    {/* <Publish className="userUpdateIcon" /> */}
+                  </label>
+                  <input type="file" id="file" style={{ display: "none" }} />
+                </div>
+
+                <div className="userUpdateItem">
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    name="password"
+                    className="userUpdateInput"
+                    placeholder="********"
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <br />
+                <Button
+                  variant="normal"
+                  className="userUpdateButton"
+                  type="submit"
+                  disabled={isFetching}
+                >
+                  {isFetching ? "Please wait..." : "Update"}
+                </Button>
+              </div>
+            </form>
           </div>
         </div>
-        <div className="userUpdate">
-          <span className="userUpdateTitle">Edit</span>
-          <form className="userUpdateForm" onSubmit={handleSubmit}>
-            <div className="userUpdateLeft">
-              <div className="userUpdateItem">
-                <label>Username</label>
-                <input
-                  type="text"
-                  name="username"
-                  placeholder={agency.username}
-                  className="userUpdateInput"
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="userUpdateItem">
-                <label>Full Name</label>
-                <input
-                  type="text"
-                  name="fullName"
-                  placeholder={agency.fullName}
-                  className="userUpdateInput"
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="userUpdateItem">
-                <label>Email</label>
-                <input
-                  type="text"
-                  name="email"
-                  placeholder={agency.username}
-                  className="userUpdateInput"
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="userUpdateItem">
-                <label>Phone</label>
-                <input
-                  type="text"
-                  name="phoneNumber"
-                  placeholder={agency.phoneNumber}
-                  className="userUpdateInput"
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="userUpdateItem">
-                <label>Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  className="userUpdateInput"
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-            <div className="userUpdateRight">
-              <div className="userUpdateUpload">
-                <img
-                  className="userUpdateImg"
-                  src={agency.picture ? agency.picture : avatar}
-                  alt=""
-                />
-                <label htmlFor="file">
-                  {/* <Publish className="userUpdateIcon" /> */}
-                </label>
-                <input type="file" id="file" style={{ display: "none" }} />
-              </div>
-              <br />
-              <Button
-              variant="normal"
-                className="userUpdateButton"
-                type="submit"
-                disabled={processing}
-              >
-                Update
-              </Button>
-            </div>
-          </form>
-        </div>
       </div>
-    </div>
     </>
   );
 };
-export default EditAgency;
+export default Editclient;

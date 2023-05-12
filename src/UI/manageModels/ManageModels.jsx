@@ -12,22 +12,27 @@ const ManageModels = () => {
 
   const [models, setModels] = useState([]);
   const [isDelete, setIsDelete] = useState(false);
+  const [query, setQuery] = useState("");
 
-  const fetchModel = useCallback(() => {
-    makeGet(dispatch, "/model/models", setModels);
-  }, [dispatch]);
+  const handleQuery = (e) => {
+    setQuery(e.target.value.toLowerCase());
+  };
+
+  const fetchModel = () => {
+    makeGet(dispatch, `/model/models/?model=${query}`, setModels);
+  };
 
   useEffect(() => {
     const unsubscribe = fetchModel();
     return () => unsubscribe;
-  }, [isDelete]);
+  }, [isDelete, query]);
 
   return (
     <Container variant="normal">
       <Container variant="container_fit">
         <Layout>
           <ModelsCardTab models={models} />
-          <ModelsTable models={models} isDelete={isDelete} setIsDelete={setIsDelete} /> 
+          <ModelsTable models={models} isDelete={isDelete} setIsDelete={setIsDelete} handleQuery={handleQuery} /> 
         </Layout>
       </Container>
     </Container>

@@ -7,18 +7,21 @@ import "./table.scss";
 import avatar from "../../../Images/img/avatar.svg";
 import Modal from "../modal/Modal";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const UserDataTable = ({ data, setIsDelete, isDelete }) => {
-
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [dataId, setDataId] = useState("");
 
   const handleDelete = async (id) => {
     await userRequest.delete(`/user/${id}`);
     setIsDelete(!isDelete);
+    setIsModalOpen(false);
   };
 
-  const handleOpenModal = () => {
+  const handleOpenModal = (id) => {
     setIsModalOpen(true);
+    setDataId(id);
   };
 
   const handleCloseModal = () => {
@@ -28,15 +31,14 @@ const UserDataTable = ({ data, setIsDelete, isDelete }) => {
   return (
     <div className="table_container">
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-        <p className="modal-text">Are you sure you want to delete this user?</p>
+        <p className="modal-text">
+          Are you sure you want to delete this user? Action cannot be undone!
+        </p>
         <div className="btn-group">
           <Button variant="outlined" onClick={handleCloseModal}>
             Cancel
           </Button>
-          <Button
-            variant="secondary"
-            onClick={() => handleDelete(data._id)}
-          >
+          <Button variant="secondary" onClick={() => handleDelete(dataId)}>
             delete
           </Button>
         </div>
@@ -91,12 +93,23 @@ const UserDataTable = ({ data, setIsDelete, isDelete }) => {
                 <td>{item.email}</td>
                 <td>{item.role}</td>
                 <td>
-                  <Button variant="transparent">edit</Button>
+                  <Link
+                    to={
+                      item.role === "model"
+                        ? `/adminpage/manage_models/${item._id}`
+                        : item.role === "agency"
+                        ? `/adminpage/manage_agency/${item._id}`
+                        : `/adminpage/manage_clients/${item._id}`
+                    }
+                    variant="transparent"
+                  >
+                    edit
+                  </Link>
                 </td>
                 <td>
                   <Button
                     variant="transparent"
-                    onClick={handleOpenModal}
+                    onClick={() => handleOpenModal(item._id)}
                   >
                     delete
                   </Button>

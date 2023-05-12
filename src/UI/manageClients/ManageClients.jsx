@@ -10,17 +10,21 @@ const ManageClients = () => {
   const dispatch = useDispatch();
 
   const [client, setClient] = useState([]);
-  // console.log(client._id);
   const [isDelete, setIsDelete] = useState(false);
+  const [query, setQuery] = useState("");
 
-  const fetchAgency = useCallback(() => {
-    makeGet(dispatch, "/client/clients", setClient);
-  }, [dispatch]);
+  const handleQuery = (e) => {
+    setQuery(e.target.value.toLowerCase());
+  };
+
+  const fetchAgency = () => {
+    makeGet(dispatch, `/client/clients/?client=${query}`, setClient);
+  };
 
   useEffect(() => {
     const unsubscribe = fetchAgency();
     return () => unsubscribe;
-  }, [isDelete]);
+  }, [isDelete, query]);
 
   return (
     <Container variant="normal">
@@ -31,6 +35,7 @@ const ManageClients = () => {
             client={client}
             isDelete={isDelete}
             setIsDelete={setIsDelete}
+            handleQuery={handleQuery}
           />
         </Layout>
       </Container>

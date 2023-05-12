@@ -6,23 +6,29 @@ import { makeGet } from "../../redux/apiCalls";
 
 const Users = () => {
   const dispatch = useDispatch();
+
   const [users, setUsers] = useState([]);
   const [isDelete, setIsDelete] = useState(false);
+  const [query, setQuery] = useState("");
 
-  const fetchUsers = useCallback(() => {
-    makeGet(dispatch, "/user", setUsers);
-  }, [dispatch]);
+  const handleQuery = (e) => {
+    setQuery(e.target.value.toLowerCase());
+  };
+
+  const fetchUsers = () => {
+    makeGet(dispatch, `/user/?user=${query}`, setUsers);
+  };
 
   useEffect(() => {
     let unsubscribe = fetchUsers();
     return () => unsubscribe;
-  }, [isDelete]);
+  }, [isDelete, query]);
 
   const reverse = [...users].reverse();
 
   return (
     <div>
-      <UserHeader users={users} />
+      <UserHeader users={users} handleQuery={handleQuery} />
       <UserTable
         reverse={reverse}
         isDelete={isDelete}

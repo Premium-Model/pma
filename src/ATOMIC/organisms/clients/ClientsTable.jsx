@@ -14,7 +14,7 @@ import { userRequest } from "../../../redux/requestMethod";
 import Modal from "../../molecules/modal/Modal";
 import "../../molecules/modal/modal.scss";
 
-const ClientsTable = ({ client, isDelete, setIsDelete }) => {
+const ClientsTable = ({ client, isDelete, setIsDelete, handleQuery }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
 
@@ -33,8 +33,8 @@ const ClientsTable = ({ client, isDelete, setIsDelete }) => {
     setIsDelete(!isDelete);
   };
 
+  const reverseClient = [...client].reverse()
   const rowsToDisplay = client.slice(startIndex, endIndex);
-  console.log(rowsToDisplay);
 
   const handleNextClick = () => {
     if (currentPage < totalPages) {
@@ -75,6 +75,7 @@ const ClientsTable = ({ client, isDelete, setIsDelete }) => {
     const randomClient = rowsToDisplay[randomIndex];
     const randomId = randomClient._id;
     handleDelete(randomId)
+    setIsModalOpen(false);
   }
 
   const handleSelectedClient = (id) => {
@@ -111,6 +112,7 @@ const ClientsTable = ({ client, isDelete, setIsDelete }) => {
             pageSize={pageSize}
             handlePageSizeChange={handlePageSizeChangeFromInput}
             totalRows={totalRows}
+            handleQuery={handleQuery}
           />
           <div className="table">
             <table className="data-table">
@@ -128,7 +130,7 @@ const ClientsTable = ({ client, isDelete, setIsDelete }) => {
               <tbody>
                 {rowsToDisplay !== 0 ? (
                   <>
-                    {rowsToDisplay.map((item, i) => {
+                    {reverseClient.map((item, i) => {
                       return (
                         <tr key={i}>
                           <td>{i + 1}</td>
@@ -157,7 +159,7 @@ const ClientsTable = ({ client, isDelete, setIsDelete }) => {
                             {item.fullName}
                           </td>
                           <td style={{ width: "150px", textAlign: "center" }}>
-                            <Link to={`/adminpage/manage_clients/${item._id}`}>
+                            <Link to={`/adminpage/manage_clients/${item.uuid}`}>
                               <Button
                                 variant="primary"
                                 onClick={() => handleSelectedClient(item._id)}
