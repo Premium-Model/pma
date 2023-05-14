@@ -4,28 +4,30 @@ import "../../UI/users/user.scss";
 import { useLocation } from "react-router-dom";
 import avatar from "../../Images/img/avatar.svg";
 import Button from "../../ATOMIC/atoms/button/Button";
-import { updateAgency } from "../../redux/agencyRedux";
-import { useDispatch } from "react-redux";
-import { makeGet, update } from "../../redux/apiCalls";
-import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import { useDispatch, useSelector } from "react-redux";
+import { makeEdit, makeGet } from "../../redux/apiCalls";
 import React, { useCallback, useEffect, useState } from "react";
+import moment from "moment";
 
 const EditAgency = () => {
   const dispatch = useDispatch();
+  const { isFetching } = useSelector((state) => state.process);
   const location = useLocation();
   const path = location.pathname.split("/")[3];
 
   // states
   const [processing, setProcessing] = useState(false);
+  const [inputs, setInputs] = useState({});
   const [agency, setAgency] = useState({});
-  const [msg, setMsg] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [photoUrl, setPhotoUrl] = useState("");
-  const [password, setPassword] = useState("");
+
+  const handleChange = (e) => {
+    setInputs((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
+  };
 
   const fetchClient = useCallback(() => {
-    makeGet(dispatch, `/agency/${path}`, setAgency);
+    makeGet(dispatch, `/user/${path}`, setAgency);
   }, [dispatch, path]);
 
   useEffect(() => {
@@ -36,17 +38,7 @@ const EditAgency = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const updatedAgency = { name, email, photoUrl, password };
-
-    try {
-      const url = `/agency/${agency._id}`;
-      await update(dispatch, url, updatedAgency, setMsg);
-      // handle success
-    } catch (error) {
-      console.log(error);
-      // handle error
-    }
+    makeEdit(dispatch, `/admin/${path}/edit-user`, { ...inputs });
   };
 
 
@@ -79,126 +71,165 @@ const EditAgency = () => {
         <div className="userTitleContainer">
           <h1 className="userTitle">Edit User</h1>
         </div>
-        <div>{msg && <p>{msg}</p>}</div>
         <div className="userContainer">
           <div className="userShow">
             <div className="userShowTop">
               <Image
                 width={90}
                 height={90}
-                src={agency.picture ? agency.picture : avatar}
+                src={agency?.picture ? agency?.picture : avatar}
                 alt=""
                 className="userShowImg"
               />
               <div className="userShowTopTitle">
-                <span className="userShowUsername">{agency.fullName}</span>
+                <span className="userShowUsername">
+                  {agency?.agency?.fullName}
+                </span>
               </div>
             </div>
             <div className="userShowBottom">
               <span className="userShowTitle">User Details</span>
               <div className="userShowInfo">
                 <p>Full name</p>
-                <span className="userShowInfoTitle">{agency.fullName}</span>
+                <span className="userShowInfoTitle">
+                  {agency?.agency?.fullName}
+                </span>
               </div>
+
               <div className="userShowInfo">
                 <p>Email</p>
-                <span className="userShowInfoTitle">{agency.email}</span>
+                <span className="userShowInfoTitle">{agency?.email}</span>
+              </div>
+              <div className="userShowInfo">
+                <span className="userShowInfoTitle">
+                  Date joined: {moment(agency?.createdAt).format("DD-MM-YYYY")}
+                </span>
               </div>
             </div>
           </div>
+
           <div className="userUpdate">
             <span className="userUpdateTitle">Edit</span>
             <form className="userUpdateForm" onSubmit={handleSubmit}>
               <div className="userUpdateLeft">
                 <div className="userUpdateItem">
-                  <label>Full Name</label>
+                  <label>First Name</label>
                   <input
-                    required
                     type="text"
-                    name="fullName"
-                    placeholder={agency.fullName}
+                    name="firstName"
+                    defaultValue={agency?.firstName}
                     className="userUpdateInput"
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="userUpdateItem">
+                  <label>Last Name</label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    defaultValue={agency?.lastName}
+                    className="userUpdateInput"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="userUpdateItem">
                   <label>Email</label>
                   <input
-                    required
                     type="text"
                     name="email"
-                    placeholder={agency.email}
+                    defaultValue={agency.email}
                     className="userUpdateInput"
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={handleChange}
                   />
+                </div>
+                <div className="userUpdateItem">
+                  <label>Phone Number</label>
+                  <input
+                    type="tel"
+                    name="mobileNo"
+                    className="userUpdateInput"
+                    defaultValue={agency?.mobileNo}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="userUpdateItem">
+                  <label>User verified</label>
+                  <select
+                    name="isVerified"
+                    id=""
+                    className="userUpdateInput"
+                    onChange={handleChange}
+                  >
+                    <option defaultValue={agency?.isVerified}>
+                      {agency?.isVerified ? "Yes" : "No"}
+                    </option>
+                    <option value={true}>Yes</option>
+                    <option value={false}>No</option>
+                  </select>
+                </div>
+                <div className="userUpdateItem">
+                  <label>User Updated</label>
+                  <select
+                    name="isUpdated"
+                    id=""
+                    className="userUpdateInput"
+                    onChange={handleChange}
+                  >
+                    <option defaultValue={agency?.isUpdated}>
+                      {agency?.isUpdated ? "Yes" : "No"}
+                    </option>
+                    <option value={true}>Yes</option>
+                    <option value={false}>No</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="userUpdateRight">
+              <div className="userUpdateUpload">
+                  <img
+                    className="userUpdateImg"
+                    src={agency?.picture ? agency?.picture : avatar}
+                    alt=""
+                  />
+                  <label htmlFor="file">
+                    {/* <Publish className="userUpdateIcon" /> */}
+                  </label>
+                  <input type="file" id="file" style={{ display: "none" }} />
+                </div>
+
+                <div className="userUpdateItem">
+                  <label>User Subscribed</label>
+                  <select
+                    name="isSubscribed"
+                    id=""
+                    className="userUpdateInput"
+                    onChange={handleChange}
+                  >
+                    <option defaultValue={agency?.isSubscribed}>
+                      {agency?.isSubscribed ? "Yes" : "No"}
+                    </option>
+                    <option value={true}>Yes</option>
+                    <option value={false}>No</option>
+                  </select>
                 </div>
                 <div className="userUpdateItem">
                   <label>Password</label>
                   <input
-                    required
                     type="password"
                     name="password"
                     className="userUpdateInput"
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={handleChange}
                     autoComplete="off"
                     placeholder="*******"
                   />
                 </div>
-                <div className="userUpdateHidden">
-                  {/* <div className="userUpdateRight"> */}
-                  <div className="userUpdateUpload">
-                    <img
-                      className="userUpdateImg"
-                      src={agency.picture ? agency.picture : avatar}
-                      alt=""
-                    />
-                    <label htmlFor="file">
-                      {/* <Publish className="userUpdateIcon" /> */}
-                    </label>
-                    <input type="file" id="file" style={{ display: "none" }} />
-                  </div>
-                  <br />
 
-                  <Button variant="normal" type="submit" disabled={processing}>
-                    Update
-                  </Button>
-                  {/* </div> */}
-                </div>
-              </div>
-              <div className="userUpdateRight">
-                <div className="userUpdateUpload">
-                  <div
-                    style={{ position: "relative", display: "inline-block" }}
-                  >
-                    <label htmlFor="file" style={{ cursor: "pointer" }}>
-                      <img
-                        className="userUpdateImg"
-                        src={agency.picture ? agency.picture : avatar}
-                        alt=""
-                      />
-                      <div
-                        style={{
-                          position: "absolute",
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                      >
-                        {/* <AddAPhotoIcon/> */}
-                        <span style={{ color: "white" }}>select img</span>
-                      </div>
-                    </label>
-                    <input type="file" id="file" style={{ display: "none" }} />
-                  </div>
-                </div>
+
+
                 <br />
                 <div className="userUpdateButton">
-                  <Button variant="normal" type="submit" disabled={processing}>
-                    Update
+                  <Button variant="normal" type="submit" disabled={isFetching}>
+                    {isFetching ? "Please wait..." : "Update"}
                   </Button>
                 </div>
               </div>

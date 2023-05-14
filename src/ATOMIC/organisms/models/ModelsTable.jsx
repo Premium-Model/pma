@@ -12,7 +12,7 @@ import { userRequest } from "../../../redux/requestMethod";
 import Modal from "../../molecules/modal/Modal";
 import "../../molecules/modal/modal.scss";
 
-const ModelsTable = ({ models, isDelete, setIsDelete }) => {
+const ModelsTable = ({ models, isDelete, setIsDelete, handleQuery }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
 
@@ -31,7 +31,8 @@ const ModelsTable = ({ models, isDelete, setIsDelete }) => {
     setIsDelete(!isDelete);
   };
 
-  const rowsToDisplay = models?.slice(startIndex, endIndex);
+  const reverseModel = [...models].reverse()
+  const rowsToDisplay = reverseModel?.slice(startIndex, endIndex);
   
 
   const handleNextClick = () => {
@@ -73,6 +74,7 @@ const ModelsTable = ({ models, isDelete, setIsDelete }) => {
     const randomModel = rowsToDisplay[randomIndex];
     const randomId = randomModel._id;
     handleDelete(randomId)
+    setIsModalOpen(false);
   }
 
   const handleSelectedModel = (id) => {
@@ -108,6 +110,7 @@ const ModelsTable = ({ models, isDelete, setIsDelete }) => {
           pageSize={pageSize}
           handlePageSizeChange={handlePageSizeChangeFromInput}
           totalRows={totalRows}
+          handleQuery={handleQuery}
         />
         <table className="data-table">
           <thead>
@@ -162,7 +165,7 @@ const ModelsTable = ({ models, isDelete, setIsDelete }) => {
                   </div>
                 </td>
                 <td style={{ width: "150px", textAlign: "center" }}>
-                  <Link to={`/adminpage/manage_models/${item._id}`}>
+                  <Link to={`/adminpage/manage_models/${item.uuid}`}>
                     <Button
                       variant="primary"
                       onClick={() => handleSelectedModel(item._id)}

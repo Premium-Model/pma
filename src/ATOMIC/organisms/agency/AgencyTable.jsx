@@ -12,7 +12,7 @@ import { userRequest } from "../../../redux/requestMethod";
 import Modal from "../../molecules/modal/Modal";
 import "../../molecules/modal/modal.scss";
 
-const AgencyTable = ({ agency, isDelete, setIsDelete }) => {
+const AgencyTable = ({ agency, isDelete, setIsDelete, handleQuery }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
 
@@ -31,6 +31,7 @@ const AgencyTable = ({ agency, isDelete, setIsDelete }) => {
     setIsDelete(!isDelete);
   };
 
+  const reverseAgency = [...agency].reverse()
   const rowsToDisplay = agency.slice(startIndex, endIndex);
 
   const handleNextClick = () => {
@@ -72,6 +73,7 @@ const AgencyTable = ({ agency, isDelete, setIsDelete }) => {
     const randomAgent = rowsToDisplay[randomIndex];
     const randomId = randomAgent._id;
     handleDelete(randomId)
+    setIsModalOpen(false);
   }
 
   const handleSelectedAgency = (id) => {
@@ -107,6 +109,7 @@ const AgencyTable = ({ agency, isDelete, setIsDelete }) => {
           pageSize={pageSize}
           handlePageSizeChange={handlePageSizeChangeFromInput}
           totalRows={totalRows}
+          handleQuery={handleQuery}
         />
         <table className="data-table">
           <thead>
@@ -121,7 +124,7 @@ const AgencyTable = ({ agency, isDelete, setIsDelete }) => {
             </tr>
           </thead>
           <tbody>
-            {rowsToDisplay.map((item, i) => {
+            {reverseAgency.map((item, i) => {
               return (
                 <tr key={i}>
                   <td>{i + 1}</td>
@@ -150,7 +153,7 @@ const AgencyTable = ({ agency, isDelete, setIsDelete }) => {
                     {item.fullName}
                   </td>
                   <td style={{ width: "150px", textAlign: "center" }}>
-                    <Link to={`/adminpage/manage_agency/${item._id}`}>
+                    <Link to={`/adminpage/manage_agency/${item.uuid}`}>
                       <Button
                         variant="primary"
                         onClick={() => handleSelectedAgency(item._id)}
