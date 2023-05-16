@@ -6,7 +6,7 @@ import Write from "./Write";
 import { makeGet } from "../../../redux/apiCalls";
 import { useDispatch } from "react-redux";
 
-const Blogs = ({isWrite, setIsWrite}) => {
+const Blogs = ({ isWrite, setIsWrite }) => {
   const dispatch = useDispatch();
   const [posts, setPosts] = useState([]);
   // const [isWrite, setIsWrite] = useState(false);
@@ -28,7 +28,6 @@ const Blogs = ({isWrite, setIsWrite}) => {
     return doc.body.textContent;
   };
 
-
   return (
     <div className="home">
       <button className="newBlog" onClick={() => setIsWrite(!isWrite)}>
@@ -42,14 +41,17 @@ const Blogs = ({isWrite, setIsWrite}) => {
             <div className="post" key={index}>
               {post.photo && (
                 <div className="img">
-                  <img src={post.photo} alt=""  />
+                  <img src={post.photo} alt="" />
                 </div>
               )}
               <div className="content">
                 <Link className="link" to={`/adminpage/post/${post._id}`}>
                   <h1>{post.title}</h1>
                 </Link>
-                <p>{getText(post.text)}</p>
+                {post?.text && <p>{getText(post?.text)}</p>}
+                {post?.paragraphs?.slice(0, 1).map((item, index) => (
+                  <p key={index}>{getText(item?.text)}</p>
+                ))}
                 <Link className="link" to={`/adminpage/post/${post._id}`}>
                   <button>Read More</button>
                 </Link>
