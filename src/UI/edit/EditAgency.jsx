@@ -34,13 +34,13 @@ const EditAgency = () => {
     let unsubscribe = fetchClient();
     return () => unsubscribe;
   }, []);
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     makeEdit(dispatch, `/admin/${path}/edit-user`, { ...inputs });
   };
 
-  // how do i use the above code to update users info  and display the success message on success in another component?
 
   // handle input change function
   // const handleChange = (event) => {
