@@ -49,13 +49,13 @@ const Single = ({ setIsWrite, isWrite }) => {
             <p>Posted {moment(post?.createdAt).fromNow()}</p>
           </div>
           <div className="edit">
-            {/* <Link
+            <Link
               to={`/adminpage/posts?_id=${post._id}`}
               state={post}
               onClick={() => setIsWrite(!isWrite)}
             >
               <img src={Edit} alt="" />
-            </Link> */}
+            </Link>
             <img onClick={handleDelete} src={Delete} alt="" />
           </div>
         </div>

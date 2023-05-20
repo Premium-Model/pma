@@ -51,7 +51,7 @@ const SubscriptionTable = () => {
               <th>DURATION</th>
               <th>GATEWAY</th>
               <th>TRANSACTION ID</th>
-              <th>STATUS</th>
+              {/* <th>STATUS</th> */}
               <th>DATE</th>
             </tr>
           </thead>
@@ -66,19 +66,19 @@ const SubscriptionTable = () => {
                   <td>365d</td>
                   <td>Paystack</td>
                   <td>{item._id}</td>
-                  <td>
+                  {/* <td>
                     <Button variant="blur">
                       {item.isApproved ? "Verified" : "Pending"}
                     </Button>
-                    {/* {!item.isApproved && (
+                    {!item.isApproved && (
                       <Button
                         variant="blur"
                         onClick={() => handleApprovePayment(item._id)}
                       >
                         Approve payment
                       </Button>
-                    )} */}
-                  </td>
+                    )}
+                  </td> */}
                   <td>{moment(item.createdAt).format("DD-MM-YYYY")}</td>
                   {/* <td>
                     <Button

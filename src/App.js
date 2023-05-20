@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "./redux/apiCalls";
 import Single from "./UI/Admin-UI/Blog/Single";
 import Spinner from "./ATOMIC/atoms/spinner/Spinner";
+import GenerateInvoice from "./UI/subscriptions/GenerateInvoice";
 const LoginForm = lazy(() => import("./Pages/LoginSignup/Login/Login-Form"));
 const AdminDashboard = lazy(() =>
   import("./UI/Admin-UI/AdminPage/dashboard/dashboard")
@@ -172,6 +173,14 @@ const App = () => {
               element: (
                 <Suspense fallback={<Spinner/>}>
                   <Subscription />
+                </Suspense>
+              ),
+            },
+            {
+              path: "add-subscription/:id",
+              element: (
+                <Suspense fallback={<Spinner/>}>
+                  <GenerateInvoice />
                 </Suspense>
               ),
             },

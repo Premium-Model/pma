@@ -88,11 +88,6 @@ const Write = () => {
               <img src={state?.photo || URL.createObjectURL(photo)} alt="" />
             )}
             <BundledEditor setParagraph={setParagraph} paragraph={paragraph} />
-            {/* <textarea
-            className="editor"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-          /> */}
           </div>
         </div>
         <div className="menu">
