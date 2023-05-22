@@ -37,9 +37,12 @@ import profileImage from "../../../Images/img/slider3.jpg";
 import { useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router";
 import { useEffect } from "react";
+import Notification from "../../Notification/Notification";
 // [END]
 
 const AdminPage = ({ showNavbar, setShowNavbar }) => {
+  const [toggleNotice, setToggleNotice] = useState(false); //--> toggle Notification open or close
+
   // Using Hooks  --> [START]
   useEffect(() => {
     setShowNavbar(false);
@@ -93,7 +96,7 @@ const AdminPage = ({ showNavbar, setShowNavbar }) => {
   // Image Component -> (Topbar Component) --> [START]
   const image = (
     <div className="profile_image">
-      <img src={profileImage} alt="profile-pic" />
+      <img src='/images/fav-icon.png' alt="profile-pic" />
     </div>
   );
   //   [END]
@@ -117,12 +120,20 @@ const AdminPage = ({ showNavbar, setShowNavbar }) => {
             lastItem={image}
             sidebarVisibility={sidebarVisibility}
             setSidebarVisibility={setSidebarVisibility}
+            setToggleNotice={setToggleNotice}
           />
           {/* [END] */}
 
           {/* Render The Current Sidebar Navigation Link --> [START] */}
           <Outlet />
           {/* [END] */}
+
+          <Notification
+              toggleNotice={toggleNotice}
+              setToggleNotice={setToggleNotice}
+              // notice={notice}
+              // setNotice={setNotice}
+            />
         </main>
       </div>
     )

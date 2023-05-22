@@ -125,14 +125,20 @@ const Editmodel = () => {
                 </span>
               </div>
               <div className="userShowInfo">
-              <Button
+                <Button
                   variant="normal"
                   className="userUpdateButton"
                   type="submit"
                   disabled={isFetching}
                 >
-                  <a href={`/adminpage/add-subscription/${model?.model?.uuid}`} style={{color:"white"}} >Add new subscription</a>
-                </Button></div>
+                  <a
+                    href={`/adminpage/add-subscription/${model?.model?.uuid}`}
+                    style={{ color: "white" }}
+                  >
+                    Add new subscription
+                  </a>
+                </Button>
+              </div>
             </div>
           </div>
 
@@ -274,7 +280,7 @@ const Editmodel = () => {
                   type="submit"
                   disabled={isFetching}
                 >
-                  {isFetching?  "Please wait..." : "Update"}
+                  {isFetching ? "Please wait..." : "Update"}
                 </Button>
               </div>
             </form>

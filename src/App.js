@@ -11,6 +11,7 @@ import { userLogout } from "./redux/apiCalls";
 import Single from "./UI/Admin-UI/Blog/Single";
 import Spinner from "./ATOMIC/atoms/spinner/Spinner";
 import GenerateInvoice from "./UI/subscriptions/GenerateInvoice";
+import JobNotice from "./UI/Notification/Job-Notice-Items";
 const LoginForm = lazy(() => import("./Pages/LoginSignup/Login/Login-Form"));
 const AdminDashboard = lazy(() =>
   import("./UI/Admin-UI/AdminPage/dashboard/dashboard")
@@ -207,6 +208,10 @@ const App = () => {
                   <EditAgency />
                 </Suspense>
               ),
+            },
+            {
+              path: "notification/:id",
+              element: <JobNotice />,
             },
           ],
         },

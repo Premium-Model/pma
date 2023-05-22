@@ -4,6 +4,7 @@ import modelReducer from "./modelsRedux";
 import agentReducer from "./agencyRedux";
 import clientReducer from "./clientsRedux";
 import processReducer from "./processRedux";
+import notificationReducer from "./notificationRedux";
 import {
   persistStore,
   persistReducer,
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   model: modelReducer,
   agency: agentReducer,
   client: clientReducer,
+  notification: notificationReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

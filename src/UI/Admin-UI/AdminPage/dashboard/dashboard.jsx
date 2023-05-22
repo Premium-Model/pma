@@ -62,7 +62,6 @@ const AdminDashboard = () => {
     };
     return () => fetchData();
   }, []);
-  console.log(client, agency, model)
 
   const reversedBlog = [...blog].reverse();
 

@@ -105,6 +105,21 @@ const EditAgency = () => {
                   Date joined: {moment(agency?.createdAt).format("DD-MM-YYYY")}
                 </span>
               </div>
+              <div className="userShowInfo">
+                <Button
+                  variant="normal"
+                  className="userUpdateButton"
+                  type="submit"
+                  disabled={isFetching}
+                >
+                  <a
+                    href={`/adminpage/add-subscription/${agency?.agency?.uuid}`}
+                    style={{ color: "white" }}
+                  >
+                    Add new subscription
+                  </a>
+                </Button>
+              </div>
             </div>
           </div>
 
