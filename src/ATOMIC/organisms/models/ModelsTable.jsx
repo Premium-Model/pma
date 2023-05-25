@@ -17,7 +17,7 @@ const ModelsTable = ({ models, isDelete, setIsDelete, handleQuery }) => {
   const dispatch = useDispatch();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(20);
   const [selectedIds, setSelectedIds] = useState([]);
 
   const totalRows = models?.length;

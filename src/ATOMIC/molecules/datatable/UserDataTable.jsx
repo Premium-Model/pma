@@ -15,7 +15,7 @@ const UserDataTable = ({ data, setIsDelete, isDelete }) => {
   const [dataId, setDataId] = useState("");
   // pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(20);
 
   const totalRows = data?.length;
   const totalPages = Math.ceil(totalRows / pageSize);

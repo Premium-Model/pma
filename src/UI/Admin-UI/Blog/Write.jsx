@@ -75,107 +75,106 @@ const Write = () => {
   return (
     <form className="add" onSubmit={handleClick}>
       {/* <form> */}
-        <div className="content">
+      <div className="content">
+        <input
+          type="text"
+          placeholder="Title"
+          onChange={(e) => setTitle(e.target.value)}
+          value={title}
+          required
+        />
+        <div className="">
+          {photo && (
+            <img src={state?.photo || URL.createObjectURL(photo)} alt="" />
+          )}
+          <BundledEditor setParagraph={setParagraph} paragraph={paragraph} />
+        </div>
+      </div>
+      <div className="menu">
+        <div className="item">
+          <h1>Publish</h1>
+          <span>
+            <b>Status: </b> Draft
+          </span>
+          <span>
+            <b>Visibility: </b> Public
+          </span>
           <input
-            type="text"
-            placeholder="Title"
-            onChange={(e) => setTitle(e.target.value)}
-            value={title}
-            required
+            style={{ display: "none" }}
+            type="file"
+            id="file"
+            name="photo"
+            onChange={(e) => setPhoto(e.target.files[0])}
           />
-          <div className="">
-            {photo && (
-              <img src={state?.photo || URL.createObjectURL(photo)} alt="" />
-            )}
-            <BundledEditor setParagraph={setParagraph} paragraph={paragraph} />
+          <label className="file" htmlFor="file">
+            Upload Image
+          </label>
+          <div className="buttons">
+            <button>Save as a draft</button>
+            <button disabled={!title}>
+              {isFetching ? "Please wait..." : "Publish"}
+            </button>
           </div>
         </div>
-        <div className="menu">
-          <div className="item">
-            <h1>Publish</h1>
-            <span>
-              <b>Status: </b> Draft
-            </span>
-            <span>
-              <b>Visibility: </b> Public
-            </span>
+        <div className="item">
+          <h1>Category</h1>
+          <div className="cat">
             <input
-              style={{ display: "none" }}
-              type="file"
-              id="file"
-              name="photo"
-              onChange={(e) => setPhoto(e.target.files[0])}
-              required
+              type="radio"
+              checked={cat === "tips&tricks"}
+              name="cat"
+              value="tips&tricks"
+              id="tips&tricks"
+              onChange={(e) => setCat(e.target.value)}
             />
-            <label className="file" htmlFor="file">
-              Upload Image
-            </label>
-            <div className="buttons">
-              <button>Save as a draft</button>
-              <button disabled={!data.title}>
-                {isFetching ? "Please wait..." : "Publish"}
-              </button>
-            </div>
+            <label htmlFor="tips&tricks">Tips & Tricks</label>
           </div>
-          <div className="item">
-            <h1>Category</h1>
-            <div className="cat">
-              <input
-                type="radio"
-                checked={cat === "tips&tricks"}
-                name="cat"
-                value="tips&tricks"
-                id="tips&tricks"
-                onChange={(e) => setCat(e.target.value)}
-              />
-              <label htmlFor="tips&tricks">Tips & Tricks</label>
-            </div>
-            <div className="cat">
-              <input
-                type="radio"
-                checked={cat === "news"}
-                name="cat"
-                value="news"
-                id="news"
-                onChange={(e) => setCat(e.target.value)}
-              />
-              <label htmlFor="news">News</label>
-            </div>
-            <div className="cat">
-              <input
-                type="radio"
-                checked={cat === "models"}
-                name="cat"
-                value="models"
-                id="models"
-                onChange={(e) => setCat(e.target.value)}
-              />
-              <label htmlFor="models">Models</label>
-            </div>
-            <div className="cat">
-              <input
-                type="radio"
-                checked={cat === "lifestyle"}
-                name="cat"
-                value="lifestyle"
-                id="lifestyle"
-                onChange={(e) => setCat(e.target.value)}
-              />
-              <label htmlFor="lifestyle">Lifestyle</label>
-            </div>
-            <div className="cat">
-              <input
-                type="radio"
-                checked={cat === "magazine"}
-                name="cat"
-                value="magazine"
-                id="magazine"
-                onChange={(e) => setCat(e.target.value)}
-              />
-              <label htmlFor="magazine">Magazine</label>
-            </div>
+          <div className="cat">
+            <input
+              type="radio"
+              checked={cat === "news"}
+              name="cat"
+              value="news"
+              id="news"
+              onChange={(e) => setCat(e.target.value)}
+            />
+            <label htmlFor="news">News</label>
+          </div>
+          <div className="cat">
+            <input
+              type="radio"
+              checked={cat === "models"}
+              name="cat"
+              value="models"
+              id="models"
+              onChange={(e) => setCat(e.target.value)}
+            />
+            <label htmlFor="models">Models</label>
+          </div>
+          <div className="cat">
+            <input
+              type="radio"
+              checked={cat === "lifestyle"}
+              name="cat"
+              value="lifestyle"
+              id="lifestyle"
+              onChange={(e) => setCat(e.target.value)}
+            />
+            <label htmlFor="lifestyle">Lifestyle</label>
+          </div>
+          <div className="cat">
+            <input
+              type="radio"
+              checked={cat === "magazine"}
+              name="cat"
+              value="magazine"
+              id="magazine"
+              onChange={(e) => setCat(e.target.value)}
+            />
+            <label htmlFor="magazine">Magazine</label>
           </div>
         </div>
+      </div>
       {/* </form> */}
     </form>
   );

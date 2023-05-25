@@ -50,6 +50,18 @@ const GenerateInvoice = () => {
               onChange={handleChange}
             />
           </div>
+          <div>
+            <label style={{ width: "200px" }}>
+              End date <span>*</span>
+            </label>
+            <input
+              type="date"
+              placeholder="amount"
+              name="endDate"
+              required
+              onChange={handleChange}
+            />
+          </div>
         </div>
         <div className="btn">
           <Button variant="normal">
