@@ -55,7 +55,7 @@ import contentCss from "!!raw-loader!tinymce/skins/content/default/content.min.c
 import contentUiCss from "!!raw-loader!tinymce/skins/ui/oxide/content.min.css";
 import { useRef, useState } from "react";
 
-export default function BundledEditor({ setParagraph, paragraph }) {
+export default function BundledEditor({ setParagraphs, paragraphs }) {
   // note that skin and content_css is disabled to avoid the normal
   // loading process and is instead loaded as a string via content_style
   const editorRef = useRef(null);
@@ -82,7 +82,7 @@ export default function BundledEditor({ setParagraph, paragraph }) {
     });
 
     // Update the paragraphs state with the filtered paragraphs
-    setParagraph(formattedParagraphs);
+    setParagraphs(formattedParagraphs);
   };
 
   return (

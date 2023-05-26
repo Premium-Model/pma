@@ -5,6 +5,12 @@ import { storage } from "../../../firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { makeEdit, makePost } from "../../../redux/apiCalls";
 import BundledEditor from "./BundledEditor";
+import {
+  processFailure,
+  processStart,
+  processSuccess,
+} from "../../../redux/processRedux";
+import { userRequest } from "../../../redux/requestMethod";
 
 const Write = () => {
   const { isFetching } = useSelector((state) => state.process);
@@ -17,7 +23,7 @@ const Write = () => {
   const [progress, setProgress] = useState(0);
   const [inputs, setInputs] = useState({});
   const [message, setMessage] = useState("");
-  const [paragraph, setParagraph] = useState(state?.paragraphs || []);
+  const [paragraphs, setParagraphs] = useState([]);
 
   const uploadFile = (file, urlType) => {
     const fileName = new Date().getTime() + file.name;
@@ -61,14 +67,32 @@ const Write = () => {
     title,
     photo: state?.photo || inputs.photo,
     cat,
-    paragraphs: paragraph,
+    paragraphs,
   };
 
-  const handleClick = () => {
-    if (state) {
-      makeEdit(dispatch, `/blog/blog/edit?_id=${state._id}`, data);
-    } else {
-      makePost(dispatch, "/blog/post-blog", data, setMessage);
+  const handleClick = async (e) => {
+    e.preventDefault()
+    dispatch(processStart());
+    try {
+      if (state) {
+        const res = await userRequest.put(
+          `/blog/blog/edit?_id=${state._id}`,
+          data
+        );
+        console.log(res.data);
+        dispatch(processSuccess());
+        alert("Blog posted.");
+        res.data && window.location.reload();
+      } else {
+        const res = await userRequest.post("/blog/post-blog", data);
+        console.log(res.data);
+        dispatch(processSuccess());
+        alert("Blog posted.");
+        res.data && window.location.reload();
+      }
+    } catch (err) {
+      alert(err?.response?.data);
+      dispatch(processFailure());
     }
   };
 
@@ -87,7 +111,10 @@ const Write = () => {
           {photo && (
             <img src={state?.photo || URL.createObjectURL(photo)} alt="" />
           )}
-          <BundledEditor setParagraph={setParagraph} paragraph={paragraph} />
+          <BundledEditor
+            setParagraphs={setParagraphs}
+            paragraphs={paragraphs}
+          />
         </div>
       </div>
       <div className="menu">

@@ -2,6 +2,7 @@
   "name": "admin",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/",
   "dependencies": {
     "@emotion/styled": "^11.10.5",
     "@iconscout/react-unicons": "^2.0.0",
