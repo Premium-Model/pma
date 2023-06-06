@@ -29,14 +29,18 @@ const Table = ({ item, i }) => {
   return (
     <tr key={i}>
       <td>{i + 1}</td>
-      <td>{item.senderEmail}</td>
+      <td>
+        {sender?.firstName} {sender?.lastName}
+      </td>
       <td>{sender?.mobileNo}</td>
       <td>{item.desc}</td>
       <td>{item.amount}</td>
       {/* <td>{item.senderEmail}</td> */}
       <td>{item._id}</td>
       <td>{moment(item.createdAt).format("DD-MM-YYYY")}</td>
-      <td>{moment(item?.endDate ? item?.endDate : endDate).format("DD-MM-YYYY")}</td>
+      <td>
+        {moment(item?.endDate ? item?.endDate : endDate).format("DD-MM-YYYY")}
+      </td>
       {/* <td>
         <Button variant="blur">
             {item.isApproved ? "Verified" : "Pending"}
