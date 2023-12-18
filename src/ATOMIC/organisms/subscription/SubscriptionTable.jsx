@@ -6,8 +6,10 @@ import "../../../ATOMIC/molecules/datatable/table.scss";
 import { useDispatch } from "react-redux";
 import { makeEdit, makeGet } from "../../../redux/apiCalls";
 import moment from "moment";
-import '../../../ATOMIC/organisms/clients/tableSection.scss'
+import "../../../ATOMIC/organisms/clients/tableSection.scss";
 import { userRequest } from "../../../redux/requestMethod";
+import Table from "./Table";
+import Pagination from "../../molecules/datatable/Pagination";
 
 const SubscriptionTable = () => {
   const dispatch = useDispatch();
@@ -15,17 +17,48 @@ const SubscriptionTable = () => {
   const [subscriptions, setSubscriptons] = useState([]);
   const [isApproved, setIsApproved] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
+  const [query, setQuery] = useState("");
+  // pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
 
-  const fetchSubscriptions = useCallback(() => {
-    makeGet(dispatch, "/payment/payments", setSubscriptons);
-  }, [dispatch]);
+  const totalRows = subscriptions?.length;
+  const totalPages = Math.ceil(totalRows / pageSize);
+
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+
+  const reversed = [...subscriptions].reverse();
+  const rowsToDisplay = reversed?.slice(startIndex, endIndex);
+
+  const handleNextClick = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrevClick = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const onPageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const fetchSubscriptions = () => {
+    makeGet(dispatch, `/payment/payments/?payment=${query}`, setSubscriptons);
+  };
 
   useEffect(() => {
     let unsubscribe = fetchSubscriptions();
     return () => unsubscribe;
-  }, [isApproved, isDelete]);
+  }, [isApproved, isDelete, query]);
 
-  const reversed = [...subscriptions].reverse();
+  const handleQuery = (e) => {
+    setQuery(e.target.value.toLowerCase());
+  };
 
   const handleApprovePayment = (id) => {
     makeEdit(dispatch, `/payment/approve/${id}`);
@@ -39,60 +72,44 @@ const SubscriptionTable = () => {
 
   return (
     <div>
-      <Card variant="full_width">Available Subscriptions</Card>
+      <Card variant="full_width">
+        Available Subscriptions{" "}
+        <input
+          type="text"
+          placeholder="Search by email..."
+          style={{ padding: "10px" }}
+          onChange={handleQuery}
+        />
+      </Card>
       <section className="table_container">
         <table className="subs-table">
           <thead>
             <tr>
               <th># ID</th>
               <th>USER</th>
+              <th>PHONE</th>
               <th>CATEGORY</th>
               <th>FEE</th>
-              <th>DURATION</th>
-              <th>GATEWAY</th>
+              {/* <th>EMAIL</th> */}
               <th>TRANSACTION ID</th>
-              <th>STATUS</th>
-              <th>DATE</th>
+              {/* <th>STATUS</th> */}
+              <th>START DATE</th>
+              <th>END DATE</th>
             </tr>
           </thead>
           <tbody>
-            {reversed?.map((item, i) => {
-              return (
-                <tr key={v4}>
-                  <td>{i + 1}</td>
-                  <td>{item.senderEmail}</td>
-                  <td>{item.desc}</td>
-                  <td>{item.amount}</td>
-                  <td>365d</td>
-                  <td>Paystack</td>
-                  <td>{item._id}</td>
-                  <td>
-                    <Button variant="blur">
-                      {item.isApproved ? "Verified" : "Pending"}
-                    </Button>
-                    {/* {!item.isApproved && (
-                      <Button
-                        variant="blur"
-                        onClick={() => handleApprovePayment(item._id)}
-                      >
-                        Approve payment
-                      </Button>
-                    )} */}
-                  </td>
-                  <td>{moment(item.createdAt).format("DD-MM-YYYY")}</td>
-                  {/* <td>
-                    <Button
-                      variant="blur"
-                      onClick={() => handleDeletePayment(item._id)}
-                    >
-                      Delete
-                    </Button>
-                  </td> */}
-                </tr>
-              );
+            {rowsToDisplay?.map((item, i) => {
+              return <Table item={item} key={i} i={i} />;
             })}
           </tbody>
         </table>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+          handlePrevClick={handlePrevClick}
+          handleNextClick={handleNextClick}
+        />
       </section>
     </div>
   );

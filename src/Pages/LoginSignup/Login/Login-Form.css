@@ -7,7 +7,7 @@
   align-items: center;
   gap: 2rem;
   background: url('/public/images/bg-image/lg_bg.jpeg');
-  background-size: cover;
+  background-size: contain;
   background-position: 50% 50%;
   background-blend-mode: overlay;
 }

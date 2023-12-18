@@ -18,29 +18,120 @@ import { userRequest } from "../../../../redux/requestMethod";
 // [END]
 
 const AdminDashboard = () => {
-  // Visitor Stats Graph Data -> (Visitor Stats) --> [STRAT]
+  const dispatch = useDispatch();
+
+  const [message, setMessage] = useState([]);
+  const [model, setModel] = useState([]);
+  const [client, setClient] = useState([]);
+  const [agency, setAgency] = useState([]);
+  const [blog, setBlog] = useState([]);
+  //  get user stat
+  const [stat, setStat] = useState([]);
+  const [loginStat, setLoginStat] = useState([]);
+
+  useEffect(() => {
+    makeGet(dispatch, "/user", setMessage);
+  }, [setMessage, dispatch]);
+  const reversedMessage = [...message].reverse();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const resModel = await userRequest.get("/model/models");
+      setModel(resModel.data);
+    };
+    return () => fetchData();
+  }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      const resClient = await userRequest.get("/client/clients");
+      setClient(resClient.data);
+    };
+    return () => fetchData();
+  }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      const resAgency = await userRequest.get("/agency/");
+      setAgency(resAgency.data);
+    };
+    return () => fetchData();
+  }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      const resBlog = await userRequest.get("/blog/blogs");
+      setBlog(resBlog.data);
+    };
+    return () => fetchData();
+  }, []);
+
+  const reversedBlog = [...blog].reverse();
+
+  useEffect(() => {
+    const fetchStat = async () => {
+      const res = await userRequest.get("/admin/stats");
+      setStat(res.data);
+    };
+    fetchStat();
+  }, []);
+
+  useEffect(() => {
+    const fetchLoginStat = async () => {
+      const res = await userRequest.get("/admin/login/stats");
+      setLoginStat(res.data);
+    };
+    fetchLoginStat();
+  }, []);
+
+  const dataList = Array(12).fill(null); // Initialize the array with default value "Dec"
+  stat.forEach((s) => {
+    if (s._id >= 1 && s._id <= 12) {
+      dataList[s._id - 1] = s.total;
+    }
+  });
+
+  const loginDataList = Array(12).fill(null); // Initialize the array with default value "Dec"
+  loginStat.forEach((s) => {
+    if (s.month >= 1 && s.month <= 12) {
+      loginDataList[s.month - 1] = s.login;
+    }
+  });
+
+  // get %
+  const total = model?.length + agency?.length + client?.length;
+  const modelPer = Math.round((model?.length * 100) / total);
+  const agencyPer = Math.round((agency?.length * 100) / total);
+  const clientPer = Math.round((client?.length * 100) / total);
+
+  // Now dataList will have the values based on _id indices
+  // console.log(dataList);
+
   const data = {
-    labels: ["1 Aug", "2 Aug", "3 Aug", "4 Aug", "5 Aug", "6 Aug"],
+    labels: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "April",
+      "May",
+      "June",
+      "July",
+      "Aug",
+      "Sept",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
     datasets: [
       {
-        label: "VISITS",
+        label: "NEW USER",
         width: "10px",
         backgroundColor: "royalblue",
-        data: [21, 23, 6, 19, 14, 20],
-        barPercentage: 0.5,
-        borderRadius: 4,
-      },
-      {
-        label: "VIEWS",
-        backgroundColor: "lightgray",
-        data: [20, 16, 7, 12, 16, 25],
+        data: dataList,
         barPercentage: 0.5,
         borderRadius: 4,
       },
       {
         label: "LOGINS",
         backgroundColor: "hotpink",
-        data: [7, 4, 13, 15, 15, 20],
+        data: loginDataList,
         barPercentage: 0.5,
         borderRadius: 4,
       },
@@ -108,42 +199,6 @@ const AdminDashboard = () => {
   };
   //   [END]
 
-  const [message, setMessage] = useState([]);
-  const [model, setModel] = useState([]);
-  const [client, setClient] = useState([]);
-  const [agency, setAgency] = useState([]);
-  const [blog, setBlog] = useState([]);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    makeGet(dispatch, "/user", setMessage);
-  }, [setMessage, dispatch]);
-  const reversedMessage = [...message].reverse();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const resModel = await userRequest.get("/model/models");
-      setModel(resModel.data);
-      const resClient = await userRequest.get("/client/clients");
-      setClient(resClient.data);
-    };
-    return () => fetchData();
-  }, []);
-  useEffect(() => {
-    const fetchData = async () => {
-      const resAgency = await userRequest.get("/agency/");
-      setAgency(resAgency.data);
-      const resBlog = await userRequest.get("/blog/blogs");
-      setBlog(resBlog.data);
-    };
-    return () => fetchData();
-  }, []);
-  const reversedBlog = [...blog].reverse();
-  const total = model?.length + agency?.length + client?.length;
-  const modelPer = Math.round((model?.length * 100) / total);
-  const agencyPer = Math.round((agency?.length * 100) / total);
-  const clientPer = Math.round((client?.length * 100) / total);
-
   //Data Used in Pie Chart For User History [START]
   const donughtData = {
     labels: ["Models", "Agencies", "Clients"],
@@ -161,55 +216,12 @@ const AdminDashboard = () => {
       <div className="pane">
         {/* GRID AREA 1 --> [START] */}
         <div id="area_one">
-          <div id="daily_stats">
-            {/* <table id="daily_stats_table">
-              <thead>
-                <tr>
-                  <th>DATE</th>
-                  <th>VISITS</th>
-                  <th>VIEWS</th>
-                  <th>LOGINS</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>01/07/2022</td>
-                  <td>21,120</td>
-                  <td>20,045</td>
-                  <td>5,567</td>
-                </tr>
-                <tr>
-                  <td>01/07/2022</td>
-                  <td>21,120</td>
-                  <td>20,045</td>
-                  <td>5,567</td>
-                </tr>
-                <tr>
-                  <td>01/07/2022</td>
-                  <td>21,120</td>
-                  <td>20,045</td>
-                  <td>5,567</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td colSpan={3}></td>
-                  <td>
-                    <span>
-                      Details <BiRightArrow />
-                    </span>
-                  </td>
-                </tr>
-              </tfoot>
-            </table> */}
-          </div>
           <div className="holder">
             <div className="visitor_stats">
               <header>
-                <span>Visitor Statistics</span>
+                <span>User Statistics</span>
                 <span id="key_holder">
-                  <span className="key"></span>VISITS
-                  <span className="key"></span>VIEWS
+                  <span className="key"></span>USERS
                   <span className="key"></span>LOGINS
                 </span>
                 <select name="time_frame" id="time_frame">

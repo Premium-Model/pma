@@ -54,7 +54,7 @@ const UserHeader = ({ users, handleQuery }) => {
           style={{ padding: "15px", borderRadius: "10px" }}
         />
       </Container>
-      <Container variant="flex-around">
+      {/* <Container variant="flex-around">
         <Button variant="transparent">Apply</Button>
         <section className="top-pagination">
           <div>
@@ -74,7 +74,7 @@ const UserHeader = ({ users, handleQuery }) => {
             </Button>
           </div>
         </section>
-      </Container>
+      </Container> */}
     </div>
   );
 };

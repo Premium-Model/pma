@@ -51,11 +51,11 @@ export const userLogout = async (dispatch) => {
 export const makePost = async (dispatch, url, data, setMessage) => {
   dispatch(processStart());
   try {
-    await userRequest.post(url, data);
+    const res = await userRequest.post(url, data);
     dispatch(processSuccess());
     toast.success("Data uploaded successfully.");
     setMessage("Data uploaded successfully.");
-    window.location.reload();
+    res.data && window.location.reload();
   } catch (err) {
     setMessage(err?.response?.data);
     dispatch(processFailure());
@@ -77,11 +77,11 @@ export const makeGet = async (dispatch, url, setMessage) => {
 export const makeEdit = async (dispatch, url, inputs) => {
   dispatch(processStart());
   try {
-    await userRequest.put(url, inputs);
+    const res = await userRequest.put(url, inputs);
     dispatch(processSuccess());
     toast.success("Data uploaded successfully.");
     alert("Data uploaded successfully.");
-    window.location.reload();
+    res.data && window.location.reload();
   } catch (err) {
     dispatch(processFailure());
   }

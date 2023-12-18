@@ -8,10 +8,38 @@ import avatar from "../../../Images/img/avatar.svg";
 import Modal from "../modal/Modal";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Pagination from "./Pagination";
 
 const UserDataTable = ({ data, setIsDelete, isDelete }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dataId, setDataId] = useState("");
+  // pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
+
+  const totalRows = data?.length;
+  const totalPages = Math.ceil(totalRows / pageSize);
+
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+
+  const rowsToDisplay = data?.slice(startIndex, endIndex);
+
+  const handleNextClick = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrevClick = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const onPageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   const handleDelete = async (id) => {
     await userRequest.delete(`/user/${id}`);
@@ -64,7 +92,7 @@ const UserDataTable = ({ data, setIsDelete, isDelete }) => {
           </tr>
         </thead>
         <tbody>
-          {data?.map((item, i) => {
+          {rowsToDisplay?.map((item, i) => {
             return (
               <tr key={i}>
                 <td>
@@ -119,6 +147,13 @@ const UserDataTable = ({ data, setIsDelete, isDelete }) => {
           })}
         </tbody>
       </table>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={onPageChange}
+        handlePrevClick={handlePrevClick}
+        handleNextClick={handleNextClick}
+      />
     </div>
   );
 };

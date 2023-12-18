@@ -9,7 +9,7 @@ import { makeGet } from "../../../redux/apiCalls";
 import { useDispatch } from "react-redux";
 import { userRequest } from "../../../redux/requestMethod";
 
-const Single = ({setIsWrite, isWrite}) => {
+const Single = ({ setIsWrite, isWrite }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
@@ -33,6 +33,11 @@ const Single = ({setIsWrite, isWrite}) => {
     }
   };
 
+  const getText = (html) => {
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    return doc.body.textContent;
+  };
+
   return (
     <div className="single">
       <div className="content">
@@ -44,7 +49,11 @@ const Single = ({setIsWrite, isWrite}) => {
             <p>Posted {moment(post?.createdAt).fromNow()}</p>
           </div>
           <div className="edit">
-            <Link to={`/adminpage/posts?_id=${post._id}`} state={post} onClick={()=> setIsWrite(!isWrite)}>
+            <Link
+              to={`/adminpage/posts?_id=${post._id}`}
+              state={post}
+              onClick={() => setIsWrite(!isWrite)}
+            >
               <img src={Edit} alt="" />
             </Link>
             <img onClick={handleDelete} src={Delete} alt="" />
@@ -52,6 +61,12 @@ const Single = ({setIsWrite, isWrite}) => {
         </div>
         <h1>{post.title}</h1>
         <p>{post.text}</p>
+        {post?.paragraphs?.map((item, index) => (
+          <div key={index}>
+            {item?.text && <p>{getText(item?.text)}</p>}
+            {item?.image && <img src={item?.image} alt="" />}
+          </div>
+        ))}
       </div>
       <Menu cat={post.cat} />
     </div>

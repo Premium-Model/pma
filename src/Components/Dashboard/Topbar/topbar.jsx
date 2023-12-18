@@ -6,8 +6,10 @@ import { FaBars } from "react-icons/fa";
 import useMediaQuery from "../../../custom_hooks/useMediaQuery";
 import { motion } from "framer-motion";
 import { IconContext } from "react-icons";
+import { useSelector } from "react-redux";
 
 const DashboardTopbar = (props) => {
+  const { notification } = useSelector((state) => state.notification);
   let mQ = useMediaQuery("(min-width: 540px)");
 
   return (
@@ -34,12 +36,12 @@ const DashboardTopbar = (props) => {
           <motion.div whileTap={{ scale: 0.8 }}>
             <BiSearch color="white" display={mQ ? "none" : "inline"} />
           </motion.div>
-          <motion.div whileTap={{ scale: 0.8 }}>
+          {/* <motion.div whileTap={{ scale: 0.8 }}>
             <BiEnvelope color="white" />
-          </motion.div>
-          <motion.div id="notification" whileTap={{ scale: 0.8 }}>
+          </motion.div> */}
+          <motion.div id="notification" whileTap={{ scale: 0.8 }} onClick={() => props.setToggleNotice((prev) => !prev)}>
             <IoNotifications id="icon" color="white" />
-            <span id="data">{24}</span>
+            {notification > 0 && <span id="data">{notification}</span>}
           </motion.div>
           {props.lastItem}
         </div>

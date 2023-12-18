@@ -23,7 +23,6 @@ const Editclient = () => {
   const fetchClient = useCallback(() => {
     makeGet(dispatch, `/user/${path}`, setClient);
   }, [dispatch, path]);
-  console.log(client);
 
   useEffect(() => {
     let unsubscribe = fetchClient();
@@ -84,6 +83,15 @@ const Editclient = () => {
               <span className="userShowTitle">Contact Details</span>
               <div className="userShowInfo">
                 <span className="userShowInfoTitle">{client?.email}</span>
+              </div>
+              <span className="userShowTitle">Brand Photos</span>
+              <div
+                className="userShowInfo"
+                style={{ flexDirection: "row", flexWrap: "wrap", gap: "10px", alignItems:'center', justifyContent:'center' }}
+              >
+                {client?.client?.jobPhotos?.map((item, index) => (
+                  <img src={item} key={index} style={{ width: "160px" }} />
+                ))}
               </div>
             </div>
           </div>

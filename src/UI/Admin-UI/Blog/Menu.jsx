@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 
 const Menu = ({ cat }) => {
-  console.log(cat);
   const dispatch = useDispatch();
   const location = useLocation();
   const postId = location.pathname.split("/")[3];
@@ -17,6 +16,11 @@ const Menu = ({ cat }) => {
     };
     fetchData();
   }, [cat]);
+
+  const getText = (html) => {
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    return doc.body.textContent;
+  };
 
   return (
     <div className="menu">
