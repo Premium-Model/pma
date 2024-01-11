@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { makeGet } from "../../../../redux/apiCalls";
 import moment from "moment";
 import { userRequest } from "../../../../redux/requestMethod";
+import Ambassador from "../Ambassador";
 // [END]
 
 const AdminDashboard = () => {
@@ -216,6 +217,8 @@ const AdminDashboard = () => {
       <div className="pane">
         {/* GRID AREA 1 --> [START] */}
         <div id="area_one">
+          {/* users chart section starts */}
+
           <div className="holder">
             <div className="visitor_stats">
               <header>
@@ -238,6 +241,11 @@ const AdminDashboard = () => {
               </footer>
             </div>
           </div>
+
+          {/* Users chart section ends */}
+
+          {/* Recently Added members section starts*/}
+
           <div id="recent_members">
             <table id="recent_members_table">
               <caption>
@@ -258,11 +266,7 @@ const AdminDashboard = () => {
                       <div className="profile">
                         <div className="profile_image">
                           <img
-                            src={
-                              item?.picture
-                                ? item?.picture
-                                : "/images/avatar2.png"
-                            }
+                            src={item?.picture ? item?.picture : "/images/avatar2.png"}
                             alt="profilepic"
                           />
                         </div>
@@ -289,12 +293,51 @@ const AdminDashboard = () => {
               </tfoot>
             </table>
           </div>
+
+          {/* Recently Added members section ends */}
+
+          {/*Recently published section starts  */}
+
+          <div id="activity">
+            <table id="activities_table">
+              <caption>
+                <h3>Activity</h3>
+                <p>Recently Published</p>
+              </caption>
+
+              <thead>
+                <tr>
+                  <th>DATE & TIME</th>
+                  <th>POSTS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {reversedBlog?.slice(0, 5).map((blog, index) => (
+                  <tr key={index}>
+                    <td>{moment(blog.createdAt).fromNow()}</td>
+                    <td>{blog?.title}</td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colSpan={2}>
+                    <span>
+                      Recent Comments <BiRightArrow />
+                    </span>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
+          {/* Recently published section ends */}
         </div>
         {/* GRID AREA 1 <--[END] */}
 
         {/* GRID AREA 2 --> [START] */}
-        <div id="area_two">
-          <div id="group_stats">
+        <section id="area_two">
+          <section id="group_stats">
             <div className="group_stats_box">
               <div>
                 <div>Models</div>
@@ -322,8 +365,9 @@ const AdminDashboard = () => {
                 <Doughnut data={clientsData} options={groupDonughtOptions} />
               </div>
             </span>
-          </div>
-          <div id="wallet_buttons">
+          </section>
+
+          <section id="wallet_buttons">
             <button id="active">
               <BiWallet size={20} />
               <span>AGENCY WALLET</span>
@@ -332,8 +376,11 @@ const AdminDashboard = () => {
               <BiWallet size={20} />
               <span>MODEL WALLET</span>
             </button>
-          </div>
-          <div className="holder">
+          </section>
+
+          {/*Users pie chart starts */}
+
+          <section className="holder">
             <div id="donught_chart_holder">
               <header>
                 <span>Users Pie Chart History</span>
@@ -361,6 +408,7 @@ const AdminDashboard = () => {
                   </div>
                 </div>
               </div>
+
               <footer>
                 <select name="time_frame" id="time_frame">
                   <option value="6">Last 6 days</option>
@@ -371,40 +419,16 @@ const AdminDashboard = () => {
                 </span>
               </footer>
             </div>
-          </div>
-          <div id="activity">
-            <table id="activities_table">
-              <caption>
-                <h3>Activity</h3>
-                <p>Recently Published</p>
-              </caption>
+          </section>
 
-              <thead>
-                <tr>
-                  <th>DATE & TIME</th>
-                  <th>POSTS</th>
-                </tr>
-              </thead>
-              <tbody>
-                {reversedBlog?.slice(0, 5).map((blog, index) => (
-                  <tr key={index}>
-                    <td>{moment(blog.createdAt).fromNow()}</td>
-                    <td>{blog?.title}</td>
-                  </tr>
-                ))}
-              </tbody>
-              {/* <tfoot>
-                <tr>
-                  <td colSpan={2}>
-                    <span>
-                      Recent Comments <BiRightArrow />
-                    </span>
-                  </td>
-                </tr>
-              </tfoot> */}
-            </table>
-          </div>
-        </div>
+          {/*Users pie chart ends */}
+
+          {/* Ambassadors section starts */}
+
+          <Ambassador />
+
+          {/* Ambassadors section ends*/}
+        </section>
         {/* GRID AREA 2 <--[END] */}
       </div>
       {/* GRID <--[END] */}
