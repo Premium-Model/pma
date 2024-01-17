@@ -14,8 +14,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { makeGet } from "../../../../redux/apiCalls";
 import moment from "moment";
-import { userRequest } from "../../../../redux/requestMethod";
-import Ambassador from "../Ambassador";
+import { userRequest, ambassadorsRequest } from "../../../../redux/requestMethod";
+import Ambassador from "../Ambassador/Amb-list";
 // [END]
 
 const AdminDashboard = () => {
@@ -26,9 +26,23 @@ const AdminDashboard = () => {
   const [client, setClient] = useState([]);
   const [agency, setAgency] = useState([]);
   const [blog, setBlog] = useState([]);
+
+  // // ambassadors state
+  const [ambassadors, setAmbassadors] = useState([]);
+
   //  get user stat
   const [stat, setStat] = useState([]);
   const [loginStat, setLoginStat] = useState([]);
+
+  // // state for initializing array with default value
+  const [allData, setAllData] = useState("");
+  const [allLoginData, setAllLoginData] = useState("");
+
+  // // get percentage % states
+  const [total, setTotal] = useState("");
+  const [modelPer, setModelPer] = useState("");
+  const [clientPer, setClientPer] = useState("");
+  const [agencyPer, setAgencyPer] = useState("");
 
   useEffect(() => {
     makeGet(dispatch, "/user", setMessage);
@@ -82,25 +96,50 @@ const AdminDashboard = () => {
     fetchLoginStat();
   }, []);
 
-  const dataList = Array(12).fill(null); // Initialize the array with default value "Dec"
-  stat.forEach((s) => {
-    if (s._id >= 1 && s._id <= 12) {
-      dataList[s._id - 1] = s.total;
-    }
-  });
+  //fetching ambassadors
+  useEffect(() => {
+    const fetchAmbassadors = async () => {
+      const res = await ambassadorsRequest.get("/admin/ambassadors/all");
+      setAmbassadors(res.data.models);
+    };
+    return () => fetchAmbassadors();
+  }, []);
 
-  const loginDataList = Array(12).fill(null); // Initialize the array with default value "Dec"
-  loginStat.forEach((s) => {
-    if (s.month >= 1 && s.month <= 12) {
-      loginDataList[s.month - 1] = s.login;
-    }
-  });
+  // // initializing datalist
+  useEffect(() => {
+    const dataList = Array(12).fill(null); // Initialize the array with default value "Dec"
+    stat.forEach((s) => {
+      if (s._id >= 1 && s._id <= 12) {
+        dataList[s._id - 1] = s.total;
+      }
+    });
 
-  // get %
-  const total = model?.length + agency?.length + client?.length;
-  const modelPer = Math.round((model?.length * 100) / total);
-  const agencyPer = Math.round((agency?.length * 100) / total);
-  const clientPer = Math.round((client?.length * 100) / total);
+    setAllData(dataList);
+  }, [stat]);
+
+  // // initializing loginDatalist
+  useEffect(() => {
+    const loginDataList = Array(12).fill(null); // Initialize the array with default value "Dec"
+    loginStat.forEach((s) => {
+      if (s.month >= 1 && s.month <= 12) {
+        loginDataList[s.month - 1] = s.login;
+      }
+    });
+
+    setAllLoginData(loginDataList);
+  }, [loginStat]);
+
+  // // getting total percentage %
+  useEffect(() => {
+    setTotal(model?.length + agency?.length + client?.length);
+  }, [model, agency, client]);
+
+  // // getting models, client and agency percentage %
+  useEffect(() => {
+    setModelPer(Math.round((model?.length * 100) / total));
+    setClientPer(Math.round((client?.length * 100) / total));
+    setAgencyPer(Math.round((agency?.length * 100) / total));
+  }, [total, model, client, agency]);
 
   // Now dataList will have the values based on _id indices
   // console.log(dataList);
@@ -125,14 +164,14 @@ const AdminDashboard = () => {
         label: "NEW USER",
         width: "10px",
         backgroundColor: "royalblue",
-        data: dataList,
+        data: allData,
         barPercentage: 0.5,
         borderRadius: 4,
       },
       {
         label: "LOGINS",
         backgroundColor: "hotpink",
-        data: loginDataList,
+        data: allLoginData,
         barPercentage: 0.5,
         borderRadius: 4,
       },
@@ -425,7 +464,7 @@ const AdminDashboard = () => {
 
           {/* Ambassadors section starts */}
 
-          <Ambassador />
+          <Ambassador ambData={ambassadors} />
 
           {/* Ambassadors section ends*/}
         </section>
