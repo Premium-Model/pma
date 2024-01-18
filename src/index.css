@@ -7,11 +7,9 @@
   outline: 0;
   list-style: none;
   box-sizing: border-box;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(89, 203, 157, 0.8) rgba(0, 0, 0, 0.99);
 }
 ::-webkit-scrollbar {
-  width: 13px;
+  width: 8px;
   height: auto;
 }
 
@@ -21,7 +19,8 @@
 
 ::-webkit-scrollbar-thumb {
   background: rgba(196, 147, 162, 0.8);
-  border-radius: 30px;
+  border-radius: 10px;
+  background: #6c6b6b;
 }
 :root {
   --black: rgba(0, 0, 0);

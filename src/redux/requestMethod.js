@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from "axios";
 
 const user = JSON.parse(localStorage.getItem("persist:root"))?.user;
 const currentUser = user && JSON.parse(user).currentUser;
@@ -14,4 +14,9 @@ export const userRequest = axios.create({
 export const forgotRequest = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   headers: { token: `Bearer ${FORGOTTOKEN}` },
+});
+
+export const ambassadorsRequest = axios.create({
+  baseURL: "https://api2.premiummodelsapp.com/api/v2/",
+  headers: { token: `Bearer ${TOKEN}` },
 });

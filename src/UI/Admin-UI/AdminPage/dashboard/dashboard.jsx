@@ -14,7 +14,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { makeGet } from "../../../../redux/apiCalls";
 import moment from "moment";
-import { userRequest } from "../../../../redux/requestMethod";
+import { userRequest, ambassadorsRequest } from "../../../../redux/requestMethod";
+import Ambassador from "../Ambassador/Amb-list";
 // [END]
 
 const AdminDashboard = () => {
@@ -25,9 +26,23 @@ const AdminDashboard = () => {
   const [client, setClient] = useState([]);
   const [agency, setAgency] = useState([]);
   const [blog, setBlog] = useState([]);
+
+  // // ambassadors state
+  const [ambassadors, setAmbassadors] = useState([]);
+
   //  get user stat
   const [stat, setStat] = useState([]);
   const [loginStat, setLoginStat] = useState([]);
+
+  // // state for initializing array with default value
+  const [allData, setAllData] = useState("");
+  const [allLoginData, setAllLoginData] = useState("");
+
+  // // get percentage % states
+  const [total, setTotal] = useState("");
+  const [modelPer, setModelPer] = useState("");
+  const [clientPer, setClientPer] = useState("");
+  const [agencyPer, setAgencyPer] = useState("");
 
   useEffect(() => {
     makeGet(dispatch, "/user", setMessage);
@@ -81,25 +96,50 @@ const AdminDashboard = () => {
     fetchLoginStat();
   }, []);
 
-  const dataList = Array(12).fill(null); // Initialize the array with default value "Dec"
-  stat.forEach((s) => {
-    if (s._id >= 1 && s._id <= 12) {
-      dataList[s._id - 1] = s.total;
-    }
-  });
+  //fetching ambassadors
+  useEffect(() => {
+    const fetchAmbassadors = async () => {
+      const res = await ambassadorsRequest.get("/admin/ambassadors/all");
+      setAmbassadors(res.data.models);
+    };
+    return () => fetchAmbassadors();
+  }, []);
 
-  const loginDataList = Array(12).fill(null); // Initialize the array with default value "Dec"
-  loginStat.forEach((s) => {
-    if (s.month >= 1 && s.month <= 12) {
-      loginDataList[s.month - 1] = s.login;
-    }
-  });
+  // // initializing datalist
+  useEffect(() => {
+    const dataList = Array(12).fill(null); // Initialize the array with default value "Dec"
+    stat.forEach((s) => {
+      if (s._id >= 1 && s._id <= 12) {
+        dataList[s._id - 1] = s.total;
+      }
+    });
 
-  // get %
-  const total = model?.length + agency?.length + client?.length;
-  const modelPer = Math.round((model?.length * 100) / total);
-  const agencyPer = Math.round((agency?.length * 100) / total);
-  const clientPer = Math.round((client?.length * 100) / total);
+    setAllData(dataList);
+  }, [stat]);
+
+  // // initializing loginDatalist
+  useEffect(() => {
+    const loginDataList = Array(12).fill(null); // Initialize the array with default value "Dec"
+    loginStat.forEach((s) => {
+      if (s.month >= 1 && s.month <= 12) {
+        loginDataList[s.month - 1] = s.login;
+      }
+    });
+
+    setAllLoginData(loginDataList);
+  }, [loginStat]);
+
+  // // getting total percentage %
+  useEffect(() => {
+    setTotal(model?.length + agency?.length + client?.length);
+  }, [model, agency, client]);
+
+  // // getting models, client and agency percentage %
+  useEffect(() => {
+    setModelPer(Math.round((model?.length * 100) / total));
+    setClientPer(Math.round((client?.length * 100) / total));
+    setAgencyPer(Math.round((agency?.length * 100) / total));
+  }, [total, model, client, agency]);
 
   // Now dataList will have the values based on _id indices
   // console.log(dataList);
@@ -124,14 +164,14 @@ const AdminDashboard = () => {
         label: "NEW USER",
         width: "10px",
         backgroundColor: "royalblue",
-        data: dataList,
+        data: allData,
         barPercentage: 0.5,
         borderRadius: 4,
       },
       {
         label: "LOGINS",
         backgroundColor: "hotpink",
-        data: loginDataList,
+        data: allLoginData,
         barPercentage: 0.5,
         borderRadius: 4,
       },
@@ -216,6 +256,8 @@ const AdminDashboard = () => {
       <div className="pane">
         {/* GRID AREA 1 --> [START] */}
         <div id="area_one">
+          {/* users chart section starts */}
+
           <div className="holder">
             <div className="visitor_stats">
               <header>
@@ -238,6 +280,11 @@ const AdminDashboard = () => {
               </footer>
             </div>
           </div>
+
+          {/* Users chart section ends */}
+
+          {/* Recently Added members section starts*/}
+
           <div id="recent_members">
             <table id="recent_members_table">
               <caption>
@@ -258,11 +305,7 @@ const AdminDashboard = () => {
                       <div className="profile">
                         <div className="profile_image">
                           <img
-                            src={
-                              item?.picture
-                                ? item?.picture
-                                : "/images/avatar2.png"
-                            }
+                            src={item?.picture ? item?.picture : "/images/avatar2.png"}
                             alt="profilepic"
                           />
                         </div>
@@ -289,12 +332,51 @@ const AdminDashboard = () => {
               </tfoot>
             </table>
           </div>
+
+          {/* Recently Added members section ends */}
+
+          {/*Recently published section starts  */}
+
+          <div id="activity">
+            <table id="activities_table">
+              <caption>
+                <h3>Activity</h3>
+                <p>Recently Published</p>
+              </caption>
+
+              <thead>
+                <tr>
+                  <th>DATE & TIME</th>
+                  <th>POSTS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {reversedBlog?.slice(0, 5).map((blog, index) => (
+                  <tr key={index}>
+                    <td>{moment(blog.createdAt).fromNow()}</td>
+                    <td>{blog?.title}</td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colSpan={2}>
+                    <span>
+                      Recent Comments <BiRightArrow />
+                    </span>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
+          {/* Recently published section ends */}
         </div>
         {/* GRID AREA 1 <--[END] */}
 
         {/* GRID AREA 2 --> [START] */}
-        <div id="area_two">
-          <div id="group_stats">
+        <section id="area_two">
+          <section id="group_stats">
             <div className="group_stats_box">
               <div>
                 <div>Models</div>
@@ -322,8 +404,9 @@ const AdminDashboard = () => {
                 <Doughnut data={clientsData} options={groupDonughtOptions} />
               </div>
             </span>
-          </div>
-          <div id="wallet_buttons">
+          </section>
+
+          <section id="wallet_buttons">
             <button id="active">
               <BiWallet size={20} />
               <span>AGENCY WALLET</span>
@@ -332,8 +415,11 @@ const AdminDashboard = () => {
               <BiWallet size={20} />
               <span>MODEL WALLET</span>
             </button>
-          </div>
-          <div className="holder">
+          </section>
+
+          {/*Users pie chart starts */}
+
+          <section className="holder">
             <div id="donught_chart_holder">
               <header>
                 <span>Users Pie Chart History</span>
@@ -361,6 +447,7 @@ const AdminDashboard = () => {
                   </div>
                 </div>
               </div>
+
               <footer>
                 <select name="time_frame" id="time_frame">
                   <option value="6">Last 6 days</option>
@@ -371,40 +458,16 @@ const AdminDashboard = () => {
                 </span>
               </footer>
             </div>
-          </div>
-          <div id="activity">
-            <table id="activities_table">
-              <caption>
-                <h3>Activity</h3>
-                <p>Recently Published</p>
-              </caption>
+          </section>
 
-              <thead>
-                <tr>
-                  <th>DATE & TIME</th>
-                  <th>POSTS</th>
-                </tr>
-              </thead>
-              <tbody>
-                {reversedBlog?.slice(0, 5).map((blog, index) => (
-                  <tr key={index}>
-                    <td>{moment(blog.createdAt).fromNow()}</td>
-                    <td>{blog?.title}</td>
-                  </tr>
-                ))}
-              </tbody>
-              {/* <tfoot>
-                <tr>
-                  <td colSpan={2}>
-                    <span>
-                      Recent Comments <BiRightArrow />
-                    </span>
-                  </td>
-                </tr>
-              </tfoot> */}
-            </table>
-          </div>
-        </div>
+          {/*Users pie chart ends */}
+
+          {/* Ambassadors section starts */}
+
+          <Ambassador ambData={ambassadors} />
+
+          {/* Ambassadors section ends*/}
+        </section>
         {/* GRID AREA 2 <--[END] */}
       </div>
       {/* GRID <--[END] */}

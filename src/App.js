@@ -1,21 +1,15 @@
 import jwt_decode from "jwt-decode";
 import { Suspense, lazy, useEffect, useState } from "react";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Navigate,
-  Outlet,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate, Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "./redux/apiCalls";
 import Single from "./UI/Admin-UI/Blog/Single";
 import Spinner from "./ATOMIC/atoms/spinner/Spinner";
 import GenerateInvoice from "./UI/subscriptions/GenerateInvoice";
 import JobNotice from "./UI/Notification/Job-Notice-Items";
+import Offers from "./UI/Admin-UI/AdminPage/Ambassador/offers";
 const LoginForm = lazy(() => import("./Pages/LoginSignup/Login/Login-Form"));
-const AdminDashboard = lazy(() =>
-  import("./UI/Admin-UI/AdminPage/dashboard/dashboard")
-);
+const AdminDashboard = lazy(() => import("./UI/Admin-UI/AdminPage/dashboard/dashboard"));
 const NotFound = lazy(() => import("./Pages/NotFound/notfound"));
 // import Navbar from "./Components/Navbar/navbar";
 const AdminPage = lazy(() => import("./UI/Admin-UI/AdminPage/admin_page"));
@@ -77,7 +71,7 @@ const App = () => {
       path: "/",
       element: <Layout />,
       errorElement: (
-        <Suspense fallback={<Spinner/>}>
+        <Suspense fallback={<Spinner />}>
           <NotFound />
         </Suspense>
       ),
@@ -85,7 +79,7 @@ const App = () => {
         {
           path: "/",
           element: !user ? (
-            <Suspense fallback={<Spinner/>}>
+            <Suspense fallback={<Spinner />}>
               <LoginForm />
             </Suspense>
           ) : (
@@ -96,11 +90,8 @@ const App = () => {
           path: "adminpage/",
           element: (
             <ProtectedRoute>
-              <Suspense fallback={<Spinner/>}>
-                <AdminPage
-                  showNavbar={showNavbar}
-                  setShowNavbar={setShowNavbar}
-                />
+              <Suspense fallback={<Spinner />}>
+                <AdminPage showNavbar={showNavbar} setShowNavbar={setShowNavbar} />
               </Suspense>
             </ProtectedRoute>
           ),
@@ -108,7 +99,7 @@ const App = () => {
             {
               path: "dashboard",
               element: (
-                <Suspense fallback={<Spinner/>}>
+                <Suspense fallback={<Spinner />}>
                   <AdminDashboard />
                 </Suspense>
               ),
@@ -116,7 +107,7 @@ const App = () => {
             {
               path: "posts",
               element: (
-                <Suspense fallback={<Spinner/>}>
+                <Suspense fallback={<Spinner />}>
                   <Blogs setIsWrite={setIsWrite} isWrite={isWrite} />
                 </Suspense>
               ),
@@ -124,7 +115,7 @@ const App = () => {
             {
               path: "post/:id",
               element: (
-                <Suspense fallback={<Spinner/>}>
+                <Suspense fallback={<Spinner />}>
                   <Single isWrite={isWrite} setIsWrite={setIsWrite} />
                 </Suspense>
               ),
@@ -132,7 +123,7 @@ const App = () => {
             {
               path: "manage_clients",
               element: (
-                <Suspense fallback={<Spinner/>}>
+                <Suspense fallback={<Spinner />}>
                   <ManageClients />
                 </Suspense>
               ),
@@ -140,7 +131,7 @@ const App = () => {
             {
               path: "manage_models",
               element: (
-                <Suspense fallback={<Spinner/>}>
+                <Suspense fallback={<Spinner />}>
                   <ManageModels />
                 </Suspense>
               ),
@@ -148,7 +139,7 @@ const App = () => {
             {
               path: "manage_agency",
               element: (
-                <Suspense fallback={<Spinner/>}>
+                <Suspense fallback={<Spinner />}>
                   <ManageAgency />
                 </Suspense>
               ),
@@ -156,7 +147,7 @@ const App = () => {
             {
               path: "users",
               element: (
-                <Suspense fallback={<Spinner/>}>
+                <Suspense fallback={<Spinner />}>
                   <Users />
                 </Suspense>
               ),
@@ -164,7 +155,7 @@ const App = () => {
             {
               path: "users/add_user",
               element: (
-                <Suspense fallback={<Spinner/>}>
+                <Suspense fallback={<Spinner />}>
                   <AddUser />
                 </Suspense>
               ),
@@ -172,7 +163,7 @@ const App = () => {
             {
               path: "subscription",
               element: (
-                <Suspense fallback={<Spinner/>}>
+                <Suspense fallback={<Spinner />}>
                   <Subscription />
                 </Suspense>
               ),
@@ -180,7 +171,7 @@ const App = () => {
             {
               path: "add-subscription/:id",
               element: (
-                <Suspense fallback={<Spinner/>}>
+                <Suspense fallback={<Spinner />}>
                   <GenerateInvoice />
                 </Suspense>
               ),
@@ -188,7 +179,7 @@ const App = () => {
             {
               path: "manage_models/:id",
               element: (
-                <Suspense fallback={<Spinner/>}>
+                <Suspense fallback={<Spinner />}>
                   <EditModel />
                 </Suspense>
               ),
@@ -196,7 +187,7 @@ const App = () => {
             {
               path: "manage_clients/:id",
               element: (
-                <Suspense fallback={<Spinner/>}>
+                <Suspense fallback={<Spinner />}>
                   <EditClient />
                 </Suspense>
               ),
@@ -204,7 +195,7 @@ const App = () => {
             {
               path: "manage_agency/:id",
               element: (
-                <Suspense fallback={<Spinner/>}>
+                <Suspense fallback={<Spinner />}>
                   <EditAgency />
                 </Suspense>
               ),
@@ -212,6 +203,10 @@ const App = () => {
             {
               path: "notification/:id",
               element: <JobNotice />,
+            },
+            {
+              path: "offers",
+              element: <Offers />,
             },
           ],
         },

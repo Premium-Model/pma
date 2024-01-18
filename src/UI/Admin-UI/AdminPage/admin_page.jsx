@@ -96,7 +96,7 @@ const AdminPage = ({ showNavbar, setShowNavbar }) => {
   // Image Component -> (Topbar Component) --> [START]
   const image = (
     <div className="profile_image">
-      <img src='/images/fav-icon.png' alt="profile-pic" />
+      <img src="/images/fav-icon.png" alt="profile-pic" />
     </div>
   );
   //   [END]
@@ -109,7 +109,11 @@ const AdminPage = ({ showNavbar, setShowNavbar }) => {
           <DashboardSidebar top={topList} bottom={[]} />
         ) : sidebarVisibility ? (
           <Background childState={setSidebarVisibility}>
-            <DashboardSidebar top={topList} bottom={[]} setSidebarVisibility={setSidebarVisibility} />
+            <DashboardSidebar
+              top={topList}
+              bottom={[]}
+              setSidebarVisibility={setSidebarVisibility}
+            />
           </Background>
         ) : null}
         {/* [END] */}
@@ -129,11 +133,11 @@ const AdminPage = ({ showNavbar, setShowNavbar }) => {
           {/* [END] */}
 
           <Notification
-              toggleNotice={toggleNotice}
-              setToggleNotice={setToggleNotice}
-              // notice={notice}
-              // setNotice={setNotice}
-            />
+            toggleNotice={toggleNotice}
+            setToggleNotice={setToggleNotice}
+            // notice={notice}
+            // setNotice={setNotice}
+          />
         </main>
       </div>
     )
