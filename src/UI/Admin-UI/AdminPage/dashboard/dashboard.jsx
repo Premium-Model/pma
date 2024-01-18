@@ -14,7 +14,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { makeGet } from "../../../../redux/apiCalls";
 import moment from "moment";
-import { userRequest, ambassadorsRequest } from "../../../../redux/requestMethod";
+import {
+  userRequest,
+  ambassadorsRequest,
+} from "../../../../redux/requestMethod";
 import Ambassador from "../Ambassador/Amb-list";
 // [END]
 
@@ -49,60 +52,126 @@ const AdminDashboard = () => {
   }, [setMessage, dispatch]);
   const reversedMessage = [...message].reverse();
 
+  const fetchUser = async () => {
+    const resModel = await userRequest.get("/model/models");
+    setModel(resModel.data);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const resModel = await userRequest.get("/model/models");
-      setModel(resModel.data);
+    let subscribed = true;
+
+    if (subscribed) {
+      fetchUser();
+    }
+
+    return () => {
+      subscribed = false;
     };
-    return () => fetchData();
   }, []);
+
+  const fetchClient = async () => {
+    const resClient = await userRequest.get("/client/clients");
+    setClient(resClient.data);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const resClient = await userRequest.get("/client/clients");
-      setClient(resClient.data);
+    let subscribed = true;
+
+    if (subscribed) {
+      fetchClient();
+    }
+
+    return () => {
+      subscribed = false;
     };
-    return () => fetchData();
   }, []);
+
+  const fetchAgency = async () => {
+    const resAgency = await userRequest.get("/agency/");
+    setAgency(resAgency.data);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const resAgency = await userRequest.get("/agency/");
-      setAgency(resAgency.data);
+    let subscribed = true;
+
+    if (subscribed) {
+      fetchAgency();
+    }
+
+    return () => {
+      subscribed = false;
     };
-    return () => fetchData();
   }, []);
+
+  const fetchBlog = async () => {
+    const resBlog = await userRequest.get("/blog/blogs");
+    setBlog(resBlog.data);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const resBlog = await userRequest.get("/blog/blogs");
-      setBlog(resBlog.data);
+    let subscribed = true;
+
+    if (subscribed) {
+      fetchBlog();
+    }
+
+    return () => {
+      subscribed = false;
     };
-    return () => fetchData();
   }, []);
 
   const reversedBlog = [...blog].reverse();
 
-  useEffect(() => {
-    const fetchStat = async () => {
-      const res = await userRequest.get("/admin/stats");
-      setStat(res.data);
-    };
-    fetchStat();
-  }, []);
+  const fetchStat = async () => {
+    const res = await userRequest.get("/admin/stats");
+    setStat(res.data);
+  };
 
   useEffect(() => {
-    const fetchLoginStat = async () => {
-      const res = await userRequest.get("/admin/login/stats");
-      setLoginStat(res.data);
+    let subscribed = true;
+
+    if (subscribed) {
+      fetchStat();
+    }
+
+    return () => {
+      subscribed = false;
     };
-    fetchLoginStat();
+  }, []);
+
+  const fetchLoginStat = async () => {
+    const res = await userRequest.get("/admin/login/stats");
+    setLoginStat(res.data);
+  };
+
+  useEffect(() => {
+    let subscribed = true;
+
+    if (subscribed) {
+      fetchLoginStat();
+    }
+
+    return () => {
+      subscribed = false;
+    };
   }, []);
 
   //fetching ambassadors
+  const fetchAmbassadors = async () => {
+    const res = await ambassadorsRequest.get("/admin/ambassadors/all");
+    setAmbassadors(res.data.models);
+  };
+
   useEffect(() => {
-    const fetchAmbassadors = async () => {
-      const res = await ambassadorsRequest.get("/admin/ambassadors/all");
-      setAmbassadors(res.data.models);
+    let subscribed = true;
+
+    if (subscribed) {
+      fetchAmbassadors();
+    }
+
+    return () => {
+      subscribed = false;
     };
-    return () => fetchAmbassadors();
   }, []);
 
   // // initializing datalist
@@ -305,7 +374,11 @@ const AdminDashboard = () => {
                       <div className="profile">
                         <div className="profile_image">
                           <img
-                            src={item?.picture ? item?.picture : "/images/avatar2.png"}
+                            src={
+                              item?.picture
+                                ? item?.picture
+                                : "/images/avatar2.png"
+                            }
                             alt="profilepic"
                           />
                         </div>
