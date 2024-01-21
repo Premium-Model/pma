@@ -48,11 +48,36 @@
   border: 3px solid var(--Pink);
   border-radius: 50%;
   width: 75px;
+
+  position: relative;
 }
 .Abs-img {
   width: 100%;
   height: 70px;
   border-radius: 50%;
+}
+.edit-Abs-img-wrapper {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+}
+.edit-Abs-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 25px;
+  height: 25px;
+
+  background: var(--Black);
+  color: var(--Light);
+  border-radius: 50%;
+  border: 2px solid var(--Pink);
+
+  font-size: 1.4rem;
+  font-weight: 400;
+
+  cursor: pointer;
 }
 .Abs-name {
   text-transform: capitalize;

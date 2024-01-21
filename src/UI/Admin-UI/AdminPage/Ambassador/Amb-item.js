@@ -1,4 +1,12 @@
-const AmbItem = ({ amb, formatMoney, setToggleWithdrawal, setCurrent }) => {
+const AmbItem = ({
+  amb,
+  newId,
+  setNewId,
+  formatMoney,
+  setToggleWithdrawal,
+  setCurrent,
+  uploadFile,
+}) => {
   return (
     <li key={amb.code} className="Abs">
       <section className="Abs-info-section">
@@ -6,18 +14,35 @@ const AmbItem = ({ amb, formatMoney, setToggleWithdrawal, setCurrent }) => {
 
         <div className="Abs-img-wrapper">
           <img className="Abs-img" src={amb.picture} alt="Ambassador-img" />
+          <div className="edit-Abs-img-wrapper">
+            <div
+              onClick={(e) => {
+                setNewId(amb._id);
+              }}
+              className="edit-Abs-img">
+              <label htmlFor="edit-photo">+</label>
+            </div>
+            <input
+              id="edit-photo"
+              type="file"
+              onChange={(e) => {
+                uploadFile(e.target.files[0], newId, "picture");
+              }}
+              hidden
+            />
+          </div>
         </div>
 
         {/* amb details */}
 
         <div className="Abs-details">
           <p className="Abs-name">{`${amb.firstName} ${amb.lastName}`}</p>
-          <em className="Abs-email">
+          <p className="Abs-email">
             {Array.from(amb.email).slice(0, 17)}
             {Array.from(amb.email).length > 17 ? "..." : null}
-          </em>
+          </p>
           <p>
-            <strong>Id: </strong>
+            <strong>Code: </strong>
             {amb.code}
           </p>
         </div>
@@ -56,6 +81,7 @@ const AmbItem = ({ amb, formatMoney, setToggleWithdrawal, setCurrent }) => {
               onClick={() => {
                 setToggleWithdrawal(true);
                 setCurrent(amb);
+                console.log(amb._id);
               }}
               className="stat-tag green-tag">
               PayOut

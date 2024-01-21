@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import "./Amb-form.css";
+import { getDownloadURL, ref, uploadBytesResumable } from "@firebase/storage";
+import { storage } from "../../../../firebase/index";
 
 const AbsForm = ({
   addAmbassador,
@@ -9,6 +11,8 @@ const AbsForm = ({
   isSuccess,
   setIsSuccess,
 }) => {
+  const [picture, setPicture] = useState(undefined);
+
   const [absData, setAbsData] = useState({
     picture: "",
     firstName: "",
@@ -29,18 +33,41 @@ const AbsForm = ({
   const handleAbsData = (e) => {
     const { name, value, type, checked } = e.target;
 
-    if (type === "file") {
-      let file = e.target.files[0];
-
-      let url = URL.createObjectURL(file);
-
-      setAbsData((prev) => ({ ...prev, [name]: url }));
-    } else if (type === "checkbox") {
+    if (type === "checkbox") {
       setCheck((prev) => ({ ...prev, [name]: checked }));
     } else {
       setAbsData((prev) => ({ ...prev, [name]: value }));
     }
   };
+
+  //handle file input onchange
+  const handlePicture = (e) => {
+    let file = e.target.files[0];
+    setPicture(file);
+  };
+
+  // upload images
+  const uploadFile = (file, urlType) => {
+    const fileName = new Date().getTime() + file.name;
+    const storageRef = ref(storage, `/models/${fileName}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setAbsData((prev) => ({ ...prev, [urlType]: downloadURL }));
+        });
+      }
+    );
+  };
+
+  // upload images
+  useEffect(() => {
+    picture && uploadFile(picture, "picture");
+    setPicture(undefined);
+  }, [picture]);
 
   //setting absData state
   useEffect(() => {
@@ -81,7 +108,7 @@ const AbsForm = ({
 
         <section className="top-sect-wrapper">
           <label className="Abs-photo-label" htmlFor="photo">
-            <input type="file" id="photo" name="picture" onChange={handleAbsData} hidden required />
+            <input type="file" id="photo" name="picture" onChange={handlePicture} hidden required />
 
             {absData.picture && <img className="Abs-photo-img" src={absData.picture} alt="" />}
 

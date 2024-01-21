@@ -105,6 +105,19 @@ const AdminDashboard = () => {
     return () => fetchAmbassadors();
   }, []);
 
+  //edit ambassadors photo
+  const editPhoto = async (id, data) => {
+    try {
+      const res = await ambassadorsRequest.put(`/admin/amb-edit/${id}`, data);
+      console.log(res.data);
+    } catch (err) {
+      console.log(err?.response?.data);
+    } finally {
+      const res = await ambassadorsRequest.get("/admin/ambassadors/all");
+      setAmbassadors(res.data.models);
+    }
+  };
+
   // // initializing datalist
   useEffect(() => {
     const dataList = Array(12).fill(null); // Initialize the array with default value "Dec"
@@ -464,7 +477,7 @@ const AdminDashboard = () => {
 
           {/* Ambassadors section starts */}
 
-          <Ambassador ambData={ambassadors} />
+          <Ambassador ambData={ambassadors} editPhoto={editPhoto} />
 
           {/* Ambassadors section ends*/}
         </section>

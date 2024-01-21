@@ -3,7 +3,6 @@ import "./withdraw.css";
 import { ambassadorsRequest } from "../../../../redux/requestMethod";
 
 const PayOut = ({ amb, toggleWithdrawal, setToggleWithdrawal, formatMoney }) => {
-  const [currentAmb, setCurrentAmb] = useState({});
   const [showId, setShowId] = useState(false);
   const [message, setMessage] = useState("");
   const [toggleMsg, setToggleMsg] = useState(false);
