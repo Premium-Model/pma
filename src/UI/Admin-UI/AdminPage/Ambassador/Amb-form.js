@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import "./Amb-form.css";
+import "../Amb-form.css";
+import { storage } from "../../../../firebase"; // Import Firebase storage
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const AbsForm = ({
   addAmbassador,
@@ -25,21 +27,46 @@ const AbsForm = ({
     acceptTerms: true,
   });
 
-  //handle input onchange
+  const [uploading, setUploading] = useState(false);
+
+  // Handle input change
   const handleAbsData = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type, checked, files } = e.target;
 
-    if (type === "file") {
-      let file = e.target.files[0];
-
-      let url = URL.createObjectURL(file);
-
-      setAbsData((prev) => ({ ...prev, [name]: url }));
+    if (type === "file" && files.length > 0) {
+      handleFileUpload(files[0]); // Upload image to Firebase
     } else if (type === "checkbox") {
       setCheck((prev) => ({ ...prev, [name]: checked }));
     } else {
       setAbsData((prev) => ({ ...prev, [name]: value }));
     }
+  };
+
+  // Upload image to Firebase
+  const handleFileUpload = (file) => {
+    setUploading(true);
+    const timestamp = new Date().getTime();
+    const fileName = `${timestamp}-${file.name.replace(/\s/g, "_")}`;
+    const storageRef = ref(storage, `ambassadors/${fileName}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log(`Upload is ${progress}% done`);
+      },
+      (error) => {
+        console.error("Upload failed", error);
+        setUploading(false);
+      },
+      async () => {
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        setAbsData((prev) => ({ ...prev, picture: downloadURL }));
+        setUploading(false);
+      }
+    );
   };
 
   //setting absData state
@@ -66,7 +93,8 @@ const AbsForm = ({
           ? addAmbassador(absData)
           : console.log("check box not checked");
       }}
-      className="Abs-form">
+      className="Abs-form"
+    >
       {/* title section */}
 
       <section className="title-section">
@@ -81,13 +109,26 @@ const AbsForm = ({
 
         <section className="top-sect-wrapper">
           <label className="Abs-photo-label" htmlFor="photo">
-            <input type="file" id="photo" name="picture" onChange={handleAbsData} hidden required />
-
-            {absData.picture && <img className="Abs-photo-img" src={absData.picture} alt="" />}
-
-            <div className="photo-btn-wrapper">
-              <div className="photo-btn">+</div>
-            </div>
+            <input
+              type="file"
+              id="photo"
+              name="picture"
+              onChange={handleAbsData}
+              hidden
+              required
+            />
+            {absData.picture ? (
+              <img
+                className="Abs-photo-img"
+                src={absData.picture}
+                alt="Uploaded"
+              />
+            ) : (
+              <div className="photo-btn-wrapper">
+                <div className="photo-btn">+</div>
+              </div>
+            )}
+            {uploading && <p>Uploading...</p>}
           </label>
           <div className="Abs--details">
             <label className="Abs-label" htmlFor="firstName">
@@ -221,15 +262,21 @@ const AbsForm = ({
               required
             />
           </div>
-          <p className="terms-text">I accept all terms of use and terms of service.</p>
+          <p className="terms-text">
+            I accept all terms of use and terms of service.
+          </p>
         </label>
-        <button className="register-btn">Register</button>
+        {/* Submit Button */}
+        <button className="register-btn" disabled={uploading}>
+          {uploading ? "Uploading..." : "Register"}
+        </button>
       </section>
 
       {/* modal section.... // // displaying the response from the server */}
       <section
         className="modal-container"
-        style={{ transform: toggleAlert && `translateX(${0}%)` }}>
+        style={{ transform: toggleAlert && `translateX(${0}%)` }}
+      >
         <div className="modal-box">
           {isSuccess === "Yes" ? (
             <i className="fa-solid fa-circle-check fa-2x success-icon"></i>
@@ -243,7 +290,8 @@ const AbsForm = ({
               setToggleAlert(false);
               setIsSuccess("");
             }}
-            className="modal-btn">
+            className="modal-btn"
+          >
             Got it!
           </div>
         </div>
@@ -251,4 +299,5 @@ const AbsForm = ({
     </form>
   );
 };
+
 export default AbsForm;

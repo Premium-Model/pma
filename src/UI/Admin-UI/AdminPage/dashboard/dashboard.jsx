@@ -23,7 +23,6 @@ import Ambassador from "../Ambassador/Amb-list";
 
 const AdminDashboard = () => {
   const dispatch = useDispatch();
-
   const [message, setMessage] = useState([]);
   const [model, setModel] = useState([]);
   const [client, setClient] = useState([]);
@@ -296,7 +295,6 @@ const AdminDashboard = () => {
       },
     ],
   };
-
   const groupDonughtOptions = {
     plugins: {
       legend: {
@@ -306,8 +304,8 @@ const AdminDashboard = () => {
     cutout: "40%",
     radius: "100%",
   };
-  //   [END]
 
+  //   [END]
   //Data Used in Pie Chart For User History [START]
   const donughtData = {
     labels: ["Models", "Agencies", "Clients"],
