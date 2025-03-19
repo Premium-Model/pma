@@ -1,4 +1,5 @@
 import "./Profile.css";
+import "./ModelPortfolio.scss";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ModelInfo from "../../../Pages/FindModel/Models-Profile-page/Model-Info";
@@ -70,9 +71,12 @@ function ModelPortfolio({ item, postMsg }) {
   // console.log(model)
 
   return (
-    <div style={{ backgroundColor: "white" }}>
+    <div className="modelprofile-dark">
       <>
-        <ModelInfo item={user.role === 'model'? user : model} handleForm={handleForm} />
+        <ModelInfo
+          item={user.role === "model" ? user : model}
+          handleForm={handleForm}
+        />
         <Links handleSection={handleSection} activeSection={activeSection} />
         {activeSection === "Photos" && (
           <ModelPhoto
