@@ -2,7 +2,12 @@ import { useState } from "react";
 import "./withdraw.css";
 import { ambassadorsRequest } from "../../../../redux/requestMethod";
 
-const PayOut = ({ amb, toggleWithdrawal, setToggleWithdrawal, formatMoney }) => {
+const PayOut = ({
+  amb,
+  toggleWithdrawal,
+  setToggleWithdrawal,
+  formatMoney,
+}) => {
   const [currentAmb, setCurrentAmb] = useState({});
   const [showId, setShowId] = useState(false);
   const [message, setMessage] = useState("");
@@ -21,7 +26,10 @@ const PayOut = ({ amb, toggleWithdrawal, setToggleWithdrawal, formatMoney }) => 
 
   const payOut = async (data) => {
     try {
-      const res = await ambassadorsRequest.put(`/admin/amb-edit/${amb._id}`, data);
+      const res = await ambassadorsRequest.put(
+        `/admin/amb-edit/${amb._id}`,
+        data
+      );
       //console.log(res.data);
       setWithDraw({
         Amount: "",
@@ -59,13 +67,15 @@ const PayOut = ({ amb, toggleWithdrawal, setToggleWithdrawal, formatMoney }) => 
     <>
       <section
         style={{ transform: toggleWithdrawal && `translateX(${0}%)` }}
-        className="modal-container">
+        className="modal-container"
+      >
         <div className="withdraw-box">
           <div className="withdraw-top-text">
             <h3>Withdraw</h3>
             <i
               onClick={() => setToggleWithdrawal((prev) => !prev)}
-              className="fa-solid fa-xmark noti-close colored-hover"></i>
+              className="fa-solid fa-xmark noti-close colored-hover"
+            ></i>
           </div>
 
           <div className="withdraw-wrapper">
@@ -88,7 +98,8 @@ const PayOut = ({ amb, toggleWithdrawal, setToggleWithdrawal, formatMoney }) => 
                 e.preventDefault();
                 handlePayOut();
               }}
-              className="withdraw-form">
+              className="withdraw-form"
+            >
               <label className="Abs-label" htmlFor="Amount">
                 <input
                   id="Amount"
@@ -117,11 +128,13 @@ const PayOut = ({ amb, toggleWithdrawal, setToggleWithdrawal, formatMoney }) => 
                 {showId ? (
                   <i
                     onClick={() => setShowId((prev) => !prev)}
-                    className="fa-solid fa-eye viewPwd"></i>
+                    className="fa-solid fa-eye viewPwd"
+                  ></i>
                 ) : (
                   <i
                     onClick={() => setShowId((prev) => !prev)}
-                    className="fa-solid fa-eye-slash viewPwd"></i>
+                    className="fa-solid fa-eye-slash viewPwd"
+                  ></i>
                 )}
               </label>
 
@@ -132,7 +145,10 @@ const PayOut = ({ amb, toggleWithdrawal, setToggleWithdrawal, formatMoney }) => 
       </section>
 
       {/* modal section.... // // displaying the response from the server */}
-      <section className="modal-container" style={{ transform: toggleMsg && `translateX(${0}%)` }}>
+      <section
+        className="modal-container"
+        style={{ transform: toggleMsg && `translateX(${0}%)` }}
+      >
         <div className="modal-box">
           {message === "Transaction Successful!" ? (
             <i className="fa-solid fa-circle-check fa-2x success-icon"></i>
@@ -146,7 +162,8 @@ const PayOut = ({ amb, toggleWithdrawal, setToggleWithdrawal, formatMoney }) => 
               setToggleMsg(false);
               setMessage("");
             }}
-            className="modal-btn">
+            className="modal-btn"
+          >
             Got it!
           </div>
         </div>
