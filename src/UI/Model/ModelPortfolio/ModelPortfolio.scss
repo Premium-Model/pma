@@ -1,0 +1,71 @@
+.dashboards-styles.darkmode {
+  .modelprofile-dark {
+    background: #0a0f14 !important;
+    padding: 1rem;
+  }
+  .section.section-profile2.model-info,
+  section.section-profile.photo-section,
+  section.section-profile.stat-section,
+  section.section-profile.bio-section,
+  section.section-profile.polaroid-section,
+  section.section-profile.video-section {
+    background: var(--color-white) !important;
+    padding: var(--card-padding) !important;
+    border-radius: var(--card-border-radius);
+    margin-top: 1rem;
+    box-shadow: var(--box-shadows) !important;
+    border: var(--border-card);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    .model-Info__text-content {
+      .model__names {
+        color: #f8f8ff;
+      }
+      .model__ratings {
+        color: #f8f8ff;
+      }
+      .model__categorys {
+        color: #f8f8ff;
+      }
+      .model__locations {
+        color: #f8f8ff;
+      }
+      .interactive-section {
+        gap: 8px;
+      }
+
+      .model-pricetag {
+        color: #f8f8ff;
+      }
+    }
+
+    .stat__item,
+    .stat__list {
+      color: #f8f8ff;
+    }
+
+    .stat__item {
+      padding: 1rem 0;
+    }
+    .stat__list {
+      border-left: 4px solid #f8f8ff;
+      padding: 1rem 1.5rem;
+      &::before,
+      &::after {
+        background: #f8f8ff;
+      }
+    }
+
+    .stat__title {
+      font-size: 1.5rem;
+      color: #f8f8ff;
+      text-decoration: none;
+    }
+
+    .job__list {
+      border: 1px solid #f8f8ff;
+      border-radius: 15px;
+      margin-top: -1rem;
+    }
+  }
+}

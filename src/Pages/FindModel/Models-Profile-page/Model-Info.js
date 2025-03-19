@@ -111,9 +111,11 @@ function ModelInfo({ item, handleForm }) {
               <span className="semi-bold">Active: </span> 2 weeks ago
             </p>
           </div> */}
-          <p>
-            <span className="semi-bold">Minimum booking price: </span> NGN{" "}
-            {item?.model?.minPrice}
+          <p className="model-pricetag">
+            <span className="semi-bold model-pricetag">
+              Minimum booking price:{" "}
+            </span>{" "}
+            NGN {item?.model?.minPrice}
           </p>
 
           <div className="profile-btn btn-shadow">

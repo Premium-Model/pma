@@ -122,9 +122,7 @@ function ProfilePage({ item, postMsg }) {
         profileId={message?._id}
         postMsg={postMsg}
       />
-      <div className="profile-footer">
-        <small>Copyright &copy; 2022 PREMIUM MODEL</small>
-      </div>
+      
     </>
   );
 }
