@@ -1,23 +1,19 @@
 .wallet-home-container {
-  background: #f5f5f5;
-  padding: 0.8rem;
-  min-height: 100vh;
+  padding: 2rem;
+  background: var(--color-bg);
 }
 .wallet-top-text {
   display: flex;
   justify-content: space-between;
-  font-size: 2rem;
-  padding: 1rem;
+  font-size: 1.5rem;
 }
 .wallet-title-text {
-  font-size: 2.2rem;
+  font-size: 1.5rem;
+  letter-spacing: 1.5px;
   font-weight: 600;
   color: var(--Colored-color);
 }
 .balance-section {
-  border-radius: 20px;
-  padding: 1.3rem;
-  background: var(--Light-color);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -246,215 +242,4 @@
   transform: translateX(100%);
   transition: all, 0.3s ease-out;
   z-index: 100;
-}
-@media screen and (max-width: 345px) {
-  .wallet-home-container {
-    padding: 0.5rem;
-  }
-  .transaction-top-text h3 {
-    font-size: 1.2rem;
-  }
-  .balance-section {
-    padding: 1rem;
-  }
-  .transaction-buttons {
-    gap: 0.8rem;
-  }
-  .transaction-view-all {
-    color: var(--Colored-color);
-    font-size: 16px;
-    cursor: pointer;
-  }
-  .transaction-amount,
-  .transaction-title {
-    font-size: 1rem;
-  }
-}
-@media screen and (min-width: 768px) {
-  .wallet-home-container {
-    padding: 2rem;
-  }
-  .wallet-top-text {
-    font-size: 3rem;
-  }
-  .wallet-title-text {
-    font-size: 3rem;
-  }
-  .balance-section {
-    padding: 2rem;
-  }
-
-  .balance-title {
-    font-size: 2rem;
-  }
-  .balance-more-icon {
-    font-size: 2.2rem;
-  }
-  .balance-figure {
-    font-size: 3rem;
-  }
-  .credit,
-  .debit {
-    gap: 1rem;
-  }
-
-  .credit-icon,
-  .debit-icon {
-    font-size: 3rem;
-  }
-
-  .credit-figure,
-  .debit-figure {
-    font-size: 2.2rem;
-  }
-  .credit-text,
-  .debit-text {
-    font-size: 1.5rem;
-  }
-
-  .transaction-buttons {
-    justify-content: left;
-    gap: 6rem;
-    padding-top: 1.8rem;
-  }
-  .withdraw-btn,
-  .transfer-btn {
-    width: 150px;
-    height: 60px;
-    font-size: 1.8rem;
-    font-weight: 600;
-  }
-
-  .transaction-top-text {
-    padding: 2rem 0;
-    padding-bottom: 1rem;
-  }
-  .transaction-top-text h3 {
-    font-size: 2rem;
-  }
-  .transaction-view-all {
-    font-size: 1.6rem;
-  }
-  .transaction-item {
-    gap: 10px;
-    padding: 1.5rem 0;
-    border-top: 2px solid #bbbb;
-  }
-  .transaction-avatar {
-    width: 80px;
-    height: 80px;
-  }
-
-  .transaction-title {
-    font-size: 1.6rem;
-  }
-
-  .transaction-time,
-  .transaction-sub-title {
-    font-size: 1.4rem;
-    color: gray;
-  }
-  .transaction-amount {
-    font-size: 1.8rem;
-  }
-
-  /* transaction details section  */
-
-  .transaction-details {
-    padding: 1.2rem;
-  }
-
-  .details-title,
-  .details-status {
-    font-size: 1.8rem;
-  }
-  .details-amount {
-    font-size: 3rem;
-  }
-
-  .transaction-details-main li {
-    font-size: 1.5rem;
-  }
-}
-@media screen and (min-width: 920px) {
-}
-@media screen and (min-width: 1230px) {
-  .wallet-home-container {
-    padding: 2rem 3rem;
-    padding-top: 1rem;
-  }
-  .wallet-top-text {
-    font-size: 2rem;
-  }
-  .wallet-title-text {
-    font-size: 2.5rem;
-  }
-  .balance-section {
-    padding: 1.5rem;
-  }
-
-  .balance-title {
-    font-size: 1.5rem;
-  }
-  .balance-more-icon {
-    font-size: 2rem;
-  }
-  .balance-figure {
-    font-size: 2.5rem;
-  }
-  .credit,
-  .debit {
-    gap: 1rem;
-  }
-
-  .credit-icon,
-  .debit-icon {
-    font-size: 2.5rem;
-  }
-
-  .credit-figure,
-  .debit-figure {
-    font-size: 1.8rem;
-  }
-  .credit-text,
-  .debit-text {
-    font-size: 1.5rem;
-  }
-
-  .withdraw-btn,
-  .transfer-btn {
-    width: 125px;
-    height: 50px;
-    font-size: 1.5rem;
-  }
-
-  .transaction-top-text {
-    padding: 2rem 0;
-    padding-bottom: 1rem;
-  }
-  .transaction-top-text h3 {
-    font-size: 1.6rem;
-  }
-  .transaction-view-all {
-    font-size: 1.3rem;
-  }
-  .transaction-item {
-    padding: 1.2rem 0;
-  }
-  .transaction-avatar {
-    width: 70px;
-    height: 70px;
-  }
-
-  .transaction-title {
-    font-size: 1.3rem;
-  }
-
-  .transaction-time,
-  .transaction-sub-title {
-    font-size: 1rem;
-  }
-  .transaction-amount {
-    font-size: 1.4rem;
-  }
 }

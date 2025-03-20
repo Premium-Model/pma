@@ -64,7 +64,7 @@ function Wallet({ transactions, settings, currentUser }) {
       {/* <TransactionHistory transactions={sortedTransaction} /> */}
       <div className="wallet-home-container">
         <div className="wallet-top-text">
-          <h2 className="wallet-title-text">My Wallet</h2>
+          <h2 className="wallet-title-text">{`${loggedUser.firstName}'s Wallet`}</h2>
           {/* <NavLink to={settings}> */}
           <i
             onClick={() => handleForm("setting")}
@@ -73,7 +73,7 @@ function Wallet({ transactions, settings, currentUser }) {
           {/* </NavLink> */}
         </div>
 
-        <section className="balance-section">
+        <section className="balance-section dashboard-cards ">
           <div className="balance-top-text">
             <h3 className="balance-title">Current Balance</h3>
             <NavLink to={`${currentUser}/transaction-history`}>
@@ -180,7 +180,7 @@ function Wallet({ transactions, settings, currentUser }) {
         </section>
 
         {/* recent transaction section  */}
-        <section className="transaction-section">
+        <section className="transaction-section dashboard-cards ">
           <div className="transaction-top-text">
             <h3>Recent Transactions</h3>
             <NavLink
