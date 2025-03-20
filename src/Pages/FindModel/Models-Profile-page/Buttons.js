@@ -10,9 +10,9 @@ function LinkBtn({ btnText, handleSection, activeSection }) {
 
 //interactive btn section
 
-function InteractiveBtn({ btnText, btnIcon }) {
+function InteractiveBtn({ btnText, btnIcon, handleShare }) {
   return (
-    <button className="interactive-icon">
+    <button className="interactive-icon" onClick={handleShare}>
       <i className={btnIcon}></i>
       <span className="interactive-text">{btnText}</span>
     </button>
@@ -23,7 +23,10 @@ function InteractiveBtn({ btnText, btnIcon }) {
 
 function ViewBtn({ handleDisplay, id, btnText }) {
   return (
-    <button className="view-more-btn btn-shadow" onClick={() => handleDisplay(id, btnText)}>
+    <button
+      className="view-more-btn btn-shadow"
+      onClick={() => handleDisplay(id, btnText)}
+    >
       {btnText}
     </button>
   );

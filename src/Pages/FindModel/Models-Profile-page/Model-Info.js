@@ -21,6 +21,21 @@ function ModelInfo({ item, handleForm }) {
     } catch (error) {}
   };
 
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator
+        .share({
+          title: item?.model?.fullName,
+          text: `Check out ${item?.model?.fullName}'s portfolio!`,
+          url: window.location.href,
+        })
+        .catch((err) => console.log(err));
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      alert("Link copied to clipboard!");
+    }
+  };
+
   return (
     <>
       <section className="section section-profile2 model-info">
@@ -88,13 +103,11 @@ function ModelInfo({ item, handleForm }) {
               //btnIcon="fa-solid fa-heart heart-icon Icon"
               btnText="Favorite"
             />
-            <InteractiveBtn
-              btnIcon="fa-brands fa-instagram insta-icon Icon"
-              btnText="Instagram"
-            />
+
             <InteractiveBtn
               btnIcon="fa-solid fa-share-nodes share-icon Icon"
               btnText="Share"
+              handleShare={handleShare}
             />
           </div>
           {/* <div className="model__activities">
