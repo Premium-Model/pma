@@ -1,5 +1,7 @@
 import "./Profile.css";
 import "./Profile-gallery.scss";
+import "../../../UI/Model/ModelPortfolio/ModelPortfolio.scss";
+
 import ModelInfo from "./Model-Info";
 import Links from "./Links";
 import ModelPhoto from "./Model-Photo";
@@ -81,7 +83,7 @@ function ProfilePage({ item, postMsg }) {
   }
 
   return (
-    <>
+    <div className="profile-card-background"> 
       <ModelInfo item={message} handleForm={handleForm} />
       <Links handleSection={handleSection} activeSection={activeSection} />
       {activeSection === "Photos" && (
@@ -122,8 +124,7 @@ function ProfilePage({ item, postMsg }) {
         profileId={message?._id}
         postMsg={postMsg}
       />
-      
-    </>
+    </div>
   );
 }
 export default ProfilePage;

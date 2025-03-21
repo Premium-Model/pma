@@ -35,7 +35,7 @@ const ModelSubscription = () => {
     <FadeIn>
       <div id="model_subscription">
         <h3>Subscription</h3>
-        <div id="container">
+        <div id="container" className="dashboard-cards">
           <header>Available Subscriptions</header>
           <table>
             <thead>
@@ -66,7 +66,11 @@ const ModelSubscription = () => {
                     </td>
                     <td>{item?.desc}</td>
                     <td>NGN {item?.amount}</td>
-                    <td>{moment(item?.endDate ? item?.endDate : endDate).format("DD-MM-YYYY")}</td>
+                    <td>
+                      {moment(item?.endDate ? item?.endDate : endDate).format(
+                        "DD-MM-YYYY"
+                      )}
+                    </td>
                     <td className="active">Active</td>
                     <td>
                       <button onClick={() => openDetails(item?._id)}>

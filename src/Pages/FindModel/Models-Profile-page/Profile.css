@@ -170,7 +170,7 @@
 }
 .interactive-section {
   display: flex;
-  justify-content: space-between;
+  gap: 1rem;
   align-items: center;
   padding: 1rem 0;
 }
@@ -570,9 +570,6 @@ input[type="date"],
     font-size: 12px;
   }
 
-  .interactive-section {
-    justify-content: space-around;
-  }
   .star--icon {
     font-size: 25px;
   }
@@ -907,7 +904,6 @@ input[type="date"],
 
   .interactive-section {
     display: flex;
-    justify-content: space-evenly;
     align-items: center;
   }
 

@@ -1,3 +1,48 @@
+.section.section-profile2.model-info,
+section.section-profile.photo-section,
+section.section-profile.stat-section,
+section.section-profile.bio-section,
+section.section-profile.polaroid-section,
+section.section-profile.video-section {
+  background: #fff !important;
+  padding: 2rem 1.5rem !important;
+  border-radius: 2rem !important;
+  margin-top: 3rem !important;
+  margin-bottom: 3rem !important;
+  box-shadow: 0 2rem 3rem rgba(132, 139, 200, 0.18) !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.profile-card-background {
+  background: #f9f9f9;
+  padding: 1rem;
+}
+
+.dashboards-styles {
+  .modelprofile-dark {
+    background: var(--color-bg);
+    padding: 1rem;
+  }
+  .section.section-profile2.model-info,
+  section.section-profile.photo-section,
+  section.section-profile.stat-section,
+  section.section-profile.bio-section,
+  section.section-profile.polaroid-section,
+  section.section-profile.video-section {
+    background: var(--color-white) !important;
+    padding: 2rem 1.5rem !important;
+    border-radius: var(--card-border-radius) !important;
+    margin-top: 1rem;
+    box-shadow: var(--box-shadows) !important;
+    border: var(--border-card) !important;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+}
+
 .dashboards-styles.darkmode {
   .modelprofile-dark {
     background: #0a0f14 !important;

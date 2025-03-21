@@ -62,11 +62,16 @@ const SubscriptionDetail = ({ paymentInvoiceId }) => {
   );
 
   return (
-    <div id="subscription_detail">
+    <div id="subscription_detail ">
       <header>Subscription Data</header>
       <div id="body">
         <span>Subscription Name</span> <span>{paymentDet?.desc}</span>
-        <span>Duration</span> <span>{moment(paymentDet?.endDate ? paymentDet?.endDate : endDate).format("DD-MM-YYYY")}</span>
+        <span>Duration</span>{" "}
+        <span>
+          {moment(paymentDet?.endDate ? paymentDet?.endDate : endDate).format(
+            "DD-MM-YYYY"
+          )}
+        </span>
         <span>Price</span> <span>NGN {paymentDet?.amount}</span>
         <span>Status</span> <span>Active</span>
         <span>Currency Code</span> <span>NGN</span>

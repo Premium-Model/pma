@@ -62,3 +62,22 @@
     }
   }
 }
+
+.dashboards-styles.darkmode {
+  #subscription_detail {
+    & > header {
+    }
+
+    #body {
+      span:nth-child(odd) {
+      }
+      span:nth-child(even) {
+      }
+      #note {
+      }
+    }
+
+    button {
+    }
+  }
+}

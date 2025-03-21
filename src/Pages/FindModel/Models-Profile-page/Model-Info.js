@@ -38,7 +38,7 @@ function ModelInfo({ item, handleForm }) {
 
   return (
     <>
-      <section className="section section-profile2 model-info">
+      <section className="section section-profile2 model-info ">
         <div className="model__img-container">
           <img
             className="model__img"
