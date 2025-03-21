@@ -1,3 +1,5 @@
+import "../scss/dashboards.scss";
+
 import jwt_decode from "jwt-decode";
 import { useEffect, useState } from "react";
 import Navbar from "../Components/Navbar/navbar";
@@ -118,6 +120,48 @@ export const BaseRoutes = () => {
       </div>
     );
   };
+  
+  const [darkmode, setDarkMode] = useState(false);
+  // function handles onfocus and onblur mode on form inputs
+  const FocusBlur = () => {
+    const focusinputs = document.querySelectorAll(".input-textarea");
+    focusinputs.forEach((ipt) => {
+      ipt.addEventListener("focus", () => {
+        ipt.parentNode.classList.add("focus");
+        ipt.parentNode.classList.add("not-empty");
+      });
+
+      ipt.addEventListener("blur", () => {
+        if (ipt.value == "") {
+          ipt.parentNode.classList.remove("not-empty");
+          ipt.parentNode.classList.remove("focus");
+        }
+      });
+    });
+  };
+
+  // handles form transitions on light and dark mode
+  const TransitionHandler = () => {
+    const allElement = document.querySelectorAll("*");
+    allElement.forEach((el) => {
+      el.classList.add("dashboard-transition");
+      setTimeout(() => {
+        el.classList.remove("dashboard-transition");
+      }, 1000);
+    });
+  };
+  //  function handles dark and light mode onclick on forms
+  const HandleTheme = (event) => {
+    // 👇️ toggle darkmode state on click
+    setDarkMode((current) => !current);
+    TransitionHandler();
+  };
+
+  useEffect(() => {
+    FocusBlur();
+  }, []);
+
+
 
   //Pls don't delete this code
   //i want to use it for a correction----> Start
@@ -456,6 +500,7 @@ export const BaseRoutes = () => {
           element: (
             <AgencyAcctSetting
               showNavbar={showNavbar}
+
               setShowNavbar={setShowNavbar}
             />
           ),
@@ -470,6 +515,8 @@ export const BaseRoutes = () => {
                 setShowNavbar={setShowNavbar}
                 setNotice={setNotice}
                 notice={notice}
+                darkmode={darkmode}
+                HandleTheme={HandleTheme}
               />
             </ProtectedRoute>
           ),
@@ -546,6 +593,8 @@ export const BaseRoutes = () => {
               AlertModal={AlertModal}
               showNavbar={showNavbar}
               setShowNavbar={setShowNavbar}
+              darkmode={darkmode}
+              HandleTheme={HandleTheme}
             />
           ),
           children: [

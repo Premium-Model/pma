@@ -23,6 +23,7 @@ import { userLogout } from "../../redux/apiCalls";
 import { FaBars, FaTimes } from "react-icons/fa";
 import useMediaQuery from "../../custom_hooks/useMediaQuery";
 import "../../scss/dashboards.scss";
+import ToggleDisplay from "../ToggleDisplay/ToggleDisplay";
 
 const Sidebar = ({
   topList,
@@ -166,31 +167,7 @@ const Sidebar = ({
                   </span>
                 </div>
               </li>
-
-              <li className="mode">
-                <div className="moon-sun">
-                  {darkmode ? (
-                    <BsSun className="icon sun" />
-                  ) : (
-                    <BsMoon className="icon moon" />
-                  )}
-                </div>
-                <span
-                  className={
-                    close
-                      ? "sidebar-text close mode-text"
-                      : "sidebar-text mode-text"
-                  }
-                >
-                  {darkmode ? "Light Mode" : "Dark Mode"}
-                </span>
-
-                <div className="toggle-switch" onClick={HandleTheme}>
-                  <span
-                    className={darkmode ? "switch dark-switch" : "switch"}
-                  ></span>
-                </div>
-              </li>
+             <ToggleDisplay close={close} darkmode={darkmode} HandleTheme={HandleTheme}/>
             </div>
           </main>
         </nav>

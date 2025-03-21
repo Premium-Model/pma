@@ -23,6 +23,7 @@ import { userLogout } from "../../redux/apiCalls";
 import { FaBars, FaTimes } from "react-icons/fa";
 import useMediaQuery from "../../custom_hooks/useMediaQuery";
 import "../../scss/dashboards.scss";
+import ToggleDisplay from "../ToggleDisplay/ToggleDisplay";
 
 const Sidebar = ({
   topList,
@@ -148,10 +149,66 @@ const Sidebar = ({
                     </li>
                   );
                 })}
+
+                {bottomList.map((item, index) => {
+                  return item.path ? (
+                    <li
+                      className={
+                        item.path === path
+                          ? "navigate-link active"
+                          : "navigate-link"
+                      }
+                      key={index}
+                      style={{Cursor: "pointer"}}
+                    >
+                      <div
+                        className={ item.name === "Dashboard" ? "link-item dashboard-4567" :"link-item" }
+                        onClick={(e) => navigate(item.path)}
+                      >
+                        {item.icon}
+                        <span
+                          className={
+                            close
+                              ? "sidebar-text close header-text"
+                              : "sidebar-text header-text"
+                          }
+                        >
+                          {item.name}
+                        </span>
+                      </div>
+                    </li>
+                  ) : (
+                    <li
+                      className={
+                        item.close === path
+                          ? "navigate-link close-link active"
+                          : "navigate-link close-link"
+                      }
+                      key={index}
+                    >
+                      <div
+                       className={ item.name === "Dashboard" ? "link-item dashboard-4567" :"link-item" }
+                        onClick={() => setSidebarVisibility(item.close)}
+                      >
+                        {item.icon}
+                        <span
+                          className={
+                            close
+                              ? "sidebar-text close header-text"
+                              : "sidebar-text header-text"
+                          }
+                        >
+                          {item.name}
+                        </span>
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
 
             <div className="bottom-content">
+              
               <li onClick={handleLogout}>
                 <div className="link-item">
                   <Logout className="icon" />
@@ -167,30 +224,7 @@ const Sidebar = ({
                 </div>
               </li>
 
-              <li className="mode">
-                <div className="moon-sun">
-                  {darkmode ? (
-                    <BsSun className="icon sun" />
-                  ) : (
-                    <BsMoon className="icon moon" />
-                  )}
-                </div>
-                <span
-                  className={
-                    close
-                      ? "sidebar-text close mode-text"
-                      : "sidebar-text mode-text"
-                  }
-                >
-                  {darkmode ? "Light Mode" : "Dark Mode"}
-                </span>
-
-                <div className="toggle-switch" onClick={HandleTheme}>
-                  <span
-                    className={darkmode ? "switch dark-switch" : "switch"}
-                  ></span>
-                </div>
-              </li>
+             <ToggleDisplay close={close} darkmode={darkmode} HandleTheme={HandleTheme}/>
             </div>
           </main>
         </nav>

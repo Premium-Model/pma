@@ -1,5 +1,6 @@
 import "./model-settings.scss";
 import "./model-settings.css";
+import "../../../../scss/dashboards.scss";
 
 // Sidebar Navigation Icons --> [START]
 import {
@@ -8,14 +9,12 @@ import {
   MdOutlineBarChart,
   MdOutlineLiveHelp,
   MdOutlineContactPhone,
+  MdOutlineDashboard,
 } from "react-icons/md";
 import { HiStatusOnline } from "react-icons/hi";
 import { BiLogOut, BiWallet } from "react-icons/bi";
 import { CgUserList } from "react-icons/cg"; //[END]
 
-// Components (The Sidebar, Topbar and Background)  --> [START]
-import SettingsSidebar from "../../../../Components/Settings/Sidebar/sidebar";
-import SettingsTopbar from "../../../../Components/Settings/Topbar/topbar";
 import Background from "../../../../Components/Dashboard/Background/background"; //[END]
 
 // Custom Hooks  --> [START]
@@ -29,8 +28,10 @@ import { useSelector } from "react-redux";
 
 //--> importing notification component
 import Notification from "../../../Notification/Notification";
+import Sidebar from "../../../../Components/Sidebar/Settings Sidebar";
+import DashboardTopbar from "../../../../Components/Dashboard/Topbar/topbar";
 
-const ModelPage = ({ showNavbar, setShowNavbar, setModelPage, setNotice, notice }) => {
+const ModelPage = ({ showNavbar, setShowNavbar, setModelPage, setNotice, notice, darkmode, HandleTheme}) => {
   const user = useSelector((state) => state.user.currentUser);
   // Using Hooks  --> [START]
 
@@ -52,68 +53,101 @@ const ModelPage = ({ showNavbar, setShowNavbar, setModelPage, setNotice, notice 
     } else if (loc.pathname === "/model-Acct-setting/wallet") {
       navigate("wallet");
     }
+
+    else if (loc.pathname === "/model-Acct-setting/dashboard") {
+      navigate("/modelpage/dashboard");
+    }
   }, [loc.pathname, navigate]); // --> Redirecting to the dashboard
   //[END]
 
   // Array For Composing Sidebar Navigation -> (Sidebar Componet) --> [START]
   const topList = [
-    { name: "Profile", icon: <CgUserList />, path: "profile" },
-    { name: "Stats", icon: <MdOutlineBarChart />, path: "stats" },
+
+    
+    { name: "Profile", icon: <CgUserList className="icon"/>, path: "profile" },
+    { name: "Stats", icon: <MdOutlineBarChart className="icon" />, path: "stats" },
 
     {
       name: "Photos",
-      icon: <MdOutlineFilter />,
+      icon: <MdOutlineFilter className="icon" />,
       path: "photos",
     },
     {
       name: "Videos",
-      icon: <MdOutlineLiveTv />,
+      icon: <MdOutlineLiveTv className="icon" />,
       path: "videos",
     },
-    { name: "Wallet", icon: <BiWallet />, path: "wallet" },
+    { name: "Wallet", icon: <BiWallet  className="icon"/>, path: "wallet" },
     {
       name: "Logins",
-      icon: <HiStatusOnline />,
+      icon: <HiStatusOnline className="icon"/>,
       path: "logins",
     },
   ];
   const bottomList = [
-    { name: "Help", icon: <MdOutlineLiveHelp />, path: "/faqs" },
-    { name: "Contact us", icon: <MdOutlineContactPhone />, path: "/contact" },
-    { name: "Log out", icon: <BiLogOut />, path: "" },
+    { name: "Help", icon: <MdOutlineLiveHelp className="icon"/>, path: "/faqs" },
+    { name: "Contact us", icon: <MdOutlineContactPhone className="icon"/>, path: "/contact" },
+    { name: "Dashboard", icon: <MdOutlineDashboard className="icon" />, path: "/modelpage/dashboard" },
+    { name: "Log out", icon: <BiLogOut className="icon" />, path: "" },
   ];
   //[END]
+  // Button Component -> (Topbar Component) --> [START]
+  const button = (
+    <motion.button whileTap={{ scale: 0.96 }} id="nav_button">
+      Promote Portfolio
+    </motion.button>
+  );
+  //[END]
+
 
   return (
     !showNavbar && (
-      <div id="model-settings">
-        {/* Model Page Sidebar Navigation --> [START] */}
+      <div className={
+        darkmode
+          ? "model_page  dashboards-styles  darkmode"
+          : " model_page  dashboards-styles"
+      }>
+    
+
         {mQ1050px ? (
-          <SettingsSidebar top={topList} bottom={bottomList} />
-        ) : sidebarVisibility ? (
-          <Background childState={setSidebarVisibility}>
-            <SettingsSidebar
-              top={topList}
-              bottom={bottomList}
-              setSidebarVisibility={setSidebarVisibility}
-            />
-          </Background>
-        ) : null}
+                  <Sidebar
+                    topList={topList}
+                    darkmode={darkmode}
+                    HandleTheme={HandleTheme}
+                    bottomList={bottomList}
+                    setSidebarVisibility={setSidebarVisibility}
+                  />
+                ) : sidebarVisibility ? (
+                  <Background childState={setSidebarVisibility}>
+                    <Sidebar
+                      topList={topList}
+                      darkmode={darkmode}
+                      HandleTheme={HandleTheme}
+                      bottomList={bottomList}
+                      setSidebarVisibility={setSidebarVisibility}
+                    />
+                  </Background>
+                ) : null}
         {/*[END] */}
 
-        <main className="model-setting-main">
+        <main id="model-setting-main" className={
+            darkmode ? " dashboards-styles  darkmode " : "dashboards-styles "
+          }>
           {/* Model Page Topbar --> [START] */}
-          <SettingsTopbar
-            sidebarVisibility={sidebarVisibility}
-            setSidebarVisibility={setSidebarVisibility}
-            setPage={setModelPage}
-            setToggleNotice={setToggleNotice}
-            notice={notice}
-          />
+         
+
+            <DashboardTopbar
+                      lastItem={button}
+                      sidebarVisibility={sidebarVisibility}
+                      setSidebarVisibility={setSidebarVisibility}
+                      setPage={setModelPage}
+                      setToggleNotice={setToggleNotice}
+                      notice={notice}
+                    />
           {/* [END] */}
 
           {/* Render The Current Sidebar Navigation Link --> [START] */}
-          <Outlet />
+          <Outlet darkmode={darkmode} HandleTheme={HandleTheme}  />
           {/* [END] */}
 
           <Notification

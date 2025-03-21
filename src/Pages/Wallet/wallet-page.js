@@ -11,7 +11,7 @@ import {
 } from "./wallet-forms";
 import { makeGet } from "../../redux/apiCalls";
 
-function Wallet({ transactions, settings, currentUser }) {
+function Wallet({ transactions,  currentUser }) {
   const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
 

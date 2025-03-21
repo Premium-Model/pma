@@ -102,7 +102,7 @@ const ModelPage = ({
       name: "Settings",
       icon: <IoSettingsOutline className="icon" />,
 
-      path: "/model-Acct-setting/" + user._id,
+      path: "/model-Acct-setting/" + user._id + "/profile",
     },
 
     {
