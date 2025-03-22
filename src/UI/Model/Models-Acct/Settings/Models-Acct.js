@@ -5,8 +5,7 @@ import KycNotice from "../../Notification/kyc-notice";
 import { useEffect, useState } from "react";
 import "../../../scss/dashboards.scss";
 
-function ModelsAcct({ showNavbar, darkmode, HandleTheme, setShowNavbar, user, setNotice, notice }) {
-
+function ModelsAcct({ showNavbar, setShowNavbar, user, setNotice, notice }) {
   return (
     <>
       {!user?.isUpdated && <KycNotice />}
@@ -16,8 +15,6 @@ function ModelsAcct({ showNavbar, darkmode, HandleTheme, setShowNavbar, user, se
       ) : (
         <ModelPage
           showNavbar={showNavbar}
-          darkmode={darkmode}
-          HandleTheme={HandleTheme}
           setShowNavbar={setShowNavbar}
           setNotice={setNotice}
           notice={notice}

@@ -24,6 +24,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import useMediaQuery from "../../custom_hooks/useMediaQuery";
 import "../../scss/dashboards.scss";
 import ToggleDisplay from "../ToggleDisplay/ToggleDisplay";
+import Svg from "./asset/Svg";
 
 const Sidebar = ({
   topList,
@@ -35,8 +36,9 @@ const Sidebar = ({
   const navigate = useNavigate();
   const mQ1050px = useMediaQuery("(min-width: 1050px)");
   const location = useLocation();
-  const path = location.pathname;
+
   const [close, setClose] = useState(false);
+  const path = useLocation();
 
   const dispatch = useDispatch();
 
@@ -99,13 +101,18 @@ const Sidebar = ({
                   return item.path ? (
                     <li
                       className={
-                        item.path === path
+                        path.pathname.includes(item.path)
                           ? "navigate-link active"
                           : "navigate-link"
                       }
                       key={index}
-                      style={{Cursor: "pointer"}}
+                      style={{ Cursor: "pointer" }}
                     >
+                      {path.pathname.includes(item.path) && (
+                        <div style={{ display: "flex" }}>
+                          <Svg width="15" fill="var(--main-color)" />
+                        </div>
+                      )}
                       <div
                         className="link-item"
                         onClick={(e) => navigate(item.path)}
@@ -167,7 +174,11 @@ const Sidebar = ({
                   </span>
                 </div>
               </li>
-             <ToggleDisplay close={close} darkmode={darkmode} HandleTheme={HandleTheme}/>
+              <ToggleDisplay
+                close={close}
+                darkmode={darkmode}
+                HandleTheme={HandleTheme}
+              />
             </div>
           </main>
         </nav>

@@ -8,7 +8,7 @@
   list-style: none;
   box-sizing: border-box;
   scrollbar-width: thin;
-  scrollbar-color: rgba(89, 203, 157, 0.8) rgba(0, 0, 0, 0.99);
+  scrollbar-color: rgb(255, 46, 147) rgba(0, 0, 0, 0.99);
 }
 ::-webkit-scrollbar {
   width: 13px;
@@ -20,7 +20,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(196, 147, 162, 0.8);
+  background: rgba(255, 53, 114, 0.8);
   border-radius: 30px;
 }
 :root {

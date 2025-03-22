@@ -37,9 +37,58 @@ const ModelPage = ({
   setModelPage,
   setNotice,
   notice,
-  darkmode,
-  HandleTheme,
 }) => {
+  const [darkmode, setDarkMode] = useState(() => {
+    // Retrieve dark mode preference from local storage
+    return localStorage.getItem("darkmode") === "true";
+  });
+
+  // Function to handle focus and blur on form inputs
+  const FocusBlur = () => {
+    const focusInputs = document.querySelectorAll(".input-textarea");
+
+    focusInputs.forEach((input) => {
+      input.addEventListener("focus", () => {
+        input.parentNode.classList.add("focus", "not-empty");
+      });
+
+      input.addEventListener("blur", () => {
+        if (input.value === "") {
+          input.parentNode.classList.remove("not-empty", "focus");
+        }
+      });
+    });
+  };
+
+  // Smooth transition handler
+  const TransitionHandler = () => {
+    const targetElements = document.querySelectorAll("*");
+
+    targetElements.forEach((el) => {
+      el.classList.add("dashboard-transition");
+
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          el.classList.remove("dashboard-transition");
+        }, 800); // Reduce time for a more natural effect
+      });
+    });
+  };
+
+  // Function to handle theme switching
+  const HandleTheme = () => {
+    setDarkMode((prev) => {
+      const newMode = !prev;
+      localStorage.setItem("darkmode", newMode); // Save to local storage
+      return newMode;
+    });
+    TransitionHandler();
+  };
+
+  // Run FocusBlur once when component mounts
+  useEffect(() => {
+    FocusBlur();
+  }, []);
   const user = useSelector((state) => state.user.currentUser);
   // Using Hooks  --> [START]
 
@@ -124,7 +173,6 @@ const ModelPage = ({
       icon: <MdOutlineContactPhone className="icon" />,
       path: "/contact",
     },
-    { name: "Log out", icon: <BiLogOut className="icon" />, path: "" },
   ];
   //[END]
 

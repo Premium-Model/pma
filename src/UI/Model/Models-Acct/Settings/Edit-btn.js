@@ -1,15 +1,6 @@
-function EditBtn({
-  btnText,
-  section,
-  handleActiveEdit,
-  handlePassword,
-  handleEmail,
-}) {
+function EditBtn({ btnText, section, handleActiveEdit }) {
   function handleClick() {
     handleActiveEdit(section, btnText);
-
-    // section === "update-email" && handleEmail(btnText);
-    // section === "reset-password" && handlePassword(btnText);
   }
 
   return (

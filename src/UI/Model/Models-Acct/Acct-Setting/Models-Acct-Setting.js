@@ -20,7 +20,6 @@ function ModelAcctSetting({
   AlertModal,
   handleModal,
   userData,
-  showNavbar,
   setShowNavbar,
 }) {
   const user = useSelector((state) => state.user.currentUser);

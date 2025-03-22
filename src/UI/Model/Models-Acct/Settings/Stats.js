@@ -16,7 +16,9 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
 
   const [inputs, setInputs] = useState({});
   const [category, setCategory] = useState(user?.model?.category);
-  const [interestedJob, setInterestedJob] = useState(user?.model?.interestedJob);
+  const [interestedJob, setInterestedJob] = useState(
+    user?.model?.interestedJob
+  );
   const [modalTxt, setModalTxt] = useState("");
   const [message, setMessage] = useState("");
 
@@ -79,7 +81,8 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
         {activeEdit === "model-statistic" && (
           <p className="set_description">
             <i className="fa-solid fa-angles-right note"></i>
-            Setting your measurements allows your profile to be found in search results.
+            Setting your measurements allows your profile to be found in search
+            results.
           </p>
         )}
         {activeEdit === "model-statistic" && (
@@ -214,8 +217,11 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
             <select
               disabled={activeEdit === "model-statistic" ? false : true}
               name="tattoos"
-              onChange={handleChange}>
-              <option value={user?.model?.tattoos}>{user?.model?.tattoos ? "Yes" : "No"}</option>
+              onChange={handleChange}
+            >
+              <option value={user?.model?.tattoos}>
+                {user?.model?.tattoos ? "Yes" : "No"}
+              </option>
               <option value="true">Yes</option>
               <option value="false">No</option>
             </select>
@@ -254,7 +260,8 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
             <select
               disabled={activeEdit === "model-statistic" ? false : true}
               name="availableForTravel"
-              onChange={handleChange}>
+              onChange={handleChange}
+            >
               <option value={user?.model?.availableForTravel}>
                 {user?.model?.availableForTravel ? "Yes" : "No"}
               </option>
@@ -282,11 +289,15 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
             handleActiveEdit={handleActiveEdit}
           />
           {activeEdit === "model-categories" && (
-            <p className="category-text-2">choose which type of model you suited (2max)</p>
+            <p className="category-text-2">
+              choose which type of model you suited (2max)
+            </p>
           )}
         </div>
         {activeEdit === "model-categories" && (
-          <p className="category-text-1">choose which type of model you suited (2max)</p>
+          <p className="category-text-1">
+            choose which type of model you suited (2max)
+          </p>
         )}
 
         {/* category read only section */}
@@ -306,7 +317,10 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
             {categoryInput.map((item) => {
               return (
                 <li className="setting_input-container" key={item.id}>
-                  <label className="setting_check-box-label colored-hover" htmlFor={item.id}>
+                  <label
+                    className="setting_check-box-label colored-hover"
+                    htmlFor={item.id}
+                  >
                     {item.label}
                     <input
                       onChange={(e) => {
@@ -324,7 +338,11 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
                       id={item.id}
                       name="category"
                       value={item.value}
-                      checked={category.find((value) => value === item.value) ? true : false}
+                      checked={
+                        category.find((value) => value === item.value)
+                          ? true
+                          : false
+                      }
                     />
                   </label>
                 </li>
@@ -358,7 +376,10 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
             {jobsInput.map((item) => {
               return (
                 <li className="setting_input-container" key={item.id}>
-                  <label className="setting_check-box-label colored-hover" htmlFor={item.id}>
+                  <label
+                    className="setting_check-box-label colored-hover"
+                    htmlFor={item.id}
+                  >
                     {item.label}
                     <input
                       onChange={(e) =>
@@ -373,7 +394,11 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
                       id={item.id}
                       name="job-interest"
                       value={item.value}
-                      checked={interestedJob.find((value) => value === item.value) ? true : false}
+                      checked={
+                        interestedJob.find((value) => value === item.value)
+                          ? true
+                          : false
+                      }
                     />
                   </label>
                 </li>
@@ -426,7 +451,8 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
         <section className="setting_btn-container">
           <button
             onClick={() => resetDiscard(() => handleSave)}
-            className="discard-btn  bold-text cancel-btn">
+            className="discard-btn  bold-text cancel-btn"
+          >
             Discard
           </button>
           <button
@@ -435,7 +461,8 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
             }}
             disabled={activeEdit !== "Done" && true}
             onClick={handleSave}
-            className="save-btn  bold-text yes-btn">
+            className="save-btn  bold-text yes-btn"
+          >
             {isFetching ? "Please wait..." : "Save"}
           </button>
           <p className="error-text">{message}</p>

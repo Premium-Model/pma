@@ -24,7 +24,8 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import useMediaQuery from "../../custom_hooks/useMediaQuery";
 import "../../scss/dashboards.scss";
 import ToggleDisplay from "../ToggleDisplay/ToggleDisplay";
-
+import vector from "./Vector 1.svg";
+import Svg from "./asset/Svg";
 const Sidebar = ({
   topList,
   bottomList,
@@ -35,11 +36,9 @@ const Sidebar = ({
   const navigate = useNavigate();
   const mQ1050px = useMediaQuery("(min-width: 1050px)");
   const location = useLocation();
-  const path = location.pathname;
   const [close, setClose] = useState(false);
-
+  const path = useLocation();
   const dispatch = useDispatch();
-
   const handleLogout = () => {
     userLogout(dispatch);
     window.location.reload();
@@ -99,13 +98,18 @@ const Sidebar = ({
                   return item.path ? (
                     <li
                       className={
-                        item.path === path
+                        path.pathname.includes(item.path)
                           ? "navigate-link active"
                           : "navigate-link"
                       }
                       key={index}
-                      style={{Cursor: "pointer"}}
+                      style={{ Cursor: "pointer" }}
                     >
+                      {path.pathname.includes(item.path) && (
+                        <div className="">
+                          <Svg width="15" fill="var(--main-color)" />
+                        </div>
+                      )}
                       <div
                         className="link-item"
                         onClick={(e) => navigate(item.path)}
@@ -154,15 +158,19 @@ const Sidebar = ({
                   return item.path ? (
                     <li
                       className={
-                        item.path === path
+                        path.pathname.includes(item.path)
                           ? "navigate-link active"
                           : "navigate-link"
                       }
                       key={index}
-                      style={{Cursor: "pointer"}}
+                      style={{ Cursor: "pointer" }}
                     >
                       <div
-                        className={ item.name === "Dashboard" ? "link-item dashboard-4567" :"link-item" }
+                        className={
+                          item.name === "Dashboard"
+                            ? "link-item dashboard-4567"
+                            : "link-item"
+                        }
                         onClick={(e) => navigate(item.path)}
                       >
                         {item.icon}
@@ -187,7 +195,11 @@ const Sidebar = ({
                       key={index}
                     >
                       <div
-                       className={ item.name === "Dashboard" ? "link-item dashboard-4567" :"link-item" }
+                        className={
+                          item.name === "Dashboard"
+                            ? "link-item dashboard-4567"
+                            : "link-item"
+                        }
                         onClick={() => setSidebarVisibility(item.close)}
                       >
                         {item.icon}
@@ -208,7 +220,6 @@ const Sidebar = ({
             </div>
 
             <div className="bottom-content">
-              
               <li onClick={handleLogout}>
                 <div className="link-item">
                   <Logout className="icon" />
@@ -224,7 +235,11 @@ const Sidebar = ({
                 </div>
               </li>
 
-             <ToggleDisplay close={close} darkmode={darkmode} HandleTheme={HandleTheme}/>
+              <ToggleDisplay
+                close={close}
+                darkmode={darkmode}
+                HandleTheme={HandleTheme}
+              />
             </div>
           </main>
         </nav>

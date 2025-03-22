@@ -31,7 +31,65 @@ import Notification from "../../../Notification/Notification";
 import Sidebar from "../../../../Components/Sidebar/Settings Sidebar";
 import DashboardTopbar from "../../../../Components/Dashboard/Topbar/topbar";
 
-const ModelPage = ({ showNavbar, setShowNavbar, setModelPage, setNotice, notice, darkmode, HandleTheme}) => {
+const ModelPage = ({
+  showNavbar,
+  setShowNavbar,
+  setModelPage,
+  setNotice,
+  notice,
+}) => {
+  const [darkmode, setDarkMode] = useState(() => {
+    // Retrieve dark mode preference from local storage
+    return localStorage.getItem("darkmode") === "true";
+  });
+
+  // Function to handle focus and blur on form inputs
+  const FocusBlur = () => {
+    const focusInputs = document.querySelectorAll(".input-textarea");
+
+    focusInputs.forEach((input) => {
+      input.addEventListener("focus", () => {
+        input.parentNode.classList.add("focus", "not-empty");
+      });
+
+      input.addEventListener("blur", () => {
+        if (input.value === "") {
+          input.parentNode.classList.remove("not-empty", "focus");
+        }
+      });
+    });
+  };
+
+  // Smooth transition handler
+  const TransitionHandler = () => {
+    const targetElements = document.querySelectorAll("*");
+
+    targetElements.forEach((el) => {
+      el.classList.add("dashboard-transition");
+
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          el.classList.remove("dashboard-transition");
+        }, 800); // Reduce time for a more natural effect
+      });
+    });
+  };
+
+  // Function to handle theme switching
+  const HandleTheme = () => {
+    setDarkMode((prev) => {
+      const newMode = !prev;
+      localStorage.setItem("darkmode", newMode); // Save to local storage
+      return newMode;
+    });
+    TransitionHandler();
+  };
+
+  // Run FocusBlur once when component mounts
+  useEffect(() => {
+    FocusBlur();
+  }, []);
+
   const user = useSelector((state) => state.user.currentUser);
   // Using Hooks  --> [START]
 
@@ -48,13 +106,14 @@ const ModelPage = ({ showNavbar, setShowNavbar, setModelPage, setNotice, notice,
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (loc.pathname === "/model-Acct-setting" || loc.pathname === "/model-Acct-setting/") {
+    if (
+      loc.pathname === "/model-Acct-setting" ||
+      loc.pathname === "/model-Acct-setting/"
+    ) {
       navigate("profile");
     } else if (loc.pathname === "/model-Acct-setting/wallet") {
       navigate("wallet");
-    }
-
-    else if (loc.pathname === "/model-Acct-setting/dashboard") {
+    } else if (loc.pathname === "/model-Acct-setting/dashboard") {
       navigate("/modelpage/dashboard");
     }
   }, [loc.pathname, navigate]); // --> Redirecting to the dashboard
@@ -62,10 +121,12 @@ const ModelPage = ({ showNavbar, setShowNavbar, setModelPage, setNotice, notice,
 
   // Array For Composing Sidebar Navigation -> (Sidebar Componet) --> [START]
   const topList = [
-
-    
-    { name: "Profile", icon: <CgUserList className="icon"/>, path: "profile" },
-    { name: "Stats", icon: <MdOutlineBarChart className="icon" />, path: "stats" },
+    { name: "Profile", icon: <CgUserList className="icon" />, path: "profile" },
+    {
+      name: "Stats",
+      icon: <MdOutlineBarChart className="icon" />,
+      path: "stats",
+    },
 
     {
       name: "Photos",
@@ -77,18 +138,24 @@ const ModelPage = ({ showNavbar, setShowNavbar, setModelPage, setNotice, notice,
       icon: <MdOutlineLiveTv className="icon" />,
       path: "videos",
     },
-    { name: "Wallet", icon: <BiWallet  className="icon"/>, path: "wallet" },
+    { name: "Wallet", icon: <BiWallet className="icon" />, path: "wallet" },
     {
       name: "Logins",
-      icon: <HiStatusOnline className="icon"/>,
+      icon: <HiStatusOnline className="icon" />,
       path: "logins",
     },
   ];
   const bottomList = [
-    { name: "Help", icon: <MdOutlineLiveHelp className="icon"/>, path: "/faqs" },
-    { name: "Contact us", icon: <MdOutlineContactPhone className="icon"/>, path: "/contact" },
-    { name: "Dashboard", icon: <MdOutlineDashboard className="icon" />, path: "/modelpage/dashboard" },
-    { name: "Log out", icon: <BiLogOut className="icon" />, path: "" },
+    {
+      name: "Contact us",
+      icon: <MdOutlineContactPhone className="icon" />,
+      path: "/contact",
+    },
+    {
+      name: "Dashboard",
+      icon: <MdOutlineDashboard className="icon" />,
+      path: "/modelpage/dashboard",
+    },
   ];
   //[END]
   // Button Component -> (Topbar Component) --> [START]
@@ -99,55 +166,56 @@ const ModelPage = ({ showNavbar, setShowNavbar, setModelPage, setNotice, notice,
   );
   //[END]
 
-
   return (
     !showNavbar && (
-      <div className={
-        darkmode
-          ? "model_page  dashboards-styles  darkmode"
-          : " model_page  dashboards-styles"
-      }>
-    
-
+      <div
+        className={
+          darkmode
+            ? "model_page  dashboards-styles  darkmode"
+            : " model_page  dashboards-styles"
+        }
+      >
         {mQ1050px ? (
-                  <Sidebar
-                    topList={topList}
-                    darkmode={darkmode}
-                    HandleTheme={HandleTheme}
-                    bottomList={bottomList}
-                    setSidebarVisibility={setSidebarVisibility}
-                  />
-                ) : sidebarVisibility ? (
-                  <Background childState={setSidebarVisibility}>
-                    <Sidebar
-                      topList={topList}
-                      darkmode={darkmode}
-                      HandleTheme={HandleTheme}
-                      bottomList={bottomList}
-                      setSidebarVisibility={setSidebarVisibility}
-                    />
-                  </Background>
-                ) : null}
+          <Sidebar
+            topList={topList}
+            darkmode={darkmode}
+            HandleTheme={HandleTheme}
+            bottomList={bottomList}
+            setSidebarVisibility={setSidebarVisibility}
+          />
+        ) : sidebarVisibility ? (
+          <Background childState={setSidebarVisibility}>
+            <Sidebar
+              topList={topList}
+              darkmode={darkmode}
+              HandleTheme={HandleTheme}
+              bottomList={bottomList}
+              setSidebarVisibility={setSidebarVisibility}
+            />
+          </Background>
+        ) : null}
         {/*[END] */}
 
-        <main id="model-setting-main" className={
+        <main
+          id="model-setting-main"
+          className={
             darkmode ? " dashboards-styles  darkmode " : "dashboards-styles "
-          }>
+          }
+        >
           {/* Model Page Topbar --> [START] */}
-         
 
-            <DashboardTopbar
-                      lastItem={button}
-                      sidebarVisibility={sidebarVisibility}
-                      setSidebarVisibility={setSidebarVisibility}
-                      setPage={setModelPage}
-                      setToggleNotice={setToggleNotice}
-                      notice={notice}
-                    />
+          <DashboardTopbar
+            lastItem={button}
+            sidebarVisibility={sidebarVisibility}
+            setSidebarVisibility={setSidebarVisibility}
+            setPage={setModelPage}
+            setToggleNotice={setToggleNotice}
+            notice={notice}
+          />
           {/* [END] */}
 
           {/* Render The Current Sidebar Navigation Link --> [START] */}
-          <Outlet darkmode={darkmode} HandleTheme={HandleTheme}  />
+          <Outlet context={{ darkmode, HandleTheme }} />
           {/* [END] */}
 
           <Notification

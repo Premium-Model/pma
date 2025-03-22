@@ -83,8 +83,7 @@ const LoginSignup = () => {
 
   //paystack payment config
   const userR = user?.userRole;
-  const amount =
-    userR === "model" ? 2000 : userR === "agency" ? 49900 : null;
+  const amount = userR === "model" ? 2000 : userR === "agency" ? 49900 : null;
   const config = {
     email: inputs.email,
 
@@ -134,7 +133,7 @@ const LoginSignup = () => {
     FocusBlur();
   }, []);
 
-  console.log(user)
+  console.log(user);
 
   useEffect(() => {
     if (user?.userRole) {
@@ -236,21 +235,6 @@ const LoginSignup = () => {
                   {" "}
                   {isLoading ? "Please wait..." : "Login"}
                 </button>
-                <p className="social-text">Or Sign in with social platforms</p>
-                <div className="social-media">
-                  <a href="#" className="social-icon">
-                    <FaFacebookF />
-                  </a>
-                  <a href="#" className="social-icon">
-                    <FaTwitter />
-                  </a>
-                  <a href="#" className="social-icon">
-                    <FaGoogle />
-                  </a>
-                  <a href="#" className="social-icon">
-                    <FaLinkedin />
-                  </a>
-                </div>
               </form>
 
               <SignupSection
