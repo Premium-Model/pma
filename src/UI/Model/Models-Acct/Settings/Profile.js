@@ -1,3 +1,4 @@
+import "../../../../scss/kyc-forms.scss";
 import { useOutletContext } from "react-router-dom";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -11,6 +12,7 @@ import EditBtn from "./Edit-btn";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router";
+import { Country, State } from "country-state-city";
 import KycHeader from "../Kyc-Section/Component/kyc-header/kyc-header";
 import { BiCloudUpload } from "react-icons/bi";
 import {
@@ -20,20 +22,20 @@ import {
   FaInbox,
   FaAngleDoubleRight,
 } from "react-icons/fa";
-function BasicInfo({
-  states,
-  countries,
-  handleActiveEdit,
-  activeEdit,
-  handleActiveSet,
-  resetDiscard,
-  model,
-}) {
+function BasicInfo({}) {
   const user = useSelector((state) => state.user.currentUser);
   const { isFetching } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const location = useLocation();
-  const { darkmode, HandleTheme } = useOutletContext(); // Access props
+  const {
+    darkmode,
+    HandleTheme,
+    handleActiveEdit,
+    model,
+    activeEdit,
+    resetDiscard,
+    handleActiveSet,
+  } = useOutletContext(); // Access props
   const [inputs, setInputs] = useState({});
   const path = location.pathname.split("/")[2];
   const imageRef = useRef();
@@ -45,6 +47,15 @@ function BasicInfo({
   const [tempImgSrc, setTempImgSrc] = useState(false);
   const [updated, setUpdated] = useState(false);
   const [ActiveSettings, setActiveSettings] = useState(true);
+  const [states, setStates] = useState([]);
+  const [countries, setCountries] = useState([]);
+  console.log(inputs);
+  console.log(user);
+
+  useEffect(() => {
+    setCountries(Country.getAllCountries());
+  }, []);
+
   // get image imputs
   const handleClick = () => {
     imageRef.current.click();
@@ -97,10 +108,24 @@ function BasicInfo({
   const handleChange = useCallback(
     (e) => {
       setInputs((prev) => {
-        return { ...prev, [e.target.name]: e.target.value };
+        const newInputs = { ...prev, [e.target.name]: e.target.value };
+
+        if (e.target.name === "country") {
+          // Find the selected country's ISO code
+          const selectedCountry = countries.find(
+            (c) => c.name === e.target.value
+          );
+          if (selectedCountry) {
+            setStates(State.getStatesOfCountry(selectedCountry.isoCode));
+          } else {
+            setStates([]); // Reset states if no country is found
+          }
+        }
+
+        return newInputs;
       });
     },
-    [setInputs]
+    [setInputs, countries]
   );
 
   //handle save
@@ -152,29 +177,34 @@ function BasicInfo({
             : "Forms KycForms light-theme dark-theme"
         }
       >
-        <header>
-          <KycHeader
-            handleActiveSet={handleActiveSet}
-            ActiveSettings={ActiveSettings}
-            user={user}
-            HandleTheme={HandleTheme}
-            darkmode={darkmode}
-          />
-        </header>
+        <header></header>
         <main>
           <section className="signupform-contact">
             <div className="signupform-container">
               <div className="form-left">
                 <div className="form-left-wrapper">
                   <div className="form-left-heading">
+                    <h3>
+                      <div className="logo-user-wrapper">
+                        <span className="logo-user01">
+                          {user?.firstName ? user?.firstName : "models"}{" "}
+                        </span>
+                        <span className="logo-user02">
+                          {" "}
+                          {user?.lastName ? user?.lastName : "Premium"}
+                        </span>
+                      </div>
+                    </h3>
                     <h1>
                       Editing Your Model
-                      <br></br> Portfolio
+                      <br></br> Profie
                       <span className="dots-hide-on-mobile">.</span>
                     </h1>
 
                     <p className="form-text">
-                      Change your profile and account <a>settings</a>
+                      Change your <a>model</a> picture, your <a>profile</a>{" "}
+                      details and
+                      <a> model `</a> bio
                     </p>
                   </div>
 
@@ -255,7 +285,7 @@ function BasicInfo({
                                 }
                                 onClick={handleClick}
                               >
-                                <BiCloudUpload />
+                                {/* <BiCloudUpload />
 
                                 <h3>Upload Image</h3>
 
@@ -266,7 +296,19 @@ function BasicInfo({
                                       : user?.picture
                                   }
                                   alt=""
-                                />
+                                /> */}
+
+                                {picture ? (
+                                  <img
+                                    src={URL.createObjectURL(picture)}
+                                    alt="Uploaded Preview"
+                                  />
+                                ) : (
+                                  <>
+                                    <BiCloudUpload />
+                                    <h3>Upload Image</h3>
+                                  </>
+                                )}
                               </div>
                             )}
 
@@ -399,17 +441,14 @@ function BasicInfo({
                                     name="country"
                                   >
                                     <option hidden> --Select Country--</option>
-                                    {countries?.map((getCountry, index) => {
-                                      const { country_name } = getCountry;
-                                      return (
-                                        <option
-                                          value={country_name}
-                                          key={index}
-                                        >
-                                          {country_name}
-                                        </option>
-                                      );
-                                    })}
+                                    {countries.map((getCountry) => (
+                                      <option
+                                        value={getCountry.name}
+                                        key={getCountry.isoCode}
+                                      >
+                                        {getCountry.name}
+                                      </option>
+                                    ))}
                                   </select>
                                 </div>
                               </div>
@@ -425,24 +464,23 @@ function BasicInfo({
                                     <option hidden> --Select State--</option>
                                     {inputs?.country && (
                                       <>
-                                        {states.map((state, index) => {
-                                          return (
+                                        {inputs.country &&
+                                          states.map((state) => (
                                             <option
                                               value={
-                                                state.state_name ===
-                                                "Abuja Federal Capital Territor"
+                                                state.name ===
+                                                "Abuja Federal Capital Territory"
                                                   ? "Abuja"
-                                                  : state.state_name
+                                                  : state.name
                                               }
-                                              key={index}
+                                              key={state.isoCode}
                                             >
-                                              {state.state_name ===
-                                              "Abuja Federal Capital Territor"
+                                              {state.name ===
+                                              "Abuja Federal Capital Territory"
                                                 ? "Abuja"
-                                                : state.state_name}
+                                                : state.name}
                                             </option>
-                                          );
-                                        })}
+                                          ))}
                                       </>
                                     )}
                                   </select>

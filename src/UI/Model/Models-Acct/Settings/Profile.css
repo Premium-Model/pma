@@ -1,3 +1,11 @@
+.logo-user-wrapper .logo-user01 {
+  color: var(--text-color);
+}
+
+.logo-user-wrapper .logo-user02 {
+  color: var(--main-color);
+}
+
 .set_img-rapper {
   position: relative;
   background: #333;

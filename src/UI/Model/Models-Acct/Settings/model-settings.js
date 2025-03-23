@@ -22,14 +22,15 @@ import useMediaQuery from "../../../../custom_hooks/useMediaQuery"; //[END]
 
 // Other External NPM Packages --> [START]
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router"; //[END]
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 //--> importing notification component
 import Notification from "../../../Notification/Notification";
 import Sidebar from "../../../../Components/Sidebar/Settings Sidebar";
 import DashboardTopbar from "../../../../Components/Dashboard/Topbar/topbar";
+import { makeGet } from "../../../../redux/apiCalls";
 
 const ModelPage = ({
   showNavbar,
@@ -37,11 +38,112 @@ const ModelPage = ({
   setModelPage,
   setNotice,
   notice,
+  AlertModal,
+  handleModal,
+  userData,
 }) => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const path = location.pathname.split("/")[2];
+
+  const [activeSet, setActiveSet] = useState("about");
+  const [toggleSetMenu, setToggleSetMenu] = useState(false);
+  const [activeEdit, setActiveEdit] = useState("");
+
+  const [discardFunc, setDiscardFunc] = useState("");
+  const [toggleDiscard, setToggleDiscard] = useState(false);
+  const [model, setModel] = useState({});
   const [darkmode, setDarkMode] = useState(() => {
     // Retrieve dark mode preference from local storage
     return localStorage.getItem("darkmode") === "true";
   });
+
+  const fetchData = useCallback(() => {
+    makeGet(dispatch, `/model/${path}`, setModel);
+  }, [dispatch]);
+
+  useEffect(() => {
+    // if (user?.role === "agency") {
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      fetchData();
+    }
+    return () => {
+      unsubscribed = true;
+    };
+    // }
+  }, []);
+  // console.log(model)
+
+  useEffect(() => {
+    setShowNavbar(false);
+  }, [setShowNavbar]); //--> Hides The Navbar
+
+  function handleActiveSet(set) {
+    setActiveSet(set);
+    setToggleSetMenu((prevSet) => !prevSet);
+  }
+
+  function handleToggleSetMenu() {
+    setToggleSetMenu((prevSet) => !prevSet);
+  }
+
+  function handleActiveEdit(section, text) {
+    text === "Done" ||
+    text === "Update" ||
+    text === "Check" ||
+    text === "Reset" ||
+    text === "Verify"
+      ? setActiveEdit(text)
+      : setActiveEdit(section);
+  }
+
+  //discarding changes
+  function handleDiscard(response) {
+    response === "Yes" && discardFunc();
+    setToggleDiscard((prev) => !prev);
+  }
+
+  //setting discard alert
+  function resetDiscard(fun) {
+    setToggleDiscard((prev) => !prev);
+    setDiscardFunc(fun);
+  }
+
+  //displaying discard alert
+  function discardAlert() {
+    return (
+      <section
+        style={{ transform: toggleDiscard && `translateX(${0}%)` }}
+        className="modal-section"
+      >
+        <div className="alert-box">
+          <h2 className="alert-title">Do you want to disCard changes?</h2>
+
+          <p className="alert-text">
+            <span className="bold-text colored-text">Note: </span>
+            by clicking yes all unsaved changes will be deleted and progress
+            lost!
+          </p>
+
+          <div className="alert-btn">
+            <button
+              onClick={() => handleDiscard("No")}
+              className="del-alert-btn bold-text cancel-btn"
+            >
+              No?
+            </button>
+            <button
+              onClick={() => handleDiscard("Yes")}
+              className="del-alert-btn bold-text yes-btn"
+            >
+              Yes?
+            </button>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   // Function to handle focus and blur on form inputs
   const FocusBlur = () => {
@@ -215,7 +317,19 @@ const ModelPage = ({
           {/* [END] */}
 
           {/* Render The Current Sidebar Navigation Link --> [START] */}
-          <Outlet context={{ darkmode, HandleTheme }} />
+          <Outlet
+            context={{
+              darkmode,
+              HandleTheme,
+              activeEdit,
+              activeSet,
+              handleModal,
+              handleActiveEdit,
+              handleActiveSet,
+              model,
+              resetDiscard,
+            }}
+          />
           {/* [END] */}
 
           <Notification
