@@ -32,13 +32,23 @@ function ModelsForms({ showNavbar, setShowNavbar }) {
     (e) => {
       setInputs((prev) => {
         const newInputs = { ...prev, [e.target.name]: e.target.value };
+
         if (e.target.name === "country") {
-          setStates(State.getStatesOfCountry(e.target.value));
+          // Find the selected country's ISO code
+          const selectedCountry = countries.find(
+            (c) => c.name === e.target.value
+          );
+          if (selectedCountry) {
+            setStates(State.getStatesOfCountry(selectedCountry.isoCode));
+          } else {
+            setStates([]); // Reset states if no country is found
+          }
         }
+
         return newInputs;
       });
     },
-    [setInputs]
+    [setInputs, countries]
   );
 
   const handleCheckboxChange = useCallback(

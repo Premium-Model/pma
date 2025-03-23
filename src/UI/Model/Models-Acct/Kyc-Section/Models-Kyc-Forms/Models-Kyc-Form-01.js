@@ -296,7 +296,7 @@ function ModelsKycForm1({}) {
                               <option hidden> --Select Country--</option>
                               {countries.map((getCountry) => (
                                 <option
-                                  value={getCountry.isoCode}
+                                  value={getCountry.name}
                                   key={getCountry.isoCode}
                                 >
                                   {getCountry.name}
@@ -348,7 +348,7 @@ function ModelsKycForm1({}) {
                                           state.name ===
                                           "Abuja Federal Capital Territory"
                                             ? "Abuja"
-                                            : state.isoCode
+                                            : state.name
                                         }
                                         key={state.isoCode}
                                       >
