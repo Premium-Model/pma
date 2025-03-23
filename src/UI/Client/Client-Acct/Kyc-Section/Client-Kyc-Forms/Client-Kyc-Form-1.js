@@ -304,7 +304,7 @@ function ClientsKycForm1({}) {
                               {countries.map((getCountry) => (
                                 <option
                                   value={getCountry.isoCode}
-                                  key={getCountry.isoCode}
+                                  key={getCountry.name}
                                 >
                                   {getCountry.name}
                                 </option>
@@ -355,7 +355,7 @@ function ClientsKycForm1({}) {
                                           state.name ===
                                           "Abuja Federal Capital Territory"
                                             ? "Abuja"
-                                            : state.isoCode
+                                            : state.name
                                         }
                                         key={state.isoCode}
                                       >
