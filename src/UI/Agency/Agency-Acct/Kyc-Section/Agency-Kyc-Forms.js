@@ -3,6 +3,7 @@ import AgencyKycForm1 from "./Agency-Kyc-Forms/Agency-Kyc-Form-1";
 import AgencyKycForm2 from "./Agency-Kyc-Forms/Agency-Kyc-Form-2";
 import { ToastContainer } from "react-toastify";
 import axios from "axios";
+import { Country, State } from "country-state-city";
 import "./Agency-Kyc-Forms.css";
 import "../../../../scss/kyc-forms.scss";
 import "react-toastify/dist/ReactToastify.css";
@@ -13,10 +14,10 @@ function AgencyForms({ showNavbar, setShowNavbar }) {
   const [darkmode, setDarkMode] = useState(false);
   const [picture, setPicture] = useState(undefined);
   const [inputs, setInputs] = useState({});
+
+  const [authToken, setAuthToken] = useState("");
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
-  const [authToken, setAuthToken] = useState("");
-
   function handleNavigation(text) {
     if (text === "Next") {
       setActiveForm((prevForm) => prevForm + 1);
@@ -28,78 +29,32 @@ function AgencyForms({ showNavbar, setShowNavbar }) {
       }, 1500);
     }
   }
-  // get access token for countries api
+
   useEffect(() => {
-    const getAccessToken = async () => {
-      try {
-        const res = await axios.get(
-          "https://www.universal-tutorial.com/api/getaccesstoken",
-          {
-            headers: {
-              Accept: "application/json",
-              "api-token":
-                "Ku2uq0eMGByhMQmQdP5tKH3bbR4dD3ZNXjRqllWOT-srDfzC-wXRnd7Kcym_A_9MpP4",
-              "user-email": "tosinadebayo55@gmail.com",
-            },
-          }
-        );
-        setAuthToken(res.data);
-      } catch (error) {
-        // console.log(error?.response?.data);
-      }
-    };
-    getAccessToken();
+    setCountries(Country.getAllCountries());
   }, []);
-
-  // get list of countries
-  useEffect(() => {
-    const getCountries = async () => {
-      try {
-        const res = await axios.get(
-          "https://www.universal-tutorial.com/api/countries/",
-          {
-            headers: {
-              Authorization: `Bearer ${authToken.auth_token}`,
-              Accept: "application/json",
-            },
-          }
-        );
-        setCountries(res.data);
-      } catch (error) {
-        // console.log(error?.response?.data);
-      }
-    };
-    getCountries();
-  }, [authToken]);
-
-  // get list of states
-  useEffect(() => {
-    const getStates = async () => {
-      try {
-        const res = await axios.get(
-          `https://www.universal-tutorial.com/api/states/${inputs?.country}`,
-          {
-            headers: {
-              Authorization: `Bearer ${authToken.auth_token}`,
-              Accept: "application/json",
-            },
-          }
-        );
-        setStates(res.data);
-      } catch (error) {
-        // console.log(error?.response?.data);
-      }
-    };
-    getStates();
-  }, [inputs.country]);
 
   const handleChange = useCallback(
     (e) => {
       setInputs((prev) => {
-        return { ...prev, [e.target.name]: e.target.value };
+        const newInputs = { ...prev, [e.target.name]: e.target.value };
+
+        if (e.target.name === "country") {
+          // Find the selected country's ISO code
+          const selectedCountry = countries.find(
+            (c) => c.name === e.target.value
+          );
+          if (selectedCountry) {
+            setStates(State.getStatesOfCountry(selectedCountry.isoCode));
+          } else {
+            setStates([]); // Reset states if no country is found
+          }
+        }
+
+        return newInputs;
       });
     },
-    [setInputs]
+    [setInputs, countries]
   );
 
   useEffect(() => {

@@ -20,7 +20,6 @@ function ModelsForms({ showNavbar, setShowNavbar }) {
   const [category, setCategory] = useState([]);
   const [interestedJob, setInterestedJob] = useState([]);
   const [darkmode, setDarkMode] = useState(false);
-
   const [states, setStates] = useState([]);
   const [countries, setCountries] = useState([]);
 
