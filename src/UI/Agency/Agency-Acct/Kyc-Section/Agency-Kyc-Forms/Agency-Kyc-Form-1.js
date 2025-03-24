@@ -296,18 +296,15 @@ function AgencyKycForm1({}) {
                                 onChange={handleChange}
                                 name="country"
                               >
-                                <option hidden>
-                                  {" "}
-                                  --Select Agency Country--
-                                </option>
-                                {countries?.map((getCountry, index) => {
-                                  const { country_name } = getCountry;
-                                  return (
-                                    <option value={country_name} key={index}>
-                                      {country_name}
-                                    </option>
-                                  );
-                                })}
+                                <option hidden> --Select Country--</option>
+                                {countries.map((getCountry) => (
+                                  <option
+                                    value={getCountry.isoCode}
+                                    key={getCountry.name}
+                                  >
+                                    {getCountry.name}
+                                  </option>
+                                ))}
                               </select>
                             </div>
                           </div>
@@ -344,27 +341,26 @@ function AgencyKycForm1({}) {
                                 onChange={handleChange}
                                 name="state"
                               >
-                                <option hidden> --Select Agency State--</option>
+                                <option hidden> --Select State--</option>
                                 {inputs?.country && (
                                   <>
-                                    {states.map((state, index) => {
-                                      return (
+                                    {inputs.country &&
+                                      states.map((state) => (
                                         <option
                                           value={
-                                            state.state_name ===
-                                            "Abuja Federal Capital Territor"
+                                            state.name ===
+                                            "Abuja Federal Capital Territory"
                                               ? "Abuja"
-                                              : state.state_name
+                                              : state.name
                                           }
-                                          key={index}
+                                          key={state.isoCode}
                                         >
-                                          {state.state_name ===
-                                          "Abuja Federal Capital Territor"
+                                          {state.name ===
+                                          "Abuja Federal Capital Territory"
                                             ? "Abuja"
-                                            : state.state_name}
+                                            : state.name}
                                         </option>
-                                      );
-                                    })}
+                                      ))}
                                   </>
                                 )}
                               </select>
