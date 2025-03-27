@@ -18,6 +18,14 @@
   overflow: auto;
   scrollbar-width: none;
 }
+
+.amb-delete {
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 17px;
+  margin: 10px 0;
+}
 .Abs {
   display: flex;
   flex-direction: column;

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "../Amb-form.css";
 import { storage } from "../../../../firebase"; // Import Firebase storage
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import Modal from "../../../../Components/Modal/Modal";
 
 const AbsForm = ({
   addAmbassador,
@@ -273,29 +274,16 @@ const AbsForm = ({
       </section>
 
       {/* modal section.... // // displaying the response from the server */}
-      <section
-        className="modal-container"
-        style={{ transform: toggleAlert && `translateX(${0}%)` }}
-      >
-        <div className="modal-box">
-          {isSuccess === "Yes" ? (
-            <i className="fa-solid fa-circle-check fa-2x success-icon"></i>
-          ) : isSuccess === "No" ? (
-            <i className="fa-solid fa-circle-xmark fa-2x error-icon"></i>
-          ) : null}
-
-          <p className="modal-text">{message}</p>
-          <div
-            onClick={() => {
-              setToggleAlert(false);
-              setIsSuccess("");
-            }}
-            className="modal-btn"
-          >
-            Got it!
-          </div>
-        </div>
-      </section>
+      {/* Render the Modal */}
+      {toggleAlert && (
+        <Modal
+          toggleAlert={toggleAlert}
+          setToggleAlert={setToggleAlert}
+          message={message}
+          isSuccess={isSuccess}
+          setIsSuccess={setIsSuccess}
+        />
+      )}
     </form>
   );
 };

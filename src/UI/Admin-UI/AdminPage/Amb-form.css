@@ -157,43 +157,6 @@
   opacity: 0.7;
 }
 
-/* modal section  */
-
-.modal-box {
-  position: relative;
-  background: #fff;
-  width: 90%;
-  height: 300px;
-  border-radius: 12px;
-  padding: 1rem 2rem;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-
-  font-size: 1.3rem;
-  font-weight: 600;
-  text-align: center;
-}
-
-.modal-btn {
-  background: var(--Black);
-  color: var(--Light);
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
-}
-.modal-btn:hover {
-  cursor: pointer;
-  opacity: 0.7;
-}
-.success-icon {
-  color: var(--Green);
-}
-.error-icon {
-  color: red;
-}
 @media screen and (min-width: 500px) {
   .Abs-form {
     padding: 2rem;
@@ -226,11 +189,6 @@
   .date-wrapper label {
     width: 100%;
   }
-
-  /* modal section */
-  .modal-box {
-    width: 50%;
-  }
 }
 @media screen and (min-width: 768px) {
   .Abs-form {
@@ -239,9 +197,6 @@
 }
 @media screen and (min-width: 1024px) {
   /* modal section */
-  .modal-box {
-    width: 30%;
-  }
 }
 @media screen and (min-width: 1024px) and (max-height: 800px) {
   .form-sect-wrapper {

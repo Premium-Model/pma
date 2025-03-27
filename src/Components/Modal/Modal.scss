@@ -1,0 +1,49 @@
+.modal-box {
+  position: relative;
+  background: #fff;
+  width: 90%;
+  height: 300px;
+  border-radius: 12px;
+  padding: 1rem 2rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.modal-btn {
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px 17px;
+}
+.modal-btn:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+.success-icon {
+  color: var(--Green);
+}
+.error-icon {
+  color: red;
+}
+
+@media screen and (min-width: 500px) {
+  /* modal section */
+  .modal-box {
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  /* modal section */
+  .modal-box {
+    width: 30%;
+  }
+}
