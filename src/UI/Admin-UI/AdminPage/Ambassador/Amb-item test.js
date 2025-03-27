@@ -26,6 +26,7 @@ const AmbItem = ({
 
   const fullName = `${amb.firstName.trim()} ${amb.lastName.trim()}`;
   const imageUrl = ambassadorImages[fullName] || amb.picture;
+  const [ambassadors, setAmbassadors] = useState([]);
 
   // // Delete Ambassador Function
   // const deleteAmbassador = async () => {
@@ -48,7 +49,7 @@ const AmbItem = ({
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOWRjNzc2YWFmY2QzOGQ2N2IxZTJmNyIsImFhaSI6InBtYS8yMC0yMi9hZG1pbiIsImlhdCI6MTc0Mjk4MTExMywiZXhwIjoxNzQzMDAyNzEzfQ.qTbOKcyGord29r9-8O5ZakoHeLZ7SGohPp7jXGPA8JY";
   const API_URL = "http://localhost:8501/api/v2/admin";
 
-  // Function to delete ambassador
+  // Function delete ambas with local host api
   const deleteAmbassador = async (ambassadorId, Tokens) => {
     try {
       const res = await axios.delete(`${API_URL}/amb-delete/${ambassadorId}`, {
@@ -67,8 +68,6 @@ const AmbItem = ({
       alert("Failed to delete ambassador!");
     }
   };
-
-  const [ambassadors, setAmbassadors] = useState([]);
 
   // Fetch all ambassadors
   useEffect(() => {
@@ -91,7 +90,7 @@ const AmbItem = ({
       await deleteAmbassador(id, Tokens);
       setAmbassadors((prevAmbassadors) =>
         prevAmbassadors.filter((amb) => amb._id !== id)
-      ); // Update UI after delete
+      );
     }
   };
   return (
