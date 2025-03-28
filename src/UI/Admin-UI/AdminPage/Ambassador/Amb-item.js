@@ -18,6 +18,15 @@ const AmbItem = ({
       "https://firebasestorage.googleapis.com/v0/b/pmapp-dynamic.appspot.com/o/Ambassador%2FIMG-20250318-WA0010.jpg?alt=media&token=ad47f2e2-7967-4b93-aa26-cc31d89cd05d",
     "Chioma Williams":
       "https://firebasestorage.googleapis.com/v0/b/pmapp-dynamic.appspot.com/o/Ambassador%2FIMG-20250318-WA0009.jpg?alt=media&token=9129bb8d-4640-4d91-9818-98591dd95173",
+
+    "Rachael Okafor":
+      "https://firebasestorage.googleapis.com/v0/b/pmapp-dynamic.appspot.com/o/Ambassador%2FWhatsApp%20Image%202025-03-27%20at%2015.11.27_b15b013e.jpg?alt=media&token=ef0cc9c6-bc32-4c19-b96d-d79cd13767c7",
+
+    "Vhee James":
+      "https://firebasestorage.googleapis.com/v0/b/pmapp-dynamic.appspot.com/o/Ambassador%2FWhatsApp%20Image%202025-03-27%20at%2015.11.28_9bf0c097.jpg?alt=media&token=774c56d1-ead0-499a-b788-ee616d90a3e9",
+
+    "Nnamdi Onoh":
+      "https://firebasestorage.googleapis.com/v0/b/pmapp-dynamic.appspot.com/o/Ambassador%2FWhatsApp%20Image%202025-03-27%20at%2015.11.28_c7e30173.jpg?alt=media&token=b0853f20-a16d-47a4-bd7e-c04ca61a3284",
   };
 
   const fullName = `${amb.firstName.trim()} ${amb.lastName.trim()}`;
