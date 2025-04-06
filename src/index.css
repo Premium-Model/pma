@@ -1,5 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
+
 * {
   margin: 0;
   padding: 0;
@@ -8,7 +11,7 @@
   list-style: none;
   box-sizing: border-box;
   scrollbar-width: thin;
-  scrollbar-color: rgb(255, 46, 147) rgba(0, 0, 0, 0.99);
+  scrollbar-color: rgb(255, 46, 147) rgba(24, 19, 19, 0.99);
 }
 ::-webkit-scrollbar {
   width: 13px;
@@ -282,3 +285,4 @@ body {
 .row-reverse {
   flex-direction: row-reverse;
 }
+

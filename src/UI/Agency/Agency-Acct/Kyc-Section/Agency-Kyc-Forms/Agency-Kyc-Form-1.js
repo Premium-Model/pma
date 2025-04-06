@@ -2,7 +2,6 @@ import { useEffect, useState, useContext } from "react";
 import { FormContext } from "../Agency-Kyc-Forms";
 import { SocialMedia } from "../../utils";
 import {
-  FaTimes,
   FaCheckCircle,
   FaStar,
   FaInbox,
@@ -44,7 +43,6 @@ function AgencyKycForm1({}) {
     function handleError() {
       let errorText = "This detail is required.!";
       let socialErr = "Your social-media link is required.!";
-
       !inputs.agencyName
         ? setError((prev) => ({ ...prev, agencyName: errorText }))
         : setError((prev) => ({ ...prev, agencyName: null }));

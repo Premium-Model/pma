@@ -60,8 +60,10 @@
   --transform-img: translate(-50%, -50%) scale(1.4);
   --icon-check-color: var(--main-color);
   --box-shadow-color: var(--main-hue-2);
+  --color-text-color: var(--dim-black);
 
   &.darkmode {
+    --color-text-color: #f8f8f8;
     --color-bg: hsl(213deg 33.27% 6.02%);
     --color-background: #181a1e;
     --color-white: transparent

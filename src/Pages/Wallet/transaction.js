@@ -1,3 +1,10 @@
+import {
+  AccountBalanceWallet,
+  AccountBalanceWalletTwoTone,
+  Wallet,
+  WalletOutlined,
+  WalletTwoTone,
+} from "@mui/icons-material";
 import moment from "moment";
 import { useSelector } from "react-redux";
 
@@ -15,18 +22,15 @@ function Transaction({ details, detailsId, viewDetails, handleViewDetails }) {
         className="transaction-item"
       >
         <div className="transaction-avatar">
-          <img
-            src={
-              details?.withdrawBy
-                ? "https://cdn-icons-png.flaticon.com/512/2845/2845719.png"
-                : details?.desc ||
-                  details?.receiver === user?.username ||
-                  details?.receiverId === user?._id
-                ? "https://www.freeiconspng.com/thumbs/wallet-icon/06-wallet-icon--swanky-outlines-iconset--pixelkit-14.png"
-                : "https://cdn-icons-png.flaticon.com/512/2845/2845719.png"
-            }
-            alt=""
-          />
+          {details?.withdrawBy ? (
+            <AccountBalanceWalletTwoTone />
+          ) : details?.desc ||
+            details?.receiver === user?.username ||
+            details?.receiverId === user?._id ? (
+            <AccountBalanceWallet />
+          ) : (
+            <AccountBalanceWalletTwoTone />
+          )}
         </div>
         <div className="transaction-text">
           <span>
@@ -62,14 +66,14 @@ function Transaction({ details, detailsId, viewDetails, handleViewDetails }) {
               className="transaction-amount"
               style={{
                 color: details?.withdrawBy
-                  ? "#d40707"
+                  ? "var(--dimpink)"
                   : details?.desc === "Wallet funding"
                   ? "#07ab28f5"
                   : details?.receiver === user?.username
                   ? "#07ab28f5"
                   : details?.receiverId === user?._id
                   ? "#07ab28f5"
-                  : "#d40707",
+                  : "var(--dimpink)",
               }}
             >
               {details?.withdrawBy

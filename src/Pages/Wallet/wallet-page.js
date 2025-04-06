@@ -1,4 +1,4 @@
-import "./wallet-page.css";
+import "./wallet-page.scss";
 import Transaction from "./transaction";
 import { NavLink, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +11,7 @@ import {
 } from "./wallet-forms";
 import { makeGet } from "../../redux/apiCalls";
 
-function Wallet({ transactions,  currentUser }) {
+function Wallet({ transactions, currentUser }) {
   const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
 
@@ -70,6 +70,7 @@ function Wallet({ transactions,  currentUser }) {
             onClick={() => handleForm("setting")}
             className="fa-solid fa-gear colored-hover"
           ></i>
+
           {/* </NavLink> */}
         </div>
 
@@ -77,6 +78,7 @@ function Wallet({ transactions,  currentUser }) {
           <div className="balance-top-text">
             <h3 className="balance-title">Current Balance</h3>
             <NavLink to={`${currentUser}/transaction-history`}>
+              <span>Transaction History</span>{" "}
               <i class="fa-solid fa-clock-rotate-left balance-more-icon colored-hover"></i>
             </NavLink>
           </div>
@@ -94,9 +96,9 @@ function Wallet({ transactions,  currentUser }) {
             )}
           </p>
           <div className="balance-credit">
-            <div className="credit">
+            <div className="credit dashboard-cards">
               <i className="fa-solid fa-arrow-down credit-icon "></i>
-
+              <div className="credit-text-div"></div>
               <div>
                 <p className="credit-figure">
                   &#8358;
@@ -113,9 +115,10 @@ function Wallet({ transactions,  currentUser }) {
                 <p className="credit-text">Credits</p>
               </div>
             </div>
-            <div className="debit">
+            <div className="debit dashboard-cards">
               <>
                 <i className="fa-solid fa-arrow-up debit-icon"></i>
+                <div className="debit-text-div"></div>
               </>
 
               <div>
@@ -154,7 +157,7 @@ function Wallet({ transactions,  currentUser }) {
             {user?.role === "client" && (
               <button
                 onClick={() => handleForm("fund")}
-                className="transfer-btn"
+                className="transfer-btn btn_shadow"
               >
                 fund
               </button>
@@ -163,7 +166,7 @@ function Wallet({ transactions,  currentUser }) {
             {user?.role !== "client" && (
               <button
                 onClick={() => handleForm("withdraw")}
-                className="withdraw-btn"
+                className="withdraw-btn btn_shadow"
               >
                 withdraw
               </button>
@@ -171,7 +174,7 @@ function Wallet({ transactions,  currentUser }) {
             {user?.role === "client" && (
               <button
                 onClick={() => handleForm("pay-form")}
-                className="transfer-btn"
+                className="transfer-btn btn_shadow"
               >
                 send
               </button>
@@ -189,7 +192,9 @@ function Wallet({ transactions,  currentUser }) {
                 state: { data: transactionHistory },
               }}
             >
-              <button className="transaction-view-all">View all</button>
+              <button className="transaction-view-all btn_shadow">
+                View All
+              </button>
             </NavLink>
           </div>
 
