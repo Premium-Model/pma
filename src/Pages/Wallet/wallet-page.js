@@ -10,6 +10,7 @@ import {
   TransactionPin,
 } from "./wallet-forms";
 import { makeGet } from "../../redux/apiCalls";
+import { Settings } from "@mui/icons-material";
 
 function Wallet({ transactions, currentUser }) {
   const user = useSelector((state) => state.user.currentUser);
@@ -66,11 +67,13 @@ function Wallet({ transactions, currentUser }) {
         <div className="wallet-top-text">
           <h2 className="wallet-title-text">{`${loggedUser.firstName}'s Wallet`}</h2>
           {/* <NavLink to={settings}> */}
-          <i
-            onClick={() => handleForm("setting")}
-            className="fa-solid fa-gear colored-hover"
-          ></i>
-
+          <div className="wallet-setups">
+            <span>Wallet Settings</span>
+            <Settings
+              className="fa-solid fa-gear colored-hover"
+              onClick={() => handleForm("setting")}
+            />
+          </div>
           {/* </NavLink> */}
         </div>
 

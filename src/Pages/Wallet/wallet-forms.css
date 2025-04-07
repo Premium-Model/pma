@@ -1,7 +1,7 @@
 .wallet-form {
   width: 95%;
   padding: 1.5rem;
-  background: var(--Colored-color);
+  background: var(--dim-black);
   border-radius: 20px;
   display: flex;
   flex-direction: column;

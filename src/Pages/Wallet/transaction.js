@@ -68,11 +68,11 @@ function Transaction({ details, detailsId, viewDetails, handleViewDetails }) {
                 color: details?.withdrawBy
                   ? "var(--dimpink)"
                   : details?.desc === "Wallet funding"
-                  ? "#07ab28f5"
+                  ? "rgb(9 255 110)"
                   : details?.receiver === user?.username
-                  ? "#07ab28f5"
+                  ? "rgb(9 255 110)"
                   : details?.receiverId === user?._id
-                  ? "#07ab28f5"
+                  ? "rgb(9 255 110)"
                   : "var(--dimpink)",
               }}
             >
