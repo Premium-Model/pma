@@ -7,7 +7,7 @@ import {
   updateStart,
   updateSuccess,
 } from "./userRedux";
-import { userRequest } from "./requestMethod";
+import { userRequest, ambassadorsRequest } from "./requestMethod";
 import { toast } from "react-toastify";
 import { processFailure, processStart, processSuccess } from "./processRedux";
 
@@ -77,7 +77,7 @@ export const makeGet = async (dispatch, url, setMessage) => {
 export const makeEdit = async (dispatch, url, inputs) => {
   dispatch(processStart());
   try {
-    const res = await userRequest.put(url, inputs);
+    const res = await ambassadorsRequest.put(url, inputs);
     dispatch(processSuccess());
     toast.success("Data uploaded successfully.");
     alert("Data uploaded successfully.");
