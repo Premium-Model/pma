@@ -27,6 +27,11 @@
       width: 78px !important;
     }
 
+    #settings-sidebar-overflow {
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
     header {
       position: relative;
       .sidebar-image {

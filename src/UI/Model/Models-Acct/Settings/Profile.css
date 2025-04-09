@@ -6,6 +6,14 @@
   color: var(--main-color);
 }
 
+.read-only-title {
+  color: var(--color-text-color) !important;
+}
+
+.form-text {
+  color: var(--color-text-color) !important;
+}
+
 .set_img-rapper {
   position: relative;
   background: #333;

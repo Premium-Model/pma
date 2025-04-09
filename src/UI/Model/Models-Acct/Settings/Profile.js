@@ -1,4 +1,5 @@
 import "../../../../scss/kyc-forms.scss";
+import "../Settings/Btn.scss";
 import { useOutletContext } from "react-router-dom";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -6,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { storage } from "../../../../firebase";
 import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
 import { makeEdit, makeGet, update } from "../../../../redux/apiCalls";
-import { info } from "../utils";
 import "./Profile.css";
 import EditBtn from "./Edit-btn";
 import { ToastContainer } from "react-toastify";
@@ -21,7 +21,10 @@ import {
   FaStar,
   FaInbox,
   FaAngleDoubleRight,
+  FaTruckLoading,
 } from "react-icons/fa";
+import { VscDiscard } from "react-icons/vsc";
+import { Save } from "@mui/icons-material";
 function BasicInfo({}) {
   const user = useSelector((state) => state.user.currentUser);
   const { isFetching } = useSelector((state) => state.user);
@@ -49,8 +52,6 @@ function BasicInfo({}) {
   const [ActiveSettings, setActiveSettings] = useState(true);
   const [states, setStates] = useState([]);
   const [countries, setCountries] = useState([]);
-  console.log(inputs);
-  console.log(user);
 
   useEffect(() => {
     setCountries(Country.getAllCountries());
@@ -197,14 +198,14 @@ function BasicInfo({}) {
                     </h3>
                     <h1>
                       Editing Your Model
-                      <br></br> Profie
+                      <br></br> Profile
                       <span className="dots-hide-on-mobile">.</span>
                     </h1>
 
                     <p className="form-text">
                       Change your <a>model</a> picture, your <a>profile</a>{" "}
                       details and
-                      <a> model `</a> bio
+                      <a> model's</a> bio
                     </p>
                   </div>
 
@@ -539,18 +540,18 @@ function BasicInfo({}) {
                                   </span>
 
                                   <div className="read-only-infobox">
-                                    {user.model.gender === "m"
-                                      ? "Male"
-                                      : "Female" && (
-                                          <div className="read-only-infobox">
-                                            {user?.model?.gender &&
-                                            updated === true
-                                              ? user?.model?.gender
-                                              : !inputs.gender
-                                              ? user?.model?.gender
-                                              : inputs?.gender}
-                                          </div>
-                                        )}
+                                    {(() => {
+                                      const gender =
+                                        updated === true && inputs?.gender
+                                          ? inputs.gender
+                                          : !inputs.gender
+                                          ? user?.model?.gender
+                                          : inputs?.gender;
+
+                                      if (gender === "m") return "Male";
+                                      if (gender === "f") return "Female";
+                                      return gender || "";
+                                    })()}
                                   </div>
                                 </div>
                               </div>
@@ -654,7 +655,7 @@ function BasicInfo({}) {
                               className="input-textarea"
                               required
                             ></textarea>
-                            <label>wright out your Bio here...</label>
+                            <label>Write your bio here...</label>
                             <FaInbox />
                           </div>
                         </div>
@@ -706,24 +707,44 @@ function BasicInfo({}) {
                       <div className="kyc-btn-container">
                         {/* btn section  */}
 
-                        <button
+                        {/*  <button
                           onClick={() => resetDiscard(() => handleSave)}
-                          className="discard-btn  bold-text cancel-btn"
+                          className=" editable-btn discard-edit-btn btn_shadow"
                         >
-                          Discard
-                        </button>
+                          <div className="edit-loader-wrapper">
+                            <VscDiscard className="edit-icon" />
+                            <span>Discard All Changes</span>
+                          </div>
+                        </button> */}
                         <button
                           style={{
                             backgroundColor: activeEdit !== "Done" && "#bbbb",
                           }}
                           disabled={activeEdit !== "Done" && true}
                           onClick={handleSave}
-                          className="save-btn  bold-text yes-btn"
+                          className=" editable-btn save-edit-btn btn_shadow "
                         >
-                          {isFetching ? "Please wait..." : "Save"}
+                          {isFetching ? (
+                            <div className="edit-loader-wrapper">
+                              <div class="edit-loader"></div>
+                              <span>Saving...</span>
+                            </div>
+                          ) : (
+                            <div className="edit-loader-wrapper">
+                              <Save
+                                className="edit-icon"
+                                id={activeEdit !== "Done" && "disabled-texts"}
+                              />
+                              <span
+                                id={activeEdit !== "Done" && "disabled-texts"}
+                              >
+                                Save All Changes
+                              </span>
+                            </div>
+                          )}
                         </button>
-                        <p className="error-text">{message}</p>
                       </div>
+                      <p className="error-text">{message}</p>
                     </>
                   </form>
                 </div>

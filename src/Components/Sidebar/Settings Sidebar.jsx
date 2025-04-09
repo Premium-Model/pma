@@ -27,6 +27,7 @@ import ToggleDisplay from "../ToggleDisplay/ToggleDisplay";
 import vector from "./Vector 1.svg";
 import Svg from "./asset/Svg";
 const Sidebar = ({
+  settingsSideBar,
   topList,
   bottomList,
   setSidebarVisibility,
@@ -87,7 +88,10 @@ const Sidebar = ({
             />
           </header>
 
-          <main className="main-links">
+          <main
+            className="main-links"
+            id={settingsSideBar ? "settings-sidebar-overflow" : ""}
+          >
             <div className="top-content">
               {/* <li className="nav-search-box">
                 <Search className="icon" />

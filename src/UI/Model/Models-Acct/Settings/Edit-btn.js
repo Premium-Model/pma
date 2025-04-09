@@ -1,3 +1,6 @@
+import "./Btn.scss";
+import { Edit, Save } from "@mui/icons-material";
+
 function EditBtn({ btnText, section, handleActiveEdit }) {
   function handleClick() {
     handleActiveEdit(section, btnText);
@@ -6,11 +9,17 @@ function EditBtn({ btnText, section, handleActiveEdit }) {
   return (
     <button
       onClick={handleClick}
-      className="edit-btn colored-hover"
+      className="editable-btn btn_shadow"
       type="button"
     >
-      {btnText}
-      <i className="fa-solid fa-pen-to-square"></i>
+      {btnText === "Edit" ? (
+        <Edit className="edit-icon" />
+      ) : (
+        <Save className="edit-icon" />
+      )}
+      <span className="edit-btn-text">
+        {btnText === "Done" ? "Save Changes" : btnText}
+      </span>
     </button>
   );
 }

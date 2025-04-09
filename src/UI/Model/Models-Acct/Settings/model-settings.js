@@ -49,7 +49,7 @@ const ModelPage = ({
   const [activeSet, setActiveSet] = useState("about");
   const [toggleSetMenu, setToggleSetMenu] = useState(false);
   const [activeEdit, setActiveEdit] = useState("");
-
+  const [settingsSideBar, setSettingsSideBar] = useState(true);
   const [discardFunc, setDiscardFunc] = useState("");
   const [toggleDiscard, setToggleDiscard] = useState(false);
   const [model, setModel] = useState({});
@@ -279,6 +279,7 @@ const ModelPage = ({
       >
         {mQ1050px ? (
           <Sidebar
+            settingsSideBar={settingsSideBar}
             topList={topList}
             darkmode={darkmode}
             HandleTheme={HandleTheme}
@@ -304,6 +305,8 @@ const ModelPage = ({
             darkmode ? " dashboards-styles  darkmode " : "dashboards-styles "
           }
         >
+          {discardAlert()}
+
           {/* Model Page Topbar --> [START] */}
 
           <DashboardTopbar
