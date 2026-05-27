@@ -63,7 +63,9 @@ function Photos({ handleModal, resetDiscard, model }) {
             break;
         }
       },
-      (error) => {},
+      (error) => {
+        console.error("Firebase upload error in Photos.js:", error);
+      },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           if (urlType === "photos") {
@@ -77,7 +79,7 @@ function Photos({ handleModal, resetDiscard, model }) {
               return { ...prev, [urlType]: downloadURL };
             });
           }
-        });
+        }).catch(err => console.error("Error getting download URL in Photos.js:", err));
       }
     );
   };

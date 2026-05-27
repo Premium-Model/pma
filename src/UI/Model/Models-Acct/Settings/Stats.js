@@ -268,42 +268,51 @@ function Stats({}) {
                             </div>
                           </>
                         )}
-                        <div className="stats-item">
-                          <span className="stats-item-text">size: </span>
-                          <input
-                            defaultValue={user?.model?.size}
-                            readOnly={activeEdit !== "model-statistic"}
-                            name="size"
-                            onChange={handleChange}
-                          />
+                        <div className="form-container">
+                          <div className="form-wrapper">
+                            <span className="stats-item-text">size: </span>
+                            <input
+                              defaultValue={user?.model?.size}
+                              readOnly={activeEdit !== "model-statistic"}
+                              name="size"
+                              onChange={handleChange}
+                            />
+                          </div>
                         </div>
-                        <div className="stats-item">
-                          <span className="stats-item-text">shoe: </span>
-                          <input
-                            defaultValue={user?.model?.shoe}
-                            readOnly={activeEdit !== "model-statistic"}
-                            name="shoe"
-                            onChange={handleChange}
-                          />
+                        <div className="form-container">
+                          <div className="form-wrapper">
+                            <span className="stats-item-text">shoe: </span>
+                            <input
+                              defaultValue={user?.model?.shoe}
+                              readOnly={activeEdit !== "model-statistic"}
+                              name="shoe"
+                              onChange={handleChange}
+                            />
+                          </div>
                         </div>
-                        <div className="stats-item">
-                          <span className="stats-item-text">eyes: </span>
-                          <input
-                            defaultValue={user?.model?.eyes}
-                            readOnly={activeEdit !== "model-statistic"}
-                            name="eyes"
-                            onChange={handleChange}
-                          />
+                        <div className="form-container">
+                          <div className="form-wrapper">
+                            <span className="stats-item-text">eyes: </span>
+                            <input
+                              defaultValue={user?.model?.eyes}
+                              readOnly={activeEdit !== "model-statistic"}
+                              name="eyes"
+                              onChange={handleChange}
+                            />
+                          </div>
                         </div>
-                        <div className="stats-item">
-                          <span className="stats-item-text">Skincolor: </span>
-                          <input
-                            defaultValue={user?.model?.skinColor}
-                            readOnly={activeEdit !== "model-statistic"}
-                            name="skinColor"
-                            onChange={handleChange}
-                          />
+                        <div className="form-container">
+                          <div className="form-wrapper">
+                            <span className="stats-item-text">Skincolor: </span>
+                            <input
+                              defaultValue={user?.model?.skinColor}
+                              readOnly={activeEdit !== "model-statistic"}
+                              name="skinColor"
+                              onChange={handleChange}
+                            />
+                          </div>
                         </div>
+
                         <div className="stats-item">
                           <span className="stats-item-text">Haircolor: </span>
                           <input

@@ -81,13 +81,15 @@ function BasicInfo({
             break;
         }
       },
-      () => {},
+      (error) => {
+        console.error("Firebase upload error:", error);
+      },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setInputs((prev) => {
             return { ...prev, [urlType]: downloadURL };
           });
-        });
+        }).catch(err => console.error("Error getting download URL:", err));
       }
     );
   };

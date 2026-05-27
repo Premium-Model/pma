@@ -78,6 +78,7 @@ export const makeGet = async (dispatch, url, setMessage) => {
   try {
     const res = await userRequest.get(url);
     dispatch(processSuccess());
+    console.log(`API Response from ${url}:`, res.data);
     setMessage(res.data);
     // toast.success("Job has been posted successfully!");
   } catch (err) {
